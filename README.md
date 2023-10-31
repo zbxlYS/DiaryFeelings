@@ -21,7 +21,7 @@ https://nomadcoders.co/typescript-for-beginners
   
 ### • Next.js
 공식사이트
-https://nestjs.com/
+[https://nestjs.com/](https://nextjs.org/)
 
 노마드코더
 https://nomadcoders.co/nestjs-fundamentals
