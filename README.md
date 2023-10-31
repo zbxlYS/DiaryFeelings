@@ -1,3 +1,31 @@
+# 작업폴더 구성 
+
+•
+•
+•
+
+# 필요한 지식 
+
+### • vite.js
+https://ko.vitejs.dev/guide/
+
+### • Tailwindcss
+https://tailwindcss.com/
+
+### • Typescript
+공식사이트
+https://www.typescriptlang.org/  
+
+노마드코더 
+https://nomadcoders.co/typescript-for-beginners
+  
+### • Next.js
+공식사이트
+https://nestjs.com/
+
+노마드코더
+https://nomadcoders.co/nestjs-fundamentals
+
 # 협업 규칙
 
 ### 브랜치 관리
