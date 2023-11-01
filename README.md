@@ -24,7 +24,7 @@ https://typescript-kr.github.io/pages/basic-types.html
   
 ### • Next.js
 공식사이트
-[https://nestjs.com/](https://nextjs.org/)
+[[https://nestjs.com/](https://nextjs.org/)](https://nomadcoders.co/nextjs-fundamentals)
 
 노마드코더
 https://nomadcoders.co/nestjs-fundamentals
