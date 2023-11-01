@@ -26,7 +26,7 @@ https://typescript-kr.github.io/pages/basic-types.html
 공식사이트
 https://nextjs.org/
 
-Next.js Handbook
+Next.js 핸드북
 https://coffeeandcakeandnewjeong.tistory.com/5
 
 노마드코더
