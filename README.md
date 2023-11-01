@@ -24,10 +24,13 @@ https://typescript-kr.github.io/pages/basic-types.html
   
 ### • Next.js
 공식사이트
-[[https://nestjs.com/](https://nextjs.org/)](https://nomadcoders.co/nextjs-fundamentals)
+https://nextjs.org/
+
+Next.js Handbook
+https://coffeeandcakeandnewjeong.tistory.com/5
 
 노마드코더
-https://nomadcoders.co/nestjs-fundamentals
+[https://nomadcoders.co/nestjs-fundamentals](https://nomadcoders.co/nextjs-fundamentals)
 
 ## 1. 협업 규칙
 
