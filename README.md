@@ -29,7 +29,7 @@ https://typescript-kr.github.io/pages/basic-types.html
 노마드코더
 https://nomadcoders.co/nestjs-fundamentals
 
-# 협업 규칙
+# 1. 협업 규칙
 
 ### 브랜치 관리
 
@@ -62,3 +62,11 @@ https://nomadcoders.co/nestjs-fundamentals
 - 개발을 시작하기 전에 본인의 로컬 브랜치를 항상 확인
 - 개발을 시작하기 전에 반드시 `git pull`을 통해 원격 저장소로부터 최신 업데이트를 받기
 - 활성화 중인 issue를 확인하여 작업 파일 및 범위가 겹치지 않도록 주의
+
+2. 협업툴
+Github
+...
+Notion
+...
+figma
+...
