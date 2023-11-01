@@ -18,6 +18,9 @@ https://www.typescriptlang.org/
 
 노마드코더 
 https://nomadcoders.co/typescript-for-beginners
+
+타입스크립트 핸드북
+https://typescript-kr.github.io/pages/basic-types.html
   
 ### • Next.js
 공식사이트
