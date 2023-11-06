@@ -1,17 +1,15 @@
 import Image from "next/image";
+import React from "react";
+import NavBar from "./components/NavBar";
 
-export default function Home() {
+const UsersPage = () => {
   return (
-    <main>
-      <h1>hello Wolrd!</h1>{" "}
-      <Image
-        src="/vercel.svg"
-        alt="Vercel Logo"
-        className="dark:invert"
-        width={100}
-        height={24}
-        priority
-      />
-    </main>
+    <div>
+      {/* 네비고정바 */}
+      <NavBar></NavBar>
+      <main></main>
+    </div>
   );
-}
+};
+
+export default UsersPage;
