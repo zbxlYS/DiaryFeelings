@@ -18,7 +18,7 @@ export const POST = async(req: Request) => {
         if(chk.length >= 1) {
             return new Response(JSON.stringify({"result":"exists"}))
         }
-        sql = 'INSERT INTO USER VALUES(?, ?,?,?,?,?,?)'
+        sql = 'INSERT INTO USER VALUES(?,?,?,?,?,?,?)'
         let pw = await bcrypt.hash(body.password, 10)
         const values = [null, body.user_id, pw, body.user_name, 'credentials', new Date(), new Date()]
         const rst = await queryPromise(sql, values);

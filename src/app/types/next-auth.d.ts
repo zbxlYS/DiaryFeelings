@@ -8,5 +8,6 @@ declare module "next-auth" {
             email: string;
         } & DefaultSession['user'];
         accessToken: string | unknown;
+        refreshToken: string | unknown;
     }
 }
