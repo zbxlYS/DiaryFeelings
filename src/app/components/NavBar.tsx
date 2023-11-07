@@ -8,6 +8,13 @@ const NavBar: React.FC = () => {
   // systemTheme: 시스템 테마, theme: 현재 테마, setTheme: 테마 상태 변경
   const { systemTheme, theme, setTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
+  useEffect(() => {
+    // 초기 렌더링 시 테마를 라이트 모드로 설정
+    if (currentTheme !== "light") {
+      setTheme("light");
+    }
+  }, []); // 빈 배열을 사용하여 초기 렌더링 시 한 번만 실행
+
   return (
     <>
       <nav className="w-[100%] h-[63px] relative ">
