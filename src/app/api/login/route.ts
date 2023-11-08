@@ -19,7 +19,7 @@ export const POST = async(req: Request) => {
             user_id: result[0].user_id,
             user_name: result[0].user_name
         };
-        const accessToken = signJwtAccessToken(user);
+        const accessToken = signJwtAccessToken({user_id: user.user_id});
         const refreshToken = await signJwtRefreshToken(body.username);
         const rst = {
             ...user,

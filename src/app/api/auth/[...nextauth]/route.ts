@@ -1,6 +1,7 @@
 import NextAuth from "next-auth/next";
 import CredentialsProvider  from "next-auth/providers/credentials";
 import KakaoProvider from 'next-auth/providers/kakao'
+import GoogleProvider from 'next-auth/providers/google';
 import axios from 'axios'
 import { socialLogin } from "@/app/lib/socialLogin";
 
@@ -31,37 +32,55 @@ const handler = NextAuth({
                 throw new Error(result);
             }
         }),
-        // KakaoProvider({
-        //     clientId: process.env.KAKAO_CLIENT_ID!,
-        //     clientSecret: process.env.KAKAO_CLIENT_SECRET!
-        // })
+        KakaoProvider({
+            clientId: process.env.KAKAO_CLIENT_ID!,
+            clientSecret: process.env.KAKAO_CLIENT_SECRET!
+        }),
+        GoogleProvider({
+            clientId: process.env.GOOGLE_CLIENT_ID!,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET!
+        })
     ],
     callbacks: {
-        // async signIn({user, account}) {
-        //     // account.provider
-        //     // user는 그대로 다 넘기면 될 듯.
-        //     if(account?.provider !== 'credentials') {
-        //         const result = socialLogin(user, account?.provider as string);
-        //         return result;
-        //     } else {
-        //         return user;
-        //     }
-        // },
-        async jwt({ token, account, profile }) {
-            const users: any = profile;
-            console.log(token)
-            if (account) {
-                token.accessToken = account.access_token;
-                token.refreshToken = account.refresh_token;
-                token.id = users?.id
-                token.name = users?.name
+        async signIn({user, account}: any) {
+            // account.provider
+            // user는 그대로 다 넘기면 될 듯.
+            if(account?.provider !== 'credentials') {
+                const result = await socialLogin(user, account?.provider as string);
+                account.snsAccess = account.access_token
+                account.snsRefresh = account.refresh_token
+                account.access_token = result.accessToken
+                account.refresh_token = result.refreshToken
+                return true;
+            } else {
+                return true;
             }
-            return token;
         },
-        async session({ session, token, user }) {
+        async jwt({ token, account, user, profile}: any) {
+            if (account) {
+                token.accessToken = account.provider === 'credentials' ? user.accessToken : account.access_token;
+                token.refreshToken = account.provider === 'credentials' ? user.refreshToken : account.refresh_token;
+                token.id = profile === undefined ? user.user_id : profile.id;
+                token.provider = account.provider;
+                if(account.provider === 'credentials') {
+                    token.name = user.user_name;
+                } else {
+                    token.snsAccess = account.snsAccess;
+                    token.snsRefresh = account.snsRefresh;
+                }
+            }
+            return token
+        },
+        async session({ session, token, user }: any) {
             session.accessToken = token.accessToken;
-            session.refreshToken = token.refreshToken;
-            return session;
+            session.refreshToken = token.refreshToken
+            if(token.snsAccess) {
+                session.snsAccess = token.snsAccess;
+                session.snsRefresh = token.snsRefresh;
+            }
+            session.user.id = token.id;
+            session.user.provider = token.provider;
+            return session
         }
     },
     // pages: {

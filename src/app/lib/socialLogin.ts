@@ -2,13 +2,6 @@ import { signJwtAccessToken, signJwtRefreshToken } from './jwt'
 import queryPromise from '@/app/lib/db'
 import bcrypt from 'bcrypt'
 
-interface IUser {
-    id: string;
-    name: string;
-    email?: string;
-    image?: string;
-}
-
 export const socialLogin = async(user: any, provider: string) => {
     try {
         let sql = '';
@@ -22,7 +15,6 @@ export const socialLogin = async(user: any, provider: string) => {
         }
         const tokenUser = {
             user_id: user.id,
-            user_name: user.name
         };
         const accessToken = signJwtAccessToken(tokenUser);
         const refreshToken = await signJwtRefreshToken(user.id);

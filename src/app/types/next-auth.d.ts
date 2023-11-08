@@ -6,8 +6,11 @@ declare module "next-auth" {
             id: number;
             name: string;
             email: string;
+            provider: string;
         } & DefaultSession['user'];
         accessToken: string | unknown;
         refreshToken: string | unknown;
+        snsAccess?: string;
+        snsRefresh?: string;
     }
 }

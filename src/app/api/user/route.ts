@@ -16,6 +16,7 @@ export const POST = async(req: Request) => {
         let sql = 'SELECT id from USER WHERE user_id = ?'
         const chk = await queryPromise(sql, [body.user_id]);
         if(chk.length >= 1) {
+            // 아이디가 이미 있다.
             return new Response(JSON.stringify({"result":"exists"}))
         }
         sql = 'INSERT INTO USER VALUES(?,?,?,?,?,?,?)'
