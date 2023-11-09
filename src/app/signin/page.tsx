@@ -25,7 +25,7 @@ const Page = () => {
     };
     const handleSingOut = async() => {
         if(session?.user?.provider === 'kakao') {
-            const result = await axios.post('http://localhost:3000/api/logout/kakao', {
+            const result = await axios.post(`${process.env.BASE_URL}/api/logout/kakao`, {
                 snsAccess: session?.snsAccess
             },{
                 headers: {
@@ -42,7 +42,7 @@ const Page = () => {
                 console.log(rst.result);
             }
         } else if(session?.user?.provider === 'google') {
-            const result = await axios.post('http://localhost:3000/api/logout/google', {
+            const result = await axios.post(`${process.env.BASE_URL}/api/logout/google`, {
                 snsAccess: session?.snsAccess
             },{
                 headers: {
@@ -68,6 +68,7 @@ const Page = () => {
             <button onClick={() => handleSubmit()}>go</button>
             <button onClick={() => console.log(textRef.current?.value.split('\n'))}>ddd</button>
             <button onClick={() => handleSingOut()}>out</button>
+            <button onClick={async() => signOut()}>out2</button>
         </div>
     )
 };

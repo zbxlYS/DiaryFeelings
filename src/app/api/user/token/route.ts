@@ -2,6 +2,7 @@ import { signJwtAccessToken, signJwtRefreshToken, verifyRefresh, verifyJwt } fro
 import queryPromise from "@/app/lib/db";
 
 export const POST = async(req: Request) => {
+    console.log('chk')
     // 헤더에서 mlru로 된 accessToken 값 가져오기.
     const accessToken = req.headers.get('Authorization')?.split('mlru ')[1] as string;
     
@@ -15,15 +16,15 @@ export const POST = async(req: Request) => {
     const currentTime = Math.floor(Date.now() / 1000);
 
     // 복호화 된 값이 없다면 => 인증 실패.
-    if(!decoded) return new Response(JSON.stringify({"result":"No Authorization"}))
+    if(!decoded) return new Response(JSON.stringify({"result":"No Authorization", "status":"error"}))
 
     // 만료 기간이 지나지 않았다면 => 리턴.
-    if(decoded.exp && decoded.exp >= currentTime) return new Response(JSON.stringify({"result":"Not Expired"}))
+    if(decoded.exp && decoded.exp >= currentTime) return new Response(JSON.stringify({"result":"Not Expired", "status":"error"}))
     
     const refreshDecoded = verifyRefresh(refreshToken);
 
     // refresthToken이 복호화 되지 못하면 리턴.
-    if(!refreshDecoded) return new Response(JSON.stringify({"result":"No Authorization"}))
+    if(!refreshDecoded) return new Response(JSON.stringify({"result":"No Authorization", "status":"error"}))
 
     // 만료 기간이 지났으면 재생성 후 저장.
     let sql = '';
@@ -36,7 +37,7 @@ export const POST = async(req: Request) => {
     let result = await queryPromise(sql, [decoded.user_id, refreshToken]);
 
     // 일치하는 값이 없다면 => 리턴.
-    if(result.length < 1) return new Response(JSON.stringify({"result":"no data"}));
+    if(result.length < 1) return new Response(JSON.stringify({"result":"no data", "status":"error"}));
     const user = {
         user_id: decoded.user_id,
         user_name: decoded.user_name
@@ -44,5 +45,5 @@ export const POST = async(req: Request) => {
 
     // accessToken 생성 후 리턴.
     let token = signJwtAccessToken(user);
-    return new Response(JSON.stringify({"result":token}))
+    return new Response(JSON.stringify({"result":token, "status":"ok"}))
 }
