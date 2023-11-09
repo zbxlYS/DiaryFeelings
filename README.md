@@ -44,7 +44,7 @@ https://coffeeandcakeandnewjeong.tistory.com/5
 - 브랜치명은 관련된 issue 번호(`#No`)를 추가하여 생성
 
   - 예시: `feature/5-nav-layout`
-<img width="368" alt="스크린샷 2023-11-06 오전 5 24 53" src="https://github.com/JS-A-CoreProject/DiaryFeelings/assets/116487398/3cf46572-29fe-4cb7-aff0-465b6056cef2">
+    <img width="368" alt="스크린샷 2023-11-06 오전 5 24 53" src="https://github.com/JS-A-CoreProject/DiaryFeelings/assets/116487398/3cf46572-29fe-4cb7-aff0-465b6056cef2">
 
 
 - Issue에 따른 브랜치 생성은 `dev` 브랜치를 중심으로 하고, 브랜치를 생성하기 전에 항상 최신 상태로 업데이트하기
@@ -65,14 +65,9 @@ https://coffeeandcakeandnewjeong.tistory.com/5
 
   - **Assignees:** 해당 PR을 처리할 담당자를 지정
   - **Reviewer:** 해당 PR을 Merge 승인할 권한이 있는 코드 리뷰 담당자를 지정
-  
-  
- 
-    feature/5-NavLayout
 
- 
+
   - ![스크린샷 2023-11-06 오전 5 34 38](https://github.com/JS-A-CoreProject/DiaryFeelings/assets/116487398/fa36722c-eb14-48ec-bf1a-69bd96abaf32)
-
 
 
 - PR을 Merge할 때:
@@ -100,3 +95,5 @@ Notion
 Figma
 
 ...
+
+# brach test
