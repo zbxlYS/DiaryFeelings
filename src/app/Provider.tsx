@@ -1,7 +1,7 @@
 "use client";
 import { ThemeProvider } from "next-themes";
 
-const Providers = ({ children }: { children: React.ReactNode }) => {
+const DarkMode = ({ children }: { children: React.ReactNode }) => {
   return (
     <ThemeProvider enableSystem={true} attribute="class">
       {children}
@@ -9,4 +9,4 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default Providers;
+export default DarkMode;
