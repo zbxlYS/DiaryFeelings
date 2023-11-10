@@ -3,6 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  /* border: 1px rgba(0, 0, 0, 0.265) solid; */
+}
 /* Relu Molu사이트 폰트지정  */
 .relu-font {
   font-weight: 500;
