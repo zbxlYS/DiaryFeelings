@@ -6,7 +6,6 @@ const UsersPage = () => {
   return (
     <div>
       {/* 네비고정바 */}
-      <NavBar></NavBar>
       <main></main>
     </div>
   );

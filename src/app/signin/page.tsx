@@ -9,7 +9,6 @@ const Page = () => {
     const pwRef = useRef<HTMLInputElement>(null);
     const textRef = useRef<HTMLTextAreaElement>(null);
     const { data: session } = useSession();
-    console.log(session);
 
     const handleSubmit = async() => {
         if(!idRef.current && !pwRef.current) return null;
@@ -62,13 +61,13 @@ const Page = () => {
     }
     return (
         <div>
-            <input type='text' ref={idRef}/>
-            <input type='text' ref={pwRef}/>
-            <textarea ref={textRef}/>
-            <button onClick={() => handleSubmit()}>go</button>
-            <button onClick={() => console.log(textRef.current?.value.split('\n'))}>ddd</button>
-            <button onClick={() => handleSingOut()}>out</button>
-            <button onClick={async() => signOut()}>out2</button>
+            <input type='text' ref={idRef} className='border'/>
+            <input type='text' ref={pwRef} className='border'/>
+            <textarea ref={textRef} className='border'/>
+            <button className='border' onClick={() => handleSubmit()}>go</button>
+            <button onClick={() => console.log(textRef.current?.value.split('\n'))} className='border'>ddd</button>
+            <button onClick={() => handleSingOut()} className='border'>out</button>
+            <button onClick={async() => signOut()} className='border'>out2</button>
         </div>
     )
 };

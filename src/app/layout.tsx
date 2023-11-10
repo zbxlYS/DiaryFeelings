@@ -4,6 +4,7 @@ import "./globals.css";
 import DarkMode from "./Provider";
 import Providers from "./components/Providers";
 import RefreshToken from "./components/RefreshToken";
+import NavBar from "./components/NavBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,10 +20,13 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${inter.className} flex flex-col`}>
         <Providers>
           <RefreshToken />
-          <DarkMode>{children}</DarkMode>
+          <DarkMode>
+            <NavBar />
+            {children}
+          </DarkMode>
         </Providers>
       </body>
     </html>
