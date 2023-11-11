@@ -5,6 +5,10 @@
   
 - npm run dev : React 프로젝트 실행
 
+▲ Next.js 14.0.1
+  
+       - Local:  http://localhost:3000
+
 # 필요한 지식
 
 ### • vite.js
