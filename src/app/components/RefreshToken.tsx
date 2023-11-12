@@ -7,6 +7,7 @@ const RefreshToken = () => {
     const { data: session } = useSession();
     // if(!session) return (<></>);
     const refreshAccess = async() => {
+        if(!session) return;
         console.log('check token...')
         const token = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/user/token`,
         {},
