@@ -5,11 +5,7 @@ import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 
-interface MypageModalProps {
-  setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const MypageModal: React.FC<MypageModalProps> = ({ setIsModalOpen }) => {
+const MypageModal = ({}) => {
   const idRef = useRef<HTMLInputElement>(null);
   const pwRef = useRef<HTMLInputElement>(null);
   const textRef = useRef<HTMLTextAreaElement>(null);

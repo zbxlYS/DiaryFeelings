@@ -9,7 +9,6 @@ import MypageModal from "./MypageModal";
 
 interface SearchComponentProps {
   className?: string;
-  setIsModalOpen: boolean;
 }
 
 const Nav: React.FC<SearchComponentProps> = () => {
@@ -106,7 +105,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 >
                   {/* Modal content */}
                   <div>
-                    <MypageModal setIsModalOpen={setIsModalOpen}></MypageModal>
+                    <MypageModal></MypageModal>
                   </div>
                 </div>
               </>
