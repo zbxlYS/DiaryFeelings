@@ -9,7 +9,7 @@ const Page = () => {
     const pwRef = useRef<HTMLInputElement>(null);
     const textRef = useRef<HTMLTextAreaElement>(null);
     const { data: session } = useSession();
-
+    
     const handleSubmit = async() => {
         if(!idRef.current && !pwRef.current) return null;
         const user_id = idRef.current?.value;
@@ -24,7 +24,7 @@ const Page = () => {
     };
     const handleSingOut = async() => {
         if(session?.user?.provider === 'kakao') {
-            const result = await axios.post(`${process.env.BASE_URL}/api/logout/kakao`, {
+            const result = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/logout/kakao`, {
                 snsAccess: session?.snsAccess
             },{
                 headers: {
@@ -41,7 +41,7 @@ const Page = () => {
                 console.log(rst.result);
             }
         } else if(session?.user?.provider === 'google') {
-            const result = await axios.post(`${process.env.BASE_URL}/api/logout/google`, {
+            const result = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/logout/google`, {
                 snsAccess: session?.snsAccess
             },{
                 headers: {
