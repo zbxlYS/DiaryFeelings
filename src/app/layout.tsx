@@ -4,6 +4,7 @@ import "./globals.css";
 import DarkMode from "./Provider";
 import Providers from "./components/Providers";
 import RefreshToken from "./components/RefreshToken";
+import NavBar from "./components/Nav";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,7 +23,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <RefreshToken />
-          <DarkMode>{children}</DarkMode>
+          <DarkMode>
+            <NavBar></NavBar>
+            {children}
+          </DarkMode>
         </Providers>
       </body>
     </html>
