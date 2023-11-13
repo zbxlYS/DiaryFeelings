@@ -1,25 +1,29 @@
 "use client";
+
 import { useTheme } from "next-themes";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import MypageModal from "./MypageModal";
 
 interface SearchComponentProps {
   className?: string;
+  setIsModalOpen: boolean;
 }
 
 const Nav: React.FC<SearchComponentProps> = () => {
   // 로그인시 네비 상단바 변경
   const { data: session } = useSession();
-  const [isLogin, SetIsLogin] = useState(false);
+  const [isLogin, SetIsLogin] = useState<boolean>(false);
   // 마이페이지 모달창
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const { systemTheme, theme, setTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
 
   const handleButtonClick = () => {
     setIsModalOpen(!isModalOpen);
+    console.log("test");
   };
 
   useEffect(() => {
@@ -39,9 +43,15 @@ const Nav: React.FC<SearchComponentProps> = () => {
 
   return (
     <div className="flex justify-center items-center">
-      <nav className="w-[100%] h-[65px] relative ">
-        <div className="w-[100%] h-[66px] left-0 top-0 absolute bg-white dark:bg-[#24272F] border-b border-slate-200 dark:border-b-0" />
-        {/* 로그인 회원가입 버튼  */}
+      <nav
+        className={`w-[100%] h-[65px] relative 
+        `}
+      >
+        <div className="w-[100%] h-[66px] left-0 top-0 absolute bg-[#fff9] dark:bg-[#24272F] border-b border-slate-200 dark:border-b-0" />
+        {/* =====================
+            로그인 회원가입 버튼
+            =====================
+        */}
         {!isLogin ? (
           <>
             {" "}
@@ -68,7 +78,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
           // 로그인 성공시 마이페이지 아이콘 생성
           <>
             <button
-              className="w-10 h-10 right-[1.5rem] top-[14.5px] absolute border rounded-full"
+              className="w-10 h-10 right-[1.5rem] top-[14.5px] absolute border rounded-full hover:bg-slate-100 "
               onClick={handleButtonClick}
             >
               <Image
@@ -89,19 +99,14 @@ const Nav: React.FC<SearchComponentProps> = () => {
                   className="fixed inset-0 bg-black opacity-10 z-40"
                   onClick={handleButtonClick} // Close the modal on overlay click
                 ></div>
-
                 {/* Modal */}
                 <div
-                  className={`fixed w-[20rem] h-[30rem]top-0 right-0 p-4 bg-white border shadow-md z-50 rounded-l-xl animate-slidein 
+                  className={`fixed w-[20rem] h-auto top-0 right-0 p-5 mt-2 bg-white border shadow-md z-50 rounded-l-xl animate-slidein 
                   `}
                 >
                   {/* Modal content */}
-                  <div className="animate-none">
-                    {/* Modal content with no animation */}
-                    <p>내정보 </p>
-                    <p>내정보 </p>
-                    <p>내정보 </p>
-                    <p>내정보 </p>
+                  <div>
+                    <MypageModal setIsModalOpen={setIsModalOpen}></MypageModal>
                   </div>
                 </div>
               </>
@@ -133,7 +138,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
           className={
             !isLogin
               ? `w-10 h-10 right-[11.5rem] top-[15px] absolute hover:bg-violet-100 rounded-full`
-              : `w-10 h-10 right-[5rem] top-[15px] absolute hover:bg-violet-100 rounded-full`
+              : `w-10 h-10 right-[5rem] top-[15px] absolute hover:bg-slate-100 rounded-full`
           }
           onClick={() => {
             setTheme(currentTheme === "dark" ? "light" : "dark");
@@ -163,7 +168,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
         </button>
 
         {/* 검색창  */}
-        <div className="flex justify-center items-center self-center w-[40%] max-w-2xl h-[37px] left-[9rem] bottom-[0.7rem] absolute border border-inherit rounded-full hover:border-gray-300 focus-within:border-gray-300  dark:border-[#9BA3AF] ">
+        <div className="flex justify-center items-center self-center w-[30%] max-w-2xl h-[37px] left-[9rem] bottom-[0.7rem] absolute shadow hover:shadow-md focus-within:shadow-md border-inherit rounded-full dark:border-[#9BA3AF] ">
           <Image
             src="/search.svg"
             alt="Search Logo"
@@ -175,7 +180,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
           <input
             type="text"
             placeholder="일기검색 . . ."
-            className="absolute w-[70%] left-[3rem] mt-[2px] border-none outline-none dark:bg-[#24272F]"
+            className="absolute w-[90%] max-w-[60%] h-full left-[3rem] mt-[0px] border-none outline-none dark:bg-[#24272F]"
           />
         </div>
         <div className="left-[21px] top-[17px] absolute text-black dark:text-white text-xl font-normal relu-font">
