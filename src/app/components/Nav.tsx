@@ -41,7 +41,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
   }, [session]);
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center w-full">
       <nav
         className={`w-[100%] h-[65px] relative 
         `}
