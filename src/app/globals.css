@@ -3,9 +3,41 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  box-sizing: border-box;
+  border: 0px rgba(0, 0, 0, 0.265) solid;
+}
+
 /* Relu Molu사이트 폰트지정  */
 .relu-font {
   font-weight: 500;
   font-size: 30px;
   font-family: "Caveat", cursive;
+}
+
+/* 모달창 애니메이션 */
+.animate-slidein {
+  animation-name: slidein;
+  animation-duration: 0.45s;
+  animation-fill-mode: both; /* Keeps the element in the final state after animation */
+}
+.arrow-right-move {
+  transform: translateX(-8px);
+  transition-property: transform;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+.middle-line {
+  opacity: 0;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-property: opacity;
+  transition-duration: 150ms;
+}
+@keyframes slidein {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }
