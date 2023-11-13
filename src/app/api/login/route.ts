@@ -1,6 +1,6 @@
 import { signJwtAccessToken, signJwtRefreshToken } from '@/app/lib/jwt'
 import queryPromise from '@/app/lib/db'
-import * as bcrypt from 'bcrypt';
+const crypto = require('crypto');
 
 interface reqBody {
     username: string;
@@ -9,11 +9,12 @@ interface reqBody {
 
 export const POST = async(req: Request) => {
     const body: reqBody = await req.json();
-    let sql = 'SELECT user_id, user_pw, user_name FROM USER WHERE user_id = ?';
+    let sql = 'SELECT user_id, user_password, user_name, user_salt FROM tb_user WHERE user_id = ?';
     let values = [body.username];
     let result = await queryPromise(sql, values);
     if(result.length < 1) return new Response(JSON.stringify({"result":"no user"}));
-    const chk = await bcrypt.compare(body.password, result[0].user_pw);
+    const hashPassword = crypto.createHash('sha512').update(body.password + result[0].user_salt).digest('hex');
+    const chk = hashPassword === result[0].user_password;
     if(chk) {
         const user = {
             user_id: result[0].user_id,

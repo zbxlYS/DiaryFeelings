@@ -19,15 +19,15 @@ export const signJwtRefreshToken = async(user_id: string) => {
     const token = jwt.sign({}, secret_key!, {
         expiresIn: '14d'
     });
-    let sql = 'SELECT token FROM TOKEN WHERE user_id = ?'
+    let sql = 'SELECT user_token FROM tb_refresh_token WHERE user_id = ?'
     let result = await queryPromise(sql, [user_id]);
     if(result.length < 1) {
         // 값이 없다면 새로 생성해야 됨.
-        sql = 'INSERT INTO TOKEN VALUES(?,?)';
+        sql = 'INSERT INTO tb_refresh_token VALUES(?,?)';
         result = await queryPromise(sql, [user_id, token]);
     } else {
         // 값이 있다면 업데이트 해야 됨.
-        sql = 'UPDATE TOKEN SET token = ? WHERE user_id = ?';
+        sql = 'UPDATE TOKEN SET tb_refresh_token = ? WHERE user_id = ?';
         result = await queryPromise(sql, [token, user_id]);
     }
     return token;

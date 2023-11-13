@@ -2,7 +2,6 @@ import { signJwtAccessToken, signJwtRefreshToken, verifyRefresh, verifyJwt } fro
 import queryPromise from "@/app/lib/db";
 
 export const POST = async(req: Request) => {
-    console.log('chk')
     // 헤더에서 mlru로 된 accessToken 값 가져오기.
     const accessToken = req.headers.get('Authorization')?.split('mlru ')[1] as string;
     
