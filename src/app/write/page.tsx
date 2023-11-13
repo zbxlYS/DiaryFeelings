@@ -1,13 +1,17 @@
 import React from "react";
-import AfterNav from "../components/Nav";
 
-const page = () => {
+import NavBar from "../components/NavBar";
+import WriteContent from "./_components/WriteContent";
+const WriteDiary = () => {
   return (
     <div>
-      <AfterNav></AfterNav>
-      page
+
+      <WriteContent />
+
     </div>
   );
 };
 
-export default page;
+
+export default WriteDiary;
+
