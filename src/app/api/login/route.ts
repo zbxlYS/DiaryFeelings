@@ -27,5 +27,6 @@ export const POST = async(req: Request) => {
             refreshToken
         };
         return new Response(JSON.stringify(rst))
-    } else return new Response("Wrong Password");
+    }
+    
 }

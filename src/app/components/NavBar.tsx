@@ -14,7 +14,7 @@ const NavBar: React.FC = () => {
       setTheme("light");
     }
   }, []); // 빈 배열을 사용하여 초기 렌더링 시 한 번만 실행
-
+  
   return (
     <>
       <nav className="w-[100%] h-[63px] relative ">
