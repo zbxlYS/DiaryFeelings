@@ -117,7 +117,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
 
         {isLogin ? (
           <>
-            <Link href="/" className="absolute right-[11rem] top-[22px] ">
+            <Link href="/write" className="absolute right-[11rem] top-[22px] ">
               <span className="text-slate-500 hover:text-slate-900">
                 일기쓰기
               </span>
