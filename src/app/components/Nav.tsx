@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import MypageModal from "./MypageModal";
+import { useRouter } from "next/router";
 
 interface SearchComponentProps {
   className?: string;
@@ -20,6 +21,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const { systemTheme, theme, setTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
 
+  const useRoute = useRouter();
   const handleButtonClick = () => {
     setIsModalOpen(!isModalOpen);
     console.log("isModalOpen", isModalOpen);
