@@ -1,47 +1,47 @@
-"use client";
+'use client'
 
-import { useTheme } from "next-themes";
-import React, { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { useSession } from "next-auth/react";
-import MypageModal from "./MypageModal";
+import { useTheme } from 'next-themes'
+import React, { useEffect, useState } from 'react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+import MypageModal from './MypageModal'
 
 interface SearchComponentProps {
-  className?: string;
+  className?: string
 }
 
 const Nav: React.FC<SearchComponentProps> = () => {
   // 로그인시 네비 상단바 변경
-  const { data: session } = useSession();
-  const [isLogin, SetIsLogin] = useState<boolean>(false);
+  const { data: session } = useSession()
+  const [isLogin, SetIsLogin] = useState<boolean>(false)
   // 마이페이지 모달창
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const { systemTheme, theme, setTheme } = useTheme();
-  const currentTheme = theme === "system" ? systemTheme : theme;
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const { systemTheme, theme, setTheme } = useTheme()
+  const currentTheme = theme === 'system' ? systemTheme : theme
 
   const handleButtonClick = () => {
-    setIsModalOpen(!isModalOpen);
-    console.log("test");
-  };
+    setIsModalOpen(!isModalOpen)
+    console.log('isModalOpen', isModalOpen)
+  }
 
   useEffect(() => {
     // 초기 렌더링 시 테마를 라이트 모드로 설정
-    if (currentTheme !== "light") {
-      setTheme("light");
+    if (currentTheme !== 'light') {
+      setTheme('light')
     }
-  }, []); // 빈 배열을 사용하여 초기 렌더링 시 한 번만 실행
+  }, []) // 빈 배열을 사용하여 초기 렌더링 시 한 번만 실행
 
   useEffect(() => {
     if (session?.accessToken) {
-      SetIsLogin(true);
+      SetIsLogin(true)
     } else {
-      SetIsLogin(false);
+      SetIsLogin(false)
     }
-  }, [session]);
+  }, [session])
 
   return (
-    <div className="flex justify-center items-center w-full">
+    <div className=" flex justify-center items-center w-full">
       <nav
         className={`w-[100%] h-[65px] relative 
         `}
@@ -53,7 +53,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
         */}
         {!isLogin ? (
           <>
-            {" "}
+            {' '}
             <Link href="/join">
               <button>
                 <div className="w-[110px] h-[25px] right-[1rem] top-[23px] absolute text-center text-black dark:text-[#F6F7F9] text-base font-normal font-['Pretendard']">
@@ -105,7 +105,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 >
                   {/* Modal content */}
                   <div>
-                    <MypageModal></MypageModal>
+                    <MypageModal closeModal={handleButtonClick}></MypageModal>
                   </div>
                 </div>
               </>
@@ -128,7 +128,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
             <div className="absolute right-[9rem] top-5 h-7 border-inherit border-r"></div>
           </>
         ) : (
-          ""
+          ''
         )}
 
         {/* 다크모드 변경모드  */}
@@ -140,10 +140,10 @@ const Nav: React.FC<SearchComponentProps> = () => {
               : `w-10 h-10 right-[5rem] top-[15px] absolute hover:bg-slate-100 rounded-full`
           }
           onClick={() => {
-            setTheme(currentTheme === "dark" ? "light" : "dark");
+            setTheme(currentTheme === 'dark' ? 'light' : 'dark')
           }}
         >
-          {currentTheme === "dark" ? (
+          {currentTheme === 'dark' ? (
             <>
               <Image
                 src="/sun.svg"
@@ -187,7 +187,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
         </div>
       </nav>
     </div>
-  );
-};
+  )
+}
 
-export default Nav;
+export default Nav

@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import type { NextPage } from "next";
-import { useRef } from "react";
+import type { NextPage } from 'next'
+import { useRef } from 'react'
 const Login: NextPage = () => {
   // useRef로 아이디랑, 비밀번호 값 가져오기.
   // axios post 방식으로 전달해 주기 => 주소: http://localhost:3000/api/login , {username: id, password: password}
@@ -33,7 +33,7 @@ const Login: NextPage = () => {
         <span className="text-sm">Relumolu@googlo.com</span>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Login;
+export default Login

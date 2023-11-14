@@ -1,12 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Roboto:wght@100&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Roboto:wght@100&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @font-face {
-  font-family: "Pretendard-Regular";
-  src: url("https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
-    format("woff");
+  font-family: 'Pretendard-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
+    format('woff');
   font-weight: 400;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 * {
   box-sizing: border-box;
   border: 0px rgba(0, 0, 0, 0.265) solid;
-  font-family: "Pretendard-Regular";
+  font-family: 'Pretendard-Regular';
   font-size: 16px;
 }
 
@@ -22,7 +22,7 @@
 .relu-font {
   font-weight: 500;
   font-size: 30px;
-  font-family: "Caveat", cursive;
+  font-family: 'Caveat', cursive;
 }
 
 /* 모달창 애니메이션 */
@@ -31,18 +31,7 @@
   animation-duration: 0.45s;
   animation-fill-mode: both; /* Keeps the element in the final state after animation */
 }
-.arrow-right-move {
-  transform: translateX(-8px);
-  transition-property: transform;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 150ms;
-}
-.middle-line {
-  opacity: 0;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-property: opacity;
-  transition-duration: 150ms;
-}
+
 @keyframes slidein {
   from {
     transform: translateX(100%);
