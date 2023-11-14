@@ -12,17 +12,17 @@ interface SearchComponentProps {
 }
 
 const Nav: React.FC<SearchComponentProps> = () => {
-  // 로그인시 네비 상단바 변경
   const { data: session } = useSession()
-  const [isLogin, SetIsLogin] = useState<boolean>(false)
-  // 마이페이지 모달창
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
-  const { systemTheme, theme, setTheme } = useTheme()
+  const [isLogin, SetIsLogin] = useState<boolean>(false) // 로그인시 네비 상단바 변경
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false) // 마이페이지 모달창
+  const { systemTheme, theme, setTheme } = useTheme() // 다크모드테마 설정
   const currentTheme = theme === 'system' ? systemTheme : theme
+  const [inputValue, setInputValue] = useState('') // 일기검색
 
+  // 로그인후 사용자 아이콘 클릭시 모달생성
   const handleButtonClick = () => {
     setIsModalOpen(!isModalOpen)
-    console.log('isModalOpen', isModalOpen)
+    // console.log('isModalOpen', isModalOpen)
   }
 
   useEffect(() => {
@@ -121,7 +121,10 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 일기쓰기
               </span>
             </Link>
-            <Link href="/diary" className="absolute right-[16.5rem] top-[22px]">
+            <Link
+              href="/diary"
+              className="absolute right-[16.5rem] top-[22px] "
+            >
               <span className="text-slate-500 hover:text-slate-900">기록</span>
             </Link>
 
@@ -167,7 +170,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
         </button>
 
         {/* 검색창  */}
-        <div className="flex justify-center items-center self-center w-[30%] max-w-2xl h-[37px] left-[9rem] bottom-[0.7rem] absolute shadow hover:shadow-md focus-within:shadow-md border-inherit rounded-full dark:border-[#9BA3AF] ">
+        <div className="flex justify-center items-center self-center w-[30%] max-w-2xl h-[37px] left-[9rem] bottom-[0.7rem] absolute shadow hover:shadow-md focus-within:shadow-md border-inherit rounded-full dark:border-[#9BA3AF] dark:bg-slate-500 ">
           <Image
             src="/search.svg"
             alt="Search Logo"
@@ -179,7 +182,9 @@ const Nav: React.FC<SearchComponentProps> = () => {
           <input
             type="text"
             placeholder="일기검색 . . ."
-            className="absolute w-[90%] max-w-[60%] h-full left-[3rem] mt-[0px] border-none outline-none dark:bg-[#24272F]"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            className="absolute w-[90%] max-w-[60%] h-full left-[3rem] p-5  border-none outline-none dark:bg-[#24272F] z-[-1]"
           />
         </div>
         <div className="left-[21px] top-[17px] absolute text-black dark:text-white text-xl font-normal relu-font">
