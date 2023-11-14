@@ -1,5 +1,4 @@
 # 프로젝트 소개
-[![Notion Badge](https://img.shields.io/badge/-Notion-#000000?logo=notion&logoColor=white&link={https://hollow-station-bd0.notion.site/Hyunjin-s-Node-f26e6ab228d743a695da3ca70c181c07?pvs=4})]({https://hollow-station-bd0.notion.site/Hyunjin-s-Node-f26e6ab228d743a695da3ca70c181c07?pvs=4})
 # 목차 
 
 
