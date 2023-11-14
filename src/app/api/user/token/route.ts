@@ -2,19 +2,20 @@ import { signJwtAccessToken, signJwtRefreshToken, verifyRefresh, verifyJwt } fro
 import queryPromise from "@/app/lib/db";
 
 export const POST = async(req: Request) => {
+    console.log('fetched...')
     // 헤더에서 mlru로 된 accessToken 값 가져오기.
     const accessToken = req.headers.get('Authorization')?.split('mlru ')[1] as string;
     
     // 헤더에서 refreshToken 값 가져오기.
     let refreshToken = req.headers.get('refreshToken') as string;
-
     // accessToken을 복호화.
-    const decoded  = verifyJwt(accessToken);
+    const decoded = verifyJwt(accessToken);
 
     // 현재 시간.
-    const currentTime = Math.floor(Date.now() / 1000);
+    const currentTime = Math.floor(Date.now() / 1000) - 60000; // 1분 전에 갱신하기.
 
     // 복호화 된 값이 없다면 => 인증 실패.
+    if(decoded === 'signout') return new Response(JSON.stringify({"result":"signout"}));
     if(!decoded) return new Response(JSON.stringify({"result":"No Authorization", "status":"error"}))
 
     // 만료 기간이 지나지 않았다면 => 리턴.

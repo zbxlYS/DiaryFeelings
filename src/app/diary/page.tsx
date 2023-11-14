@@ -6,11 +6,15 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css';
 import { ko } from 'date-fns/esm/locale'
 import DiaryLayout from './_components/DiaryLayout';
+import { useRecoilState } from 'recoil'
+import { textState } from '@/app/lib/atoms/atom'
 
 
 const Diary = () => {
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(new Date());
+    const [test, setText] = useRecoilState(textState);
+    console.log(test);
 
     const CalendarInput = forwardRef(({ value, onClick }: any, ref: any) => (
         // any 안 쓰고 싶은데 몰루겠다...
@@ -59,7 +63,7 @@ const Diary = () => {
                     <span className='mr-[30px] cursor-pointer hover:text-[#b2a4d4]'>{'이전'}</span>
                 </div>
                 <div className='flex items-center h-full gap-[15px]'>
-                    <span className={`border py-[2px] px-[10px] rounded-[50%] text-white bg-[#b2a4d4]` }>1</span>
+                    <span className={`py-[2px] px-[10px] rounded-[50%] text-white bg-[#b2a4d4]` }>1</span>
                     <span className={`py-[2px] px-[10px] cursor-pointer hover:text-[#b2a4d4] rounded-md`}>2</span>
                     <span className={`py-[2px] px-[10px] cursor-pointer hover:text-[#b2a4d4] rounded-md`}>3</span>
                     <span className={`py-[2px] px-[10px] cursor-pointer hover:text-[#b2a4d4] rounded-md`}>4</span>

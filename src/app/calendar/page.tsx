@@ -6,22 +6,26 @@ import 'react-calendar/dist/Calendar.css';
 import moment, { MomentInput } from 'moment';
 import Modal from 'react-modal';
 import axios from 'axios';
+import { useSession } from 'next-auth/react';
 
 
 function MyApp() {
   const [value, onChange] = useState<Date | Date[]>(new Date());
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [emotionSticker, setEmotionSticker] = useState<string>('');
+  const { data: session } = useSession();
 
   const imageSrc = './KakaoTalk_20231109_164231435.png';
 
   useEffect(() => {
     const fetchUserDataFromDB = async () => {
       try {
-        const dateValue = Array.isArray(value) ? (value as Date[])[0] : (value as Date);
-        const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/test/`,
+        // const dateValue = Array.isArray(value) ? (value as Date[])[0] : (value as Date);
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/api/test`,
         {
-          data: moment(dateValue).format('YYYY-MM-DDTHH:mm:ss')
+          data: {
+
+          }
         });
         const data = await response.data;
 

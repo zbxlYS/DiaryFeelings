@@ -29,7 +29,7 @@ const handler = NextAuth({
                 if(result.user_id) {
                     return result;
                 }
-                throw new Error(result);
+                throw new Error(result.result);
             }
         }),
         KakaoProvider({
@@ -53,6 +53,7 @@ const handler = NextAuth({
                 account.refresh_token = result.refreshToken
                 return true;
             } else {
+                // 로컬 로그인 처리 쪽인데 어떻게 할까.
                 return true;
             }
         },

@@ -24,10 +24,10 @@ export async function POST(req: Request) {
     `;
 
     // 쿼리 실행
-    await queryPromise(sql, [user_id, emotion_img, user_pw, user_name, provider]);
-
+    const result = await queryPromise(sql, [user_id, emotion_img, user_pw, user_name, provider]);
+    console.log('test------------------------')
     // 성공적인 응답 반환
-    const result = { emotion_img };
+    console.log(result);
 
     // NextResponse 생성자를 사용하여 응답 반환
     return new NextResponse(JSON.stringify(result), {
