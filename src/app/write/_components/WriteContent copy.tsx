@@ -6,9 +6,10 @@
 import React, { useEffect, useState } from "react";
 import "../../write/write.css";
 import emotion from "../../write/3_love.png";
+import imagebtn from "../../../../public/image.svg";
+import stickerbtn from "../../../../public/sticker.svg";
+import calbtn from "../../../../public/calendar.svg";
 import Image from "next/image";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 
 const WriteContent = () => {
   // get today's date
@@ -18,16 +19,15 @@ const WriteContent = () => {
   }월 ${today.getDate()}일`;
 
   // select date from calendar
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [value, onChange] = useState(new Date());
 
   return (
     <div className="write-box">
       {/* left sidebar */}
       <div className="write-sidebar">
-        <div>img</div>
-        <div>sticker</div>
-        <div>calendar</div>
-        <div>aiImg</div>
+        <Image src={imagebtn} alt="image"></Image>
+        <Image src={stickerbtn} alt="sticker"></Image>
+        <Image src={calbtn} alt="calendar"></Image>
       </div>
       {/* write diary title, content */}
       <div className="write-container">
@@ -35,17 +35,7 @@ const WriteContent = () => {
         <div className="write-header">
           <Image className="write-select-img" src={emotion} alt="emotion" />
           <div className="write-tit">
-            {/* select date */}
-            <DatePicker
-              className="write-date"
-              dateFormat="yyyy.MM.dd" // format of edate
-              shouldCloseOnSelect // select date close calendar
-              minDate={new Date("2000-01-01")} // can't select before minDate
-              maxDate={new Date()} // can't select after maxDate
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
-              showPopperArrow={false}
-            />
+            <div className="write-date">{formattedDate}</div>
             <textarea placeholder="title"></textarea>
           </div>
         </div>
