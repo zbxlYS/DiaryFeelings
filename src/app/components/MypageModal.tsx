@@ -10,13 +10,7 @@ interface MypageModalProps {
 const MypageModal: React.FC<MypageModalProps> = ({ closeModal }) => {
   const idRef = useRef<HTMLInputElement>(null);
   const pwRef = useRef<HTMLInputElement>(null);
-  const textRef = useRef<HTMLTextAreaElement>(null);
   const { data: session } = useSession();
-  console.log(session);
-
-  const closeButtonClick = () => {
-    console.log("test");
-  };
 
   const handleSubmit = async () => {
     if (!idRef.current && !pwRef.current) return null;
@@ -110,7 +104,7 @@ const MypageModal: React.FC<MypageModalProps> = ({ closeModal }) => {
       </div>
       <hr />
       <div className="hover:bg-slate-100 rounded-full mt-5 mb-5 p-1">
-        <Link href="/" className="ml-4">
+        <Link href="/" className="ml-4" onClick={closeModal}>
           {" "}
           <span className="text-slate-800 hover:text-slate-900">
             내 정보변경
@@ -118,21 +112,21 @@ const MypageModal: React.FC<MypageModalProps> = ({ closeModal }) => {
         </Link>
       </div>
       <div className="hover:bg-slate-100 rounded-full p-1">
-        <Link href="/" className="ml-4">
+        <Link href="/" className="ml-4" onClick={closeModal}>
           <span className="text-slate-800 hover:text-slate-900">
             내 감정보기
           </span>
         </Link>
       </div>
       <div className="hover:bg-slate-100 rounded-full mt-5 mb-5 p-1">
-        <Link href="/" className="ml-4">
+        <Link href="/" className="ml-4" onClick={closeModal}>
           <span className="text-slate-800 hover:text-slate-900">
             폰트 / 테마 변경
           </span>
         </Link>
       </div>
       <div className="hover:bg-slate-100 rounded-full p-1">
-        <Link href="/" className="ml-4">
+        <Link href="/" className="ml-4" onClick={closeModal}>
           <button onClick={async () => signOut()}>
             <span className="text-slate-800 hover:text-slate-900">
               로그아웃
