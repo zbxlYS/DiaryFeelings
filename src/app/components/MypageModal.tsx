@@ -4,8 +4,10 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
-
-const MypageModal = ({}) => {
+interface MypageModalProps {
+  closeModal: () => void;
+}
+const MypageModal: React.FC<MypageModalProps> = ({ closeModal }) => {
   const idRef = useRef<HTMLInputElement>(null);
   const pwRef = useRef<HTMLInputElement>(null);
   const textRef = useRef<HTMLTextAreaElement>(null);
@@ -77,27 +79,27 @@ const MypageModal = ({}) => {
   return (
     <div className="flex flex-col">
       <div className="absolute right-[2rem] top-7 hover:bg-slate-100 rounded-lg">
-        <Image
-          src="/close.png"
-          alt="Close Logo"
-          className=""
-          width={30}
-          height={30}
-          priority
-        />
+        <button onClick={closeModal}>
+          <Image
+            src="/close.png"
+            alt="Close Logo"
+            className=""
+            width={30}
+            height={30}
+            priority
+          />
+        </button>
       </div>{" "}
       <div className="flex ">
         <div className="w-10 h-10 border rounded-full mb-3">
-          <button onClick={closeButtonClick}>
-            <Image
-              src="/mypage.svg"
-              alt="Mypage Logo"
-              className="ml-1 mt-1"
-              width={30}
-              height={30}
-              priority
-            />
-          </button>
+          <Image
+            src="/mypage.svg"
+            alt="Mypage Logo"
+            className="ml-1 mt-1"
+            width={30}
+            height={30}
+            priority
+          />
         </div>
 
         <h1 className="mt-[9px] ml-3 text-lg">호빵현진 님</h1>

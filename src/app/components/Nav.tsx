@@ -22,7 +22,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
 
   const handleButtonClick = () => {
     setIsModalOpen(!isModalOpen);
-    console.log("test");
+    console.log("isModalOpen", isModalOpen);
   };
 
   useEffect(() => {
@@ -105,7 +105,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 >
                   {/* Modal content */}
                   <div>
-                    <MypageModal></MypageModal>
+                    <MypageModal closeModal={handleButtonClick}></MypageModal>
                   </div>
                 </div>
               </>
