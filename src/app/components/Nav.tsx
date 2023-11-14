@@ -121,7 +121,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 일기쓰기
               </span>
             </Link>
-            <Link href="/" className="absolute right-[16.5rem] top-[22px]">
+            <Link href="/diary" className="absolute right-[16.5rem] top-[22px]">
               <span className="text-slate-500 hover:text-slate-900">기록</span>
             </Link>
 
