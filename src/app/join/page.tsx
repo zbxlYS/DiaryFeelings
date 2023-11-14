@@ -5,17 +5,9 @@ import Link from "next/link";
 
 const page = () => {
   return (
-    <body style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{ border: "1px dotted black", width: "50%", height: "540px" }}
-        >
+    <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
+      <div style={{display: "flex",justifyContent: "center",alignItems: "center"}}>
+        <div style={{ border: "1px dotted black", width: "50%", height: "540px" }}>
           <form action="#">
             <h1 style={{ textAlign: "center" }}>회원가입</h1>
             <Essential />
@@ -27,7 +19,7 @@ const page = () => {
           </form>
         </div>
       </div>
-    </body>
+    </div>
   );
 };
 
