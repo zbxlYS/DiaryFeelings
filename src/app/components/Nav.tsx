@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import MypageModal from './MypageModal'
-
+import { Navbar } from '@nextui-org/react'
 interface SearchComponentProps {
   className?: string
 }
@@ -43,10 +43,10 @@ const Nav: React.FC<SearchComponentProps> = () => {
   return (
     <div className=" flex justify-center items-center w-full">
       <nav
-        className={`w-[100%] h-[65px] relative 
+        className={` w-[100%] h-[66px] relative 
         `}
       >
-        <div className="w-[100%] h-[66px] left-0 top-0 absolute bg-[#fff9] dark:bg-[#24272F] border-b border-slate-200 dark:border-b-0" />
+        <div className="w-[100%] h-[66px] left-0 top-0 absolute bg-[#fff9] dark:bg-black border-b border-slate-200 dark:border-b-0" />
         {/* =====================
             로그인 회원가입 버튼
             =====================
@@ -77,7 +77,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
           // 로그인 성공시 마이페이지 아이콘 생성
           <>
             <button
-              className="w-10 h-10 right-[1.5rem] top-[14.5px] absolute border rounded-full hover:bg-slate-100 "
+              className="w-10 h-10 right-[1.5rem] top-[14.5px] absolute border rounded-full hover:bg-slate-100 dark:border-slate-400 dark:hover:bg-slate-600"
               onClick={handleButtonClick}
             >
               <Image
@@ -95,7 +95,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
               <>
                 {/* Overlay */}
                 <div
-                  className="fixed inset-0 bg-black opacity-10 z-40"
+                  className="fixed inset-0 bg-black opacity-50 z-40"
                   onClick={handleButtonClick} // Close the modal on overlay click
                 ></div>
                 {/* Modal */}
@@ -117,7 +117,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
         {isLogin ? (
           <>
             <Link href="/write" className="absolute right-[11rem] top-[22px] ">
-              <span className="text-slate-500 hover:text-slate-900">
+              <span className="text-slate-500 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">
                 일기쓰기
               </span>
             </Link>
@@ -125,10 +125,12 @@ const Nav: React.FC<SearchComponentProps> = () => {
               href="/diary"
               className="absolute right-[16.5rem] top-[22px] "
             >
-              <span className="text-slate-500 hover:text-slate-900">기록</span>
+              <span className="text-slate-500 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">
+                기록
+              </span>
             </Link>
 
-            <div className="absolute right-[9rem] top-5 h-7 border-inherit border-r"></div>
+            <div className="absolute right-[9rem] top-5 h-7 border-inherit border-r dark:border-slate-300"></div>
           </>
         ) : (
           ''
@@ -139,8 +141,8 @@ const Nav: React.FC<SearchComponentProps> = () => {
           type="button"
           className={
             !isLogin
-              ? `w-10 h-10 right-[11.5rem] top-[15px] absolute hover:bg-violet-100 rounded-full`
-              : `w-10 h-10 right-[5rem] top-[15px] absolute hover:bg-slate-100 rounded-full`
+              ? `w-10 h-10 right-[11.5rem] top-[15px] absolute `
+              : `w-10 h-10 right-[5rem] top-[15px] absolute `
           }
           onClick={() => {
             setTheme(currentTheme === 'dark' ? 'light' : 'dark')
@@ -151,9 +153,9 @@ const Nav: React.FC<SearchComponentProps> = () => {
               <Image
                 src="/sun.svg"
                 alt="Sun Logo"
-                className="opacity-100 hover:opacity-60 transition duration-300 "
-                width={100}
-                height={50}
+                className="w-[35px]  hover:opacity-60 transition duration-300 hover:bg-slate-500 rounded-full"
+                width={40}
+                height={40}
                 priority
               />
             </>
@@ -161,16 +163,16 @@ const Nav: React.FC<SearchComponentProps> = () => {
             <Image
               src="/dark.svg"
               alt="Dark Logo"
-              className="w-[35px] pl-[5px] opacity-70 hover:opacity-60 transition duration-300"
+              className="w-[35px] pl-[5px] opacity-70 hover:opacity-50 transition duration-300 hover:bg-slate-100 rounded-full"
               width={50}
-              height={40}
+              height={50}
               priority
             />
           )}
         </button>
 
         {/* 검색창  */}
-        <div className="flex justify-center items-center self-center w-[30%] max-w-2xl h-[37px] left-[9rem] bottom-[0.7rem] absolute shadow hover:shadow-md focus-within:shadow-md border-inherit rounded-full dark:border-[#9BA3AF] dark:bg-slate-500 ">
+        <div className="flex justify-center items-center self-center w-[30%] max-w-2xl h-[37px] left-[9rem] bottom-[0.7rem] absolute shadow hover:shadow-md focus-within:shadow-md  rounded-full  dark:bg-[#171717] dark:shadow-slate-600">
           <Image
             src="/search.svg"
             alt="Search Logo"
@@ -184,8 +186,8 @@ const Nav: React.FC<SearchComponentProps> = () => {
             placeholder="일기검색 . . ."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            className="absolute w-[90%] max-w-[60%] h-full left-[3rem] p-5  border-none outline-none dark:bg-[#24272F] z-[-1]"
-          />
+            className="absolute w-[90%] max-w-[60%] h-full left-[3rem] border-none outline-none dark:bg-[#171717] "
+          ></input>
         </div>
         <div className="left-[21px] top-[17px] absolute text-black dark:text-white text-xl font-normal relu-font">
           Relu Molu
