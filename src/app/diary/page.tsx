@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, forwardRef } from 'react'
+import { useState, forwardRef, useEffect } from 'react'
 import './diaryCSS.css'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -8,12 +8,40 @@ import { ko } from 'date-fns/esm/locale'
 import DiaryLayout from './_components/DiaryLayout'
 import { useRecoilState } from 'recoil'
 import { textState } from '@/app/lib/atoms/atom'
+import { useSearchParams } from 'next/navigation'
+import Pagination from './_components/Pagination'
 
 const Diary = () => {
+  const params = useSearchParams();
   const [startDate, setStartDate] = useState<Date>(new Date())
   const [endDate, setEndDate] = useState<Date>(new Date())
   const [test, setText] = useRecoilState(textState)
-  console.log(test)
+  const [page, setPage] = useState(1);
+  const [view, setView] = useState<any[]>([]);
+  const offset = (page - 1) * 6;
+  const curPage = params.get('page')
+
+  
+  useEffect(() => {
+    setPage(prev => Number(curPage))
+  },[curPage])
+  const arr = new Array(100).fill(0);
+
+  useEffect(() => {
+    setView(arr.slice(offset, offset + 6));
+  },[page])
+
+  // const [postPerPage, setPostPerPage] = useState(6);
+  // const [currentPage, setCurrentPage] = useState(1);
+
+  // const offset = (currentPage - 1) * postPerPage;
+
+  // const totalPosts = arr.slice(offset, offset + postPerPage).map((post, index) => <DiaryLayout key={index} />);
+
+  // const setPage = (page: number) => {
+    
+  //   setCurrentPage(page);
+  // }
 
   const CalendarInput = forwardRef(({ value, onClick }: any, ref: any) => (
     // any 안 쓰고 싶은데 몰루겠다...
@@ -55,57 +83,18 @@ const Diary = () => {
         </div>
       </div>
       <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
-        <DiaryLayout />
-        <DiaryLayout />
-        <DiaryLayout />
-        <DiaryLayout />
-        <DiaryLayout />
+        {
+          view.map((data, index) => (
+            <DiaryLayout key={index} />
+          ))
+        }
       </div>
-      <div className="flex px-[100px] h-[50px] border rounded-md mb-[100px] items-center justify-center">
-        <div className="flex items-center h-full">
-          <span className="mr-[15px] cursor-pointer hover:text-[#b2a4d4]">
-            {'처음'}
-          </span>
-          <span className="mr-[30px] cursor-pointer hover:text-[#b2a4d4]">
-            {'이전'}
-          </span>
-        </div>
-        <div className="flex items-center h-full gap-[15px]">
-          <span
-            className={`py-[2px] px-[10px] rounded-[50%] text-white bg-[#b2a4d4]`}
-          >
-            1
-          </span>
-          <span
-            className={`py-[2px] px-[10px] cursor-pointer hover:text-[#b2a4d4] rounded-md`}
-          >
-            2
-          </span>
-          <span
-            className={`py-[2px] px-[10px] cursor-pointer hover:text-[#b2a4d4] rounded-md`}
-          >
-            3
-          </span>
-          <span
-            className={`py-[2px] px-[10px] cursor-pointer hover:text-[#b2a4d4] rounded-md`}
-          >
-            4
-          </span>
-          <span
-            className={`py-[2px] px-[10px] cursor-pointer hover:text-[#b2a4d4] rounded-md`}
-          >
-            5
-          </span>
-        </div>
-        <div className="flex items-center h-full">
-          <span className="ml-[30px] cursor-pointer hover:text-[#b2a4d4]">
-            {'다음'}
-          </span>
-          <span className="ml-[15px] cursor-pointer hover:text-[#b2a4d4]">
-            {'마지막'}
-          </span>
-        </div>
-      </div>
+        <Pagination
+          total={arr.length}
+          limit={6}
+          page={page}
+          setPage={setPage}
+        />
     </div>
   )
 }
