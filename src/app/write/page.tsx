@@ -1,17 +1,14 @@
 import React from 'react'
 import WriteContent from './_components/WriteContent'
 import WriteTitle from './_components/WriteTitle'
+import '../write/write.css'
+import SideBar from './_components/SideBar'
 const WriteDiary = () => {
   return (
     <div>
       <div className="write-box">
         {/* left sidebar */}
-        <div className="write-sidebar">
-          <div>img</div>
-          <div>sticker</div>
-          <div>calendar</div>
-          <div>aiImg</div>
-        </div>
+        <SideBar />
         {/* write diary title, content */}
         <div className="write-container">
           {/* selelct emtion, date, title component*/}
