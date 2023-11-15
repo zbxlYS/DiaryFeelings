@@ -79,13 +79,11 @@
   display: inline-block;
   caret-color: transparent;
   background: transparent;
-
-  input {
-    border: none;
-    outline: none;
-  }
 }
-
+.write-date > input {
+  border: none;
+  outline: none;
+}
 /* write diary content*/
 .write-cont {
   width: 60%;
