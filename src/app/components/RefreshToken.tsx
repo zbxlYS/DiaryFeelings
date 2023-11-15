@@ -42,3 +42,5 @@ const RefreshToken = () => {
   }, [session])
   return <></>
 }
+
+export default RefreshToken

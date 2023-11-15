@@ -15,3 +15,5 @@ function Providers({ children }: Props) {
     </SessionProvider>
   )
 }
+
+export default Providers
