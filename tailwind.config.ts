@@ -21,6 +21,7 @@ const config: Config = {
 
   // next js plugin
   plugins: [
+    require('@nextui-org/react'),
     nextui({
       themes: {
         light: {
