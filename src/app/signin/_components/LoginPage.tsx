@@ -5,6 +5,10 @@ import { useRef, useState } from 'react'
 import { signIn } from 'next-auth/react'
 import React from 'react'
 
+import {Input} from "@nextui-org/react";
+import {Button} from "@nextui-org/react";
+
+
 const Login: NextPage = () => {
   // useRef로 아이디랑, 비밀번호 값 가져오기.
   const idRef = useRef<HTMLInputElement>(null)
@@ -37,7 +41,7 @@ const Login: NextPage = () => {
   // 로그인이 성공하면 알아서 홈으로 이동됨.
 
   // id: test1 pw: 1234
-
+  
   return (
     <div className="mt-10 flex h-screen w-screen flex-col items-center">
       <div className=" p-10 text-2xl font-bold">
@@ -45,22 +49,35 @@ const Login: NextPage = () => {
       </div>
       <div className="flex w-64 flex-col  p-2 pt-0">
         <span className="p-1 text-sm font-normal">아이디</span>
-        <input
-          className="border-2"
-          type="text"
-          ref={idRef}
-          value={id}
-          onChange={(e) => setId(e.target.value)}
-        ></input>
+        <Input
+         isRequired
+         type="text"
+         label="Email"
+         defaultValue="junior@nextui.org"
+         className="max-w-xs"
+         ref={idRef}
+         value={id}
+         onChange={(e) => setId(e.target.value)}
+         />
       </div>
       <div className="flex w-64 flex-col  p-2 pt-0">
         <span className="p-1 text-sm font-normal">비밀번호</span>
-        <input className="border-2" type="text" ref={pwRef}></input>
+        <Input
+        isRequired
+         type="password"
+         label="Password"
+         defaultValue="junior@nextui.org"
+         className="max-w-xs"
+         ref={pwRef}
+         value={password}
+         onChange={(e) => setPassword(e.target.value)}>
+      
+         </Input>
       </div>
       <div className="mt-5 flex items-center   justify-center ">
         <button
           onClick={handleLogin}
-          className=" h-10 w-64 rounded-xl bg-gray-300 text-sm font-medium text-white"
+          className=" h-10 w-64 rounded-xl bg-gray-300 text-sm font-medium text-white" color="success"
         >
           로그인
         </button>
@@ -69,7 +86,7 @@ const Login: NextPage = () => {
 
       <div className="mt-6 flex flex-col items-center justify-center">
         <span className="text-sm"></span>
-        <span className="text-sm">Relumolu@google.com</span>
+        <span className="text-sm">아이디 찾기  비밀번호 찾기</span>
       </div>
       <div>
         <div className="mt-6">
