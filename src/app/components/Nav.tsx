@@ -47,7 +47,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
           className={` relative h-[65px]
         `}
         >
-          <div className="w-[100%] h-[70px] left-0 top-0 absolute bg-[#fff9] dark:bg-black border-b border-slate-200 dark:border-b-0" />
+          <div className="w-[100%] h-[70px] left-0 top-0 absolute bg-[#fff9] dark:bg-black dark:bg-opacity-80 border-b border-slate-200 dark:border-b-0" />
           {/* =====================
             로그인 회원가입 버튼
             =====================
