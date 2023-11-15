@@ -58,7 +58,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
               <Link href="/join">
                 <button>
                   <div className="w-[110px] h-[25px] right-[1rem] top-[23px] absolute text-center text-black dark:text-[#F6F7F9] text-base font-normal font-['Pretendard']">
-                    <span className="text-slate-500 hover:text-slate-900">
+                    <span className="text-slate-500 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">
                       회원가입
                     </span>
                   </div>
@@ -67,7 +67,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
               <Link href="/api/auth/signin">
                 <button>
                   <div className="right-[7.5rem] top-[23px] absolute text-center text-black dark:text-white text-base font-normal ">
-                    <span className="text-slate-500 hover:text-slate-900">
+                    <span className="text-slate-500 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">
                       로그인
                     </span>
                   </div>
