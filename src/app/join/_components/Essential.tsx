@@ -22,15 +22,6 @@ const Essential = () => {
     }
   }
 
-  //이메일 사용 가능 여부
-  useEffect(() => {
-    if (!emailRef.current) return
-    const e: string = emailRef.current!.value
-    console.log(e)
-    setData(e)
-    console.log(data)
-  }, [])
-
   return (
     <div>
       <p>
