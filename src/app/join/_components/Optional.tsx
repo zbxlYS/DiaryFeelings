@@ -23,20 +23,17 @@ const Optional = () => {
   }
 
   return (
-    <div>
-      <Image src={img} alt="" width={200} height={150} />
-      <p>
-        {' '}
-        이미지 : <input
-          type="file"
-          accept="image/*"
-          onChange={imgChange}
-        />{' '}
-      </p>
-      <p>
-        {' '}
-        닉네임 : <input placeholder="일기장의 이름을 정해주세요" />{' '}
-      </p>
+    <div className="">
+      <div className="flex">
+        <Image src={img} alt="" width={20} height={15} />
+        <label htmlFor="file">
+          <div className="min-w-fit min-h-fit ">프로필 사진을 등록해주세요</div>
+        </label>
+        <input type="file" accept="image/*" onChange={imgChange} />
+      </div>
+
+      <span> 닉네임 </span>
+      <input placeholder="일기장의 이름을 정해주세요" />
     </div>
   )
 }

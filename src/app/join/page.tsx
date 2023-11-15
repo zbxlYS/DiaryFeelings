@@ -6,19 +6,17 @@ import Link from 'next/link'
 const page = () => {
   return (
     <div className="mt-10 flex h-screen w-screen flex-col items-center ">
-      <div className="w-1/2  border-black border-2 bolder-solid grid place-items-center">
-        <div className=" ">
-          <div className="">
-            <form action="#">
-              <h1>회원가입</h1>
-              <Essential />
-              <Optional />
-              <button type="submit">가입하기</button>
-              <Link href="/signin">
-                <button>소셜로그인</button>
-              </Link>
-            </form>
-          </div>
+      <div className="w-1/4  border-black border-2 bolder-solid">
+        <div>
+          <form action="#">
+            <p className="text-2xl font-bold text-center">회원가입</p>
+            <Essential />
+            <Optional />
+            <button type="submit">가입하기</button>
+            <Link href="/signin">
+              <button>소셜로그인</button>
+            </Link>
+          </form>
         </div>
       </div>
     </div>
