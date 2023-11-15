@@ -7,6 +7,9 @@ import React, { useEffect, useState } from 'react'
 import '../../write/write.css'
 import emotion from '../../write/3_love.png'
 import Image from 'next/image'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import WriteTitle from './WriteTitle'
 
 const WriteContent = () => {
   // get today's date
@@ -16,7 +19,7 @@ const WriteContent = () => {
   }월 ${today.getDate()}일`
 
   // select date from calendar
-  const [value, onChange] = useState(new Date())
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date())
 
   return (
     <div className="write-box">
