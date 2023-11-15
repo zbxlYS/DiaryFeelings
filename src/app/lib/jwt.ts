@@ -30,6 +30,7 @@ export const signJwtRefreshToken = async (user_id: string) => {
     result = await queryPromise(sql, [user_id, token])
   } else {
     // 값이 있다면 업데이트 해야 됨.
+    sql = 'UPDATE TOKEN SET tb_refresh_token = ? WHERE user_id = ?'
     sql = 'UPDATE tb_refresh_token SET user_token = ? WHERE user_id = ?'
     result = await queryPromise(sql, [token, user_id])
   }
