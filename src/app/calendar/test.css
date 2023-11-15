@@ -15,19 +15,29 @@
 
 /* 달력 몸통 */
 .react-calendar {
-  width: 900px !important;
+  width: 600px !important;
   border-radius: 20px;
-  border: 3px solid brown !important;
+  border: 3px solid #AFA4CE !important;
   display: flex;
   flex-direction: column;
   margin: auto; /* 가운데 정렬을 추가 */
   min-height: 700px !important; /* 원하는 높이로 수정 */
 }
 
+/* 미디어 쿼리 반응형 */
+@media screen and (min-width: 768px) {
+  .react-calendar {
+    min-width: 62%;
+    max-width: 900px;
+    /* 데스크탑에 적합한 스타일 */
+  }
+
+}
+
 /* 달력 상단 */
 .react-calendar__navigation {
-  background-color: tomato;
-  border-bottom: 4px solid brown;
+  background-color: #E6E6FA;
+  border-bottom: 4px solid #AFA4CE;
   height: 100px; /* 높이 조절을 원하는 값으로 수정 */
   border-radius: 17px 17px 0 0;
 }
@@ -130,7 +140,7 @@
   pointer-events: none; /* 클릭 이벤트 비활성화 */
   background-color: rgba(215, 175, 211, 0.3); /* RGB에 투명도 추가 */
   border-radius: 14px;
-  height: 70px;
+  height: 74px;
 }
 .react-calendar__navigation__prev2-button {
   display: none;
@@ -173,3 +183,4 @@
 .dot img {
   width: 100%;
 }
+

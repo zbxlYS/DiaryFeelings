@@ -21,21 +21,31 @@ const ModalCalendar: React.FC<{ isOpen: boolean; closeModal: () => void }> = ({ 
   };
 
   const handleMarking = (date: Date, view: any) => {
+    const imagesByDate: { [key: string]: string } = {
+      '2023-11-15': './kkomul.png',
+      '2023-11-16': './angry.png',
+      '2023-11-17': './depress.png',
+      '2023-11-25': './sad.png',
+      // 필요에 따라 더 많은 날짜-이미지 매핑 추가
+    };
+
     const html = [];
-    if (mark.find((x) => x === moment(date).format('YYYY-MM-DD'))) {
+    const formattedDate = moment(date).format('YYYY-MM-DD');
+
+    if (imagesByDate[formattedDate]) {
       html.push(
-        <div className='dot' key={moment(date).format('YYYY-MM-DD')}>
+        <div className='dot' key={formattedDate}>
           <img
-            src='./kkomul.png'
-            alt='kkomul'
-            onClick={() => handleImageClick(moment(date).format('YYYY-MM-DD'))}
+            src={imagesByDate[formattedDate]}
+            alt={`${formattedDate}의 이미지`}
+            onClick={() => handleImageClick(formattedDate)}
           />
         </div>
       );
     }
+
     return <div className='dot-img'>{html}</div>;
   };
-
   const handleImageClick = (date: string) => {
     router.push(`/write?date=${date}`);
     closeModal();
@@ -44,7 +54,7 @@ const ModalCalendar: React.FC<{ isOpen: boolean; closeModal: () => void }> = ({ 
   return (
     <Modal isOpen={isOpen} onRequestClose={closeModal} contentLabel='Calendar Modal'>
       <div>
-       
+
         <Calendar
           onChange={onChange}
           value={value}
@@ -56,14 +66,21 @@ const ModalCalendar: React.FC<{ isOpen: boolean; closeModal: () => void }> = ({ 
           tileContent={({ date, view }) => handleMarking(date, view)}
         />
       </div>
-     <button
+
+      <button
         className='text-2xl p-4'
-        style={{ position: 'absolute', top: '10px', right: '10px' }}
+        style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+        }}
         onClick={closeModal}
       >
         x
       </button>
+
     </Modal>
+
   );
 };
 
@@ -83,7 +100,7 @@ const Page: React.FC = () => {
       <button className='text-2xl p-4' onClick={openModal}>
         달력 열기
       </button>
-    
+
       <ModalCalendar isOpen={modalIsOpen} closeModal={closeModal} />
     </div>
   );
