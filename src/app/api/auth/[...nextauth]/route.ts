@@ -29,7 +29,7 @@ const handler = NextAuth({
                 if(result.user_id) {
                     return result;
                 }
-                throw new Error(result);
+                throw new Error(result.result);
             }
         }),
         KakaoProvider({
