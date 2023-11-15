@@ -1,5 +1,6 @@
 import { signJwtAccessToken, signJwtRefreshToken } from '@/app/lib/jwt'
 import queryPromise from '@/app/lib/db'
+import { NextResponse } from 'next/server'
 const crypto = require('crypto')
 
 interface reqBody {
@@ -14,7 +15,7 @@ export const POST = async (req: Request) => {
   let values = [body.username]
   let result = await queryPromise(sql, values)
   if (result.length < 1)
-    return new Response(JSON.stringify({ result: 'no user' }))
+    return NextResponse.json({ result: '아이디가 없습니다.' })
   const hashPassword = crypto
     .createHash('sha512')
     .update(body.password + result[0].user_salt)
@@ -33,5 +34,5 @@ export const POST = async (req: Request) => {
       refreshToken,
     }
     return new Response(JSON.stringify(rst))
-  } else return new Response('Wrong Password')
+  } else return NextResponse.json({ result: '비밀번호가 일치하지 않습니다.' })
 }
