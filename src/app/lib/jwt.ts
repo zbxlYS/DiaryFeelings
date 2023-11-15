@@ -41,10 +41,11 @@ export const verifyJwt = (token: string) => {
   try {
     const secret_key = process.env.SECRET_KEY
     const decoded = jwt.verify(token, secret_key!)
+    const currentTime = Math.floor(Date.now() / 1000) - 60000 // 갱신할 시간.
     return decoded as JwtPayload
   } catch (err) {
-    console.log(err)
-    return null
+    console.log('에러에러에러')
+    return 'signout'
   }
 }
 

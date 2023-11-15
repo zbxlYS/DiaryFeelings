@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     return new Response(JSON.stringify({ result: 'No Authorization' }))
   }
   try {
-    const res = await axios.post(`http://127.0.0.1:8000/predict/trans/`, {
+    const res = await axios.post(`${process.env.MODEL_URL}/trans/`, {
       text: body.text,
     })
     const result: resBody = res.data

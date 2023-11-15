@@ -1,7 +1,7 @@
 'use client'
 
 import axios from 'axios'
-import { useSession } from 'next-auth/react'
+import { useSession, signOut } from 'next-auth/react'
 import { useEffect } from 'react'
 const RefreshToken = () => {
   const { data: session } = useSession()
@@ -24,12 +24,21 @@ const RefreshToken = () => {
       console.log(result.result)
     } else if (result.status === 'ok') {
       if (session) session.accessToken = result.result.token
+    } else if (result.result === 'signout') {
+      alert('다시 로그인해 주세요.')
+      signOut()
     }
   }
   useEffect(() => {
-    refreshAccess()
+    const checking = setInterval(
+      () => {
+        refreshAccess()
+      },
+      60 * 30 * 1000,
+    )
+    return () => {
+      clearInterval(checking)
+    }
   }, [session])
   return <></>
 }
-
-export default RefreshToken
