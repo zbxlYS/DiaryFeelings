@@ -26,9 +26,6 @@ const Essential = () => {
     setData(e.target.value)
   }
 
-  useEffect(()=>{
-    data
-  },[data])
 
 
   return (

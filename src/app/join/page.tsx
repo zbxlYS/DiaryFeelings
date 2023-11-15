@@ -5,18 +5,20 @@ import Link from "next/link";
 
 const page = () => {
   return (
-    <div style={{ height: "100vh", display: "flex", flexDirection: "column" }}>
-      <div style={{display: "flex",justifyContent: "center",alignItems: "center"}}>
-        <div style={{ border: "1px dotted black", width: "50%", height: "540px" }}>
-          <form action="#">
-            <h1 style={{ textAlign: "center" }}>회원가입</h1>
-            <Essential />
-            <Optional />
-            <button type="submit">가입하기</button>
-            <Link href="/signin">
-              <button>소셜로그인</button>
-            </Link>
-          </form>
+    <div className="mt-10 flex h-screen w-screen flex-col items-center ">
+      <div className="w-1/2  border-black border-2 bolder-solid grid place-items-center">
+        <div className=" ">
+          <div className=""  >
+            <form action="#">
+              <h1>회원가입</h1>
+              <Essential />
+              <Optional />
+              <button type="submit">가입하기</button>
+              <Link href="/signin">
+                <button>소셜로그인</button>
+              </Link>
+            </form>
+          </div>
         </div>
       </div>
     </div>
