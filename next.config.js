@@ -1,4 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = { pageExtensions: ['js', 'jsx', 'tsx', 'ts'] }
+const nextConfig = {
+  images: {
+    domains: ['i.pinimg.com'],
+  },
+  pageExtensions: ['js', 'jsx', 'tsx', 'ts'],
+}
 
 module.exports = nextConfig
