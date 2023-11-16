@@ -1,32 +1,27 @@
-import React from 'react'
-import style from './emotion.module.css'
+'use client'
 
-interface Emotion {
-  className?: string
+import React, { useState, useRef } from 'react'
+import BarChart from './_components/BarChart'
+import Snow from './_components/Snow'
+
+interface typetest {
+  classname?: string
 }
-
-const Page: React.FC<Emotion> = () => {
+const page: React.FC<typetest> = () => {
   return (
-    <div>
-      <div className={style.snowflakes} aria-hidden="true">
-        <div className="intro">
-          {' '}
-          Find 250+ Ready to use demo at{' '}
-          <a href="https://codeconvey.com">Codeconvey.com</a>
-        </div>
-        <div className={style.snowflake}>❅</div>
-        <div className={style.snowflake}>❅</div>
-        <div className={style.snowflake}>❆</div>
-        <div className={style.snowflake}>❄</div>
-        <div className={style.snowflake}>❅</div>
-        <div className={style.snowflake}>❆</div>
-        <div className={style.snowflake}>❄</div>
-        <div className={style.snowflake}>❅</div>
-        <div className={style.snowflake}>❆</div>
-        <div className={style.snowflake}>❄</div>
+    <>
+      <div className="flex justify-center mt-20 mb-[4rem] xl:text-4xl text-[3rem]">
+        <Snow></Snow>
+        <h1>0000님 감정그래프</h1>
       </div>
-    </div>
+      <div className="flex justify-center items-center relative xl:flex-col">
+        <div className="w-[44rem] xl:w-[48rem] xl:h-[32rem] h-[37rem] m-7 sm:m-8 bg-white opacity-90 rounded-xl shadow-xl">
+          <BarChart></BarChart>
+        </div>
+        <div className="w-[44rem] xl:w-[48rem] xl:h-[32rem] h-[37rem] m-7 sm:m-8 bg-white opacity-90 rounded-xl shadow-xl"></div>
+      </div>
+    </>
   )
 }
 
-export default Page
+export default page
