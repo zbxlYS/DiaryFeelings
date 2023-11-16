@@ -1,13 +1,40 @@
 import { NextRequest, NextResponse } from "next/server";
 import axios from 'axios';
+import moment from "moment";
 import queryPromise from "@/app/lib/db";
 export const api = {
     bodyParse: false
 };
 
+
+// GET 가져오기
 // POST 작성
 // PATCH 수정
 // DELETE 삭제
+
+export const GET = async(req: NextRequest, res: NextResponse) => {
+// offset, limit
+    const curPage = req.nextUrl.searchParams.get('page') as string;
+    const userId = req.nextUrl.searchParams.get('userId') as string;
+    const startDate = req.nextUrl.searchParams.get('s') as string;
+    const endDate = req.nextUrl.searchParams.get('e') as string;
+    const start = moment(new Date(startDate)).format('YYYY-MM-DD');
+    const end = moment(new Date(endDate)).format('YYYY-MM-DD');
+
+    const offset = (parseInt(curPage) - 1) * 6;
+
+    const getNum = 6;
+
+    let sql = 'SELECT count(*) FROM tb_diary WHERE user_id = ? ';
+    // sql += `and created_at BETWEEN '${start}' and '${end}'`;
+    let result = await queryPromise(sql, [userId]);
+    const total = result[0]['count(*)'];
+    sql = `SELECT A.*, B.image_src FROM tb_diary as A LEFT JOIN tb_image as B ON A.diary_number = B.diary_number WHERE A.user_id = ? ORDER BY A.diary_number DESC LIMIT ${getNum} OFFSET ${offset}`;
+    let values = [userId];
+    result = await queryPromise(sql, values);
+    return NextResponse.json({result:result, total: total});
+
+};
 
 export async function POST( req: NextRequest, res: NextResponse ) {
     const data = await req.formData();
@@ -17,7 +44,6 @@ export async function POST( req: NextRequest, res: NextResponse ) {
     const weather = data.get('weather') as string;
     const id = data.get('id') as string;
     const name = data.get('name') as string;
-    const imgTit = data.get('imgTit') as string;
 
 
     const predictEmo = await axios.post(
@@ -74,7 +100,7 @@ export async function POST( req: NextRequest, res: NextResponse ) {
         "불안": "unhappiness"
     };
     const query = 'weather is ' + weatherQuery[weather] + `, feel ${emotionQuery[maxEmotion[0]]} in the picture`;
-    let imgSrc = [];
+    let imgSrc = '';
     const predictImg = await axios.post(
         `${process.env.BASE_URL}/api/img`,
         {text: query},
@@ -84,7 +110,9 @@ export async function POST( req: NextRequest, res: NextResponse ) {
             }
         }
     );
-    imgSrc.push(predictImg.data.result);
+    console.log(predictImg.data)
+    imgSrc += `${predictImg.data.result},`
+    console.log(imgSrc);
     const img = data.get('img') as File;
     if(img) {
         const fb = new FormData();
@@ -99,7 +127,7 @@ export async function POST( req: NextRequest, res: NextResponse ) {
                 }
             }
         );
-        imgSrc.push(result.data.data.link);
+        imgSrc += `${result.data.data.link}`;
     }
 
     try {
@@ -119,11 +147,9 @@ export async function POST( req: NextRequest, res: NextResponse ) {
             new Date()
         ];
         const result = await queryPromise(sql, values);
-        if(img) {
-            sql = 'INSERT INTO tb_image VALUES(?,?,?,?,?,?)';
-            values = [null, result.insertId, imgTit, imgSrc, 'user', new Date()];
-            const done = await queryPromise(sql, values);
-        }
+        sql = 'INSERT INTO tb_image VALUES(?,?,?,?,?)';
+        values = [null, result.insertId, imgSrc, 'user', new Date()];
+        const done = await queryPromise(sql, values);
         return NextResponse.json({result:'done'});
     } catch (err) {
         console.log(err);

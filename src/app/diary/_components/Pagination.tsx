@@ -6,11 +6,10 @@ interface Props {
     total: number;
     limit: number;
     page: number;
-    setPage: Function;
 }
 
 
-const Pagination = ({ total, limit, page, setPage }: Props) => {
+const Pagination = ({ total, limit, page }: Props) => {
 
     const totalPage = Math.ceil(total / limit); // 총 페이지 수
     const pageCount = 5;

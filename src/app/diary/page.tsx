@@ -10,38 +10,45 @@ import { useRecoilState } from 'recoil'
 import { textState } from '@/app/lib/atoms/atom'
 import { useSearchParams } from 'next/navigation'
 import Pagination from './_components/Pagination'
+import { IDiary } from '@/app/types/type';
+
+import axios from 'axios'
+
+
 
 const Diary = () => {
+  // 기본값으로 1년 전 ~ 오늘 내용을 가져오자.
+  // 그럼 댈 듯 ㅎㅎ ㅅㄱㅇ
   const params = useSearchParams();
-  const [startDate, setStartDate] = useState<Date>(new Date())
+  const curDate = new Date();
+  curDate.setFullYear(curDate.getFullYear() - 1);
+  const [startDate, setStartDate] = useState<Date>(curDate);
   const [endDate, setEndDate] = useState<Date>(new Date())
   const [test, setText] = useRecoilState(textState)
   const [page, setPage] = useState(1);
-  const [view, setView] = useState<any[]>([]);
-  const offset = (page - 1) * 6;
-  const curPage = params.get('page')
+  const [total, setTotal] = useState(6);
+  const [view, setView] = useState<IDiary[]>([]);
+  const curPage = params.get('page') as string;
 
-  
   useEffect(() => {
     setPage(prev => Number(curPage))
-  },[curPage])
-  const arr = new Array(100).fill(0);
+  }, [curPage])
 
+
+  const getDiary = async () => {
+    // const result = await fetch(`/api/diary?page=${curPage}&userId=${'test1'}&s=${startDate}&e=${endDate}`, {cache: 'no-store'});
+    // const data = await result.json();
+
+    const result = await axios.post(
+      `/api/diary?page=${curPage}&userId=${'test1'}`
+    );
+    const data = result.data;
+    setTotal(prev => data.total);
+    setView(prev => data.result);
+  }
   useEffect(() => {
-    setView(arr.slice(offset, offset + 6));
-  },[page])
-
-  // const [postPerPage, setPostPerPage] = useState(6);
-  // const [currentPage, setCurrentPage] = useState(1);
-
-  // const offset = (currentPage - 1) * postPerPage;
-
-  // const totalPosts = arr.slice(offset, offset + postPerPage).map((post, index) => <DiaryLayout key={index} />);
-
-  // const setPage = (page: number) => {
-    
-  //   setCurrentPage(page);
-  // }
+    getDiary();
+  }, [page, startDate, endDate])
 
   const CalendarInput = forwardRef(({ value, onClick }: any, ref: any) => (
     // any 안 쓰고 싶은데 몰루겠다...
@@ -84,17 +91,19 @@ const Diary = () => {
       </div>
       <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
         {
-          view.map((data, index) => (
-            <DiaryLayout key={index} />
+          view.map((data: IDiary, index: number) => (
+            <DiaryLayout
+              key={data.diary_number}
+              data={data}
+            />
           ))
         }
       </div>
-        <Pagination
-          total={arr.length}
-          limit={6}
-          page={page}
-          setPage={setPage}
-        />
+      <Pagination
+        total={total}
+        limit={6}
+        page={page}
+      />
     </div>
   )
 }
