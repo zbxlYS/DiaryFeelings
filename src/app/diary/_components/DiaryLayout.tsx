@@ -5,7 +5,7 @@ const Diary = () => {
         <div className="w-full h-full object-cover overflow-hidden flex justify-center items-center">
           <img src="./rain.png" alt="" className="w-full" />
         </div>
-        <div className="absolute p-[10px] w-[50px] h-[50px] rounded-[50%] bg-white shadow-lg bottom-[-30px] right-[30px] object-cover overflow-hidden z-10">
+        <div className="absolute p-[7px] w-[60px] h-[60px] rounded-[50%] bg-white shadow-lg bottom-[-30px] right-[30px] object-cover overflow-hidden z-10">
           <img src="./kkomul.png" alt="" className="w-full h-full" />
         </div>
       </div>
