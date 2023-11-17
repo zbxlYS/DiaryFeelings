@@ -1,9 +1,15 @@
+'use client'
+
 import React from 'react'
 import WriteContent from './_components/WriteContent'
 import WriteTitle from './_components/WriteTitle'
 import '../write/write.css'
 import SideBar from './_components/SideBar'
+import DiaryWrite from './_components/DiaryWrite'
 const WriteDiary = () => {
+  const getData: any = (write: any) => {
+    console.log(write)
+  }
   return (
     <div>
       <div className="write-box">
@@ -12,13 +18,11 @@ const WriteDiary = () => {
         {/* write diary title, content */}
         <div className="write-container">
           {/* selelct emtion, date, title component*/}
-          <WriteTitle />
+          {/* <WriteTitle data={getData} /> */}
           {/* write content component */}
-          <WriteContent />
-        </div>
-        {/* diary register button */}
-        <div className="write-btn-box">
-          <button className="write-btn">일기 등록</button>
+          {/* <WriteContent /> */}
+          {/* diary register button */}
+          <DiaryWrite />
         </div>
       </div>
     </div>

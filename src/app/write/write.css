@@ -21,6 +21,10 @@
 .side-img {
   width: 40px;
   height: 40px;
+
+  & + & {
+    margin-top: 10px;
+  }
 }
 
 /* open slide when clicked */
@@ -123,10 +127,12 @@
   caret-color: transparent;
   background: transparent;
 }
+
 .write-date > input {
   border: none;
   outline: none;
 }
+
 /* write diary content*/
 .write-cont {
   width: 50rem;
