@@ -135,9 +135,3 @@
   font-family: 'Raleway', sans-serif;
   color: #000;
 }
-
-.scrollcontainer {
-  overflow-x: auto; /* Enable horizontal scrolling */
-  display: flex;
-  flex-direction: row;
-}

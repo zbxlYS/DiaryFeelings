@@ -48,14 +48,7 @@ const page: React.FC<typetest> = () => {
             style={{ maxWidth: '1000px' }}
           >
             {/* 여기에서 Carousel 컴포넌트를 사용합니다. */}
-            {/* <div className="w-[17rem] h-[10rem] bg-white mb-10 rounded-md"></div>
-            <div className="w-[17rem] h-[10rem] bg-white mb-10 rounded-md ml-5"></div>
-            <div className="w-[17rem] h-[10rem] bg-white mb-10 rounded-md ml-5"></div>
-            <div className="w-[17rem] h-[10rem] bg-white mb-10 rounded-md ml-5"></div>
-            <div className="w-[17rem] h-[10rem] bg-white mb-10 rounded-md ml-5"></div>
-            <div className="w-[17rem] h-[10rem] bg-white mb-10 rounded-md ml-5"></div>
-            <div className="w-[17rem] h-[10rem] bg-white mb-10 rounded-md ml-5"></div>
-            <div className="w-[17rem] h-[10rem] bg-white mb-10 rounded-md ml-5"></div> */}
+
             {categories.map((item, index) => (
               <React.Fragment key={index}>{item}</React.Fragment>
             ))}
