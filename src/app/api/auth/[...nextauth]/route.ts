@@ -4,7 +4,6 @@ import KakaoProvider from 'next-auth/providers/kakao'
 import GoogleProvider from 'next-auth/providers/google'
 import axios from 'axios'
 import { socialLogin } from '@/app/lib/socialLogin'
-
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
