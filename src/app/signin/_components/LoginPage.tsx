@@ -102,7 +102,10 @@ const handleNaver = () => {
   return (
     <div className="container mx-auto h-screen flex flex-col items-center justify-center">
       <div className="flex w-64 flex-col  p-2 pt-0">
-        <span className="p-1 text-sm font-normal">아이디</span>
+        <div className="relu-font">
+          Relu molu
+        </div>
+        <span className="p-1 text-lg font-normal">아이디</span>
         <Input
          isRequired
          type="text"
@@ -115,7 +118,7 @@ const handleNaver = () => {
          />
       </div>
       <div className="flex w-64 flex-col  p-2 pt-0">
-        <span className="p-1 text-sm font-normal">비밀번호</span>
+        <span className="p-1 text-lg font-normal">비밀번호</span>
     <Input
         isRequired
          type="password"
@@ -130,7 +133,7 @@ const handleNaver = () => {
       <div className="mt-5 flex items-center   justify-center ">
         <button
           onClick={handleLogin}
-          className="h-10 w-64 rounded-xl bg-gray-300 text-sm font-medium text-white transition-colors duration-300 ease-in-out hover:bg-gray-400" 
+          className="h-10 w-64 rounded-xl bg-gray-300 text-lg font-medium text-white transition-colors duration-300 ease-in-out hover:bg-gray-400" 
         >
           로그인
         </button>
@@ -138,8 +141,8 @@ const handleNaver = () => {
       {error && <div className="text-red-500 mt-2 text-center">{error}</div>}
 
 <div className="mt-6 flex flex-col items-center justify-center">
-  <span className="text-sm"></span>
-  <span className="text-sm">
+  <span className="text-lg"></span>
+  <span className="text-lg">
     <button onClick={handleFindId} className="text-blue-500">
       아이디 찾기
     </button>
