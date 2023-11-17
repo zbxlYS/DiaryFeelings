@@ -193,8 +193,8 @@ const Nav: React.FC<SearchComponentProps> = () => {
               className="absolute w-[90%] max-w-[60%] h-full left-[3rem] border-none outline-none dark:bg-[#171717] "
             ></input>
           </div>
-          <div className="left-[21px] top-[17px] absolute text-black dark:text-white text-xl font-normal relu-font">
-            Relu Molu
+          <div className="left-[21px] top-[17px] absolute text-black dark:text-white text-xl font-normal ">
+            ReluMolu
           </div>
         </nav>
       </div>
