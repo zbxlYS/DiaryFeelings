@@ -33,7 +33,7 @@ const Pagination = ({ total, limit, page }: Props) => {
             maps.push(
                 <span
                     key={i}
-                    className={`py-[2px] px-[10px] rounded-[50%] ${page === i ? 'bg-[#b2a4d4] text-white' : 'text-black'}`}
+                    className={`py-[2px] px-[10px] rounded-[50%] cursor-pointer ${page === i ? 'bg-[#b2a4d4] text-white' : 'text-black hover:text-[#b2a4d4]'}`}
                     onClick={() => router.push(`/diary?page=${i}`)}
                 >
                     {i}

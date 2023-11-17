@@ -19,4 +19,6 @@ export interface IDiary {
     crated_at: Date;
     updated_at: Date;
     image_src: string;
+    diary_userEmo: string;
+    diary_userDate: Date;
   }

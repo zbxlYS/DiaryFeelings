@@ -6,27 +6,23 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { ko } from 'date-fns/esm/locale'
 import DiaryLayout from './_components/DiaryLayout'
-import { useRecoilState } from 'recoil'
-import { textState } from '@/app/lib/atoms/atom'
+import { useRecoilState } from 'recoil';
+import { userInfo } from '@/app/lib/atoms/atom'
 import { useSearchParams } from 'next/navigation'
 import Pagination from './_components/Pagination'
 import { IDiary } from '@/app/types/type';
-
 import axios from 'axios'
 
-
-
 const Diary = () => {
-  // 기본값으로 1년 전 ~ 오늘 내용을 가져오자.
-  // 그럼 댈 듯 ㅎㅎ ㅅㄱㅇ
   const params = useSearchParams();
   const curDate = new Date();
   curDate.setFullYear(curDate.getFullYear() - 1);
   const [startDate, setStartDate] = useState<Date>(curDate);
   const [endDate, setEndDate] = useState<Date>(new Date())
-  const [test, setText] = useRecoilState(textState)
+  const [user, setUser] = useRecoilState(userInfo)
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(6);
+  const [loading, setLoading] = useState(true);
   const [view, setView] = useState<IDiary[]>([]);
   const curPage = params.get('page') as string;
 
@@ -34,21 +30,24 @@ const Diary = () => {
     setPage(prev => Number(curPage))
   }, [curPage])
 
-
   const getDiary = async () => {
-    // const result = await fetch(`/api/diary?page=${curPage}&userId=${'test1'}&s=${startDate}&e=${endDate}`, {cache: 'no-store'});
-    // const data = await result.json();
-
-    const result = await axios.post(
-      `/api/diary?page=${curPage}&userId=${'test1'}`
+    if(!user.id) return;
+    const result = await axios.get(
+      `/api/diary?page=${curPage}&userId=${user.id}&s=${startDate}&e=${endDate}`
     );
     const data = result.data;
     setTotal(prev => data.total);
     setView(prev => data.result);
   }
   useEffect(() => {
+    if (startDate > endDate) {
+      alert('잘못된 날짜 선택이에요.');
+      setStartDate(prev => endDate);
+    }
+  }, [startDate, endDate])
+  useEffect(() => {
     getDiary();
-  }, [page, startDate, endDate])
+  }, [page, startDate, endDate, user])
 
   const CalendarInput = forwardRef(({ value, onClick }: any, ref: any) => (
     // any 안 쓰고 싶은데 몰루겠다...
@@ -104,7 +103,7 @@ const Diary = () => {
         limit={6}
         page={page}
       />
-    </div>
+    </div> 
   )
 }
 

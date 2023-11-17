@@ -4,6 +4,14 @@ import Image from 'next/image';
 interface Props {
   data: IDiary
 }
+const emotionImg: { [key: string]: string } = {
+        "중립": "/kkomul.png",
+        "슬픔": "/sad.png",
+        "분노": "/angry.png",
+        "놀람": "/yuumi.png",
+        "행복": "/3_love.png",
+        "불안": "/depress.png"
+};
 const Diary = ({data}: Props) => {
   return (
     <div className="border relative w-[350px] h-[500px] rounded-[20px] flex flex-col justify-between overflow-hidden pb-[10px] shadow-lg mx-[35px] mb-[140px] hover:shadow-xl hover:scale-[1.02] ease-in duration-200 cursor-pointer">
@@ -21,7 +29,7 @@ const Diary = ({data}: Props) => {
           }
         </div>
         <div className="absolute p-[7px] w-[60px] h-[60px] rounded-[50%] bg-white shadow-lg bottom-[-30px] right-[30px] object-cover overflow-hidden z-10">
-          <img src="./kkomul.png" alt="" className="w-full h-full" />
+          <img src={data.diary_userEmo ? emotionImg[data.diary_userEmo] : "/kkomul.png"} alt="" className="w-full h-full" />
         </div>
       </div>
       <div className="flex flex-col w-full p-[20px] justify-around">
@@ -40,7 +48,7 @@ const Diary = ({data}: Props) => {
         </div>
         <div className="flex flex-col ml-[15px] justify-center">
           <span className="text-gray-600 text-[14px]">{data.user_name}</span>
-          <span className="text-gray-400 text-[12px]">{moment(data.crated_at).format('YYYY-MM-DD')}</span>
+          <span className="text-gray-400 text-[12px]">{moment(data.diary_userDate).format('YYYY-MM-DD-HH:MM')}</span>
         </div>
       </div>
     </div>

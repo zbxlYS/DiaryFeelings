@@ -16,10 +16,13 @@ const page = () => {
     const weatherRef = useRef<HTMLInputElement>(null);
 
     // 이미지 제목
-    const imgTitRef = useRef<HTMLInputElement>(null);
+    const emotionRef = useRef<HTMLInputElement>(null);
 
     // 이미지
     const imgRef = useRef<HTMLInputElement>(null);
+
+    // 날짜
+    const dateRef = useRef<HTMLInputElement>(null);
 
     // 이미지 주소 (미리보기 보여주기 위함)
     const [imgUrl, setImgUrl] = useState("");
@@ -56,15 +59,24 @@ const page = () => {
             alert('날씨 입력.');
             return;
         }
+        if(!emotionRef.current) {
+            alert('감정 입력.');
+            return;
+        }
+        if(!dateRef.current) {
+            alert('날짜 선택.');
+            return;
+        }
         const formData = new FormData();
         formData.append("title", titleRef.current.value);
         formData.append("content", contentRef.current.value);
         formData.append('id', session?.user?.id as string);
         formData.append('name', session.user?.name as string);
         formData.append('weather', weatherRef.current.value);
-        if(imgRef.current && imgRef.current.files && imgRef.current.files.length > 0 && imgTitRef.current) {
+        formData.append('emotion', emotionRef.current.value);
+        formData.append('datetime', dateRef.current.value);
+        if(imgRef.current && imgRef.current.files && imgRef.current.files.length > 0) {
             formData.append('img', imgRef.current.files[0])
-            formData.append('imgTit', imgTitRef.current.value)
         };
         const result = await axios.post(
             "/api/diary",
@@ -83,16 +95,17 @@ const page = () => {
     <div>
         일기 작성 테스트<br />
 
-        <input type='text' className='border' ref={titleRef} /><br />
+        <input type='text' className='border' ref={titleRef}  placeholder='제목'/><br />
         <br />
-        <textarea ref={contentRef} name="diary" id="diary" className='border'></textarea>
+        <textarea ref={contentRef} name="diary" id="diary" className='border' placeholder='내용'></textarea>
         <br />
-        <input ref={weatherRef} type='text' className='border' />
+        <input ref={weatherRef} type='text' className='border' placeholder='날씨'/>
         <br />
-        <input ref={imgTitRef} type='text' className='border' />
+        <input ref={emotionRef} type='text' className='border' placeholder='감정'/>
         <br />
         <input ref={imgRef} type='file' className='border' onChange={(e) => handleImageView(e)}/>
         <br />
+        <input ref={dateRef} type='datetime-local' className='border' />
         {
             imgUrl && (
                 <>

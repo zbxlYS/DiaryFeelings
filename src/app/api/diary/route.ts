@@ -16,20 +16,22 @@ export const GET = async(req: NextRequest, res: NextResponse) => {
 // offset, limit
     const curPage = req.nextUrl.searchParams.get('page') as string;
     const userId = req.nextUrl.searchParams.get('userId') as string;
+    console.log(userId)
     const startDate = req.nextUrl.searchParams.get('s') as string;
     const endDate = req.nextUrl.searchParams.get('e') as string;
     const start = moment(new Date(startDate)).format('YYYY-MM-DD');
     const end = moment(new Date(endDate)).format('YYYY-MM-DD');
+    console.log(start, end)
 
     const offset = (parseInt(curPage) - 1) * 6;
 
     const getNum = 6;
 
     let sql = 'SELECT count(*) FROM tb_diary WHERE user_id = ? ';
-    // sql += `and created_at BETWEEN '${start}' and '${end}'`;
+    sql += `and DATE(diary_userDate) BETWEEN '${start}' and '${end}'`;
     let result = await queryPromise(sql, [userId]);
     const total = result[0]['count(*)'];
-    sql = `SELECT A.*, B.image_src FROM tb_diary as A LEFT JOIN tb_image as B ON A.diary_number = B.diary_number WHERE A.user_id = ? ORDER BY A.diary_number DESC LIMIT ${getNum} OFFSET ${offset}`;
+    sql = `SELECT A.*, B.image_src FROM tb_diary as A LEFT JOIN tb_image as B ON A.diary_number = B.diary_number WHERE A.user_id = ? and DATE(diary_userDate) BETWEEN '${start}' and '${end}' ORDER BY A.diary_userDate DESC LIMIT ${getNum} OFFSET ${offset}`;
     let values = [userId];
     result = await queryPromise(sql, values);
     return NextResponse.json({result:result, total: total});
@@ -42,6 +44,9 @@ export async function POST( req: NextRequest, res: NextResponse ) {
     const title = data.get('title') as string;
     const content = data.get('content') as string;
     const weather = data.get('weather') as string;
+    const emotion = data.get('emotion') as string;
+    let date: string | Date = data.get('datetime') as string
+    date = new Date(date) as Date;
     const id = data.get('id') as string;
     const name = data.get('name') as string;
 
@@ -99,7 +104,8 @@ export async function POST( req: NextRequest, res: NextResponse ) {
         "행복": "happiness",
         "불안": "unhappiness"
     };
-    const query = 'weather is ' + weatherQuery[weather] + `, feel ${emotionQuery[maxEmotion[0]]} in the picture`;
+    const query = weatherQuery[weather] + ` day, feel ${emotionQuery[maxEmotion[0]]} in the picture`;
+    console.log(query);
     let imgSrc = '';
     const predictImg = await axios.post(
         `${process.env.BASE_URL}/api/img`,
@@ -131,7 +137,7 @@ export async function POST( req: NextRequest, res: NextResponse ) {
     }
 
     try {
-        let sql = 'INSERT INTO tb_diary VALUES(?,?,?,?,?,?,?,?,?,?,?,?)';
+        let sql = 'INSERT INTO tb_diary VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         let values = [
             null,
             id,
@@ -144,7 +150,9 @@ export async function POST( req: NextRequest, res: NextResponse ) {
             null,
             predictAdvice.data,
             new Date(),
-            new Date()
+            new Date(),
+            emotion,
+            date
         ];
         const result = await queryPromise(sql, values);
         sql = 'INSERT INTO tb_image VALUES(?,?,?,?,?)';
