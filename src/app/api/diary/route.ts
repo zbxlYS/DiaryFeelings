@@ -182,3 +182,13 @@ export const PUT = async (req: Request) => {
 
   return NextResponse.json({ result: imgs })
 }
+
+export async function PATCH(req: Request, res: NextResponse) {
+  const data = await req.formData()
+  console.log(data)
+  const title = data.get('title') as string
+  const content = data.get('content') as string
+  const weather = data.get('weather') as string
+  const id = data.get('id') as string
+  console.log(title)
+}

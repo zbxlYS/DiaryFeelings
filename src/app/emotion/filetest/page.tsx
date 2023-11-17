@@ -37,16 +37,6 @@ const MovieSlide: React.FC<MovieSlideProps> = ({ name, movies }) => {
   return (
     <div className="movie-slide">
       <h1></h1>
-      <Carousel
-        responsive={responsive}
-        infinite={true}
-        autoPlay={true}
-        autoPlaySpeed={2000}
-      >
-        {movies.map((item) => (
-          <MovieCard />
-        ))}
-      </Carousel>
     </div>
   )
 }

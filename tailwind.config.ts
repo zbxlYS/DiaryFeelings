@@ -10,6 +10,28 @@ const config: Config = {
   ],
   // tailwind
   theme: {
+    screens: {
+      sm: { max: '640px' },
+      // => @media (min-width: 640px) { ... }
+
+      md: { max: '768px' },
+      // => @media (min-width: 768px) { ... }
+
+      lg: { max: '1024px' },
+      // => @media (min-width: 1024px) { ... }
+
+      xl: { max: '1280px' },
+      // => @media (min-width: 1280px) { ... }
+
+      '2xl': { max: '1536px' },
+      // => @media (min-width: 1536px) { ... }
+    },
+    fontSize: {
+      sm: ['14px', '20px'],
+      base: ['16px', '24px'],
+      lg: ['20px', '28px'],
+      xl: ['24px', '32px'],
+    },
     extend: {
       backgroundImage: {},
     },
@@ -26,7 +48,7 @@ const config: Config = {
       themes: {
         light: {
           colors: {
-            background: '#FFFFFF', // or DEFAULT
+            background: '#FAFAFA', // or DEFAULT
             foreground: '#11181C', // or 50 to 900 DEFAULT
             primary: {
               //... 50 to 900
