@@ -1,47 +1,47 @@
-'use client'
-import React from 'react'
-import Carousel from 'react-multi-carousel'
-import 'react-multi-carousel/lib/styles.css'
-import MovieCard from '../_components/MovieCard'
+// 'use client'
+// import React from 'react'
+// import Carousel from 'react-multi-carousel'
+// import 'react-multi-carousel/lib/styles.css'
+// import MovieCard from '../_components/MovieCard'
 
-interface Movie {
-  id: number
-  // 다른 필드들도 추가할 수 있습니다.
-}
+// interface Movie {
+//   id: number
+//   // 다른 필드들도 추가할 수 있습니다.
+// }
 
-interface MovieSlideProps {
-  name: string
-  movies: Movie[]
-}
+// interface MovieSlideProps {
+//   name: string
+//   movies: Movie[]
+// }
 
-const MovieSlide: React.FC<MovieSlideProps> = ({ name, movies }) => {
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5,
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 5,
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2,
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1,
-    },
-  }
+// const MovieSlide: React.FC<MovieSlideProps> = ({ name, movies }) => {
+//   const responsive = {
+//     superLargeDesktop: {
+//       breakpoint: { max: 4000, min: 3000 },
+//       items: 5,
+//     },
+//     desktop: {
+//       breakpoint: { max: 3000, min: 1024 },
+//       items: 5,
+//     },
+//     tablet: {
+//       breakpoint: { max: 1024, min: 464 },
+//       items: 2,
+//     },
+//     mobile: {
+//       breakpoint: { max: 464, min: 0 },
+//       items: 1,
+//     },
+//   }
 
-  return (
-    <div className="movie-slide">
-      <h1></h1>
-    </div>
-  )
-}
+//   return (
+//     <div className="movie-slide">
+//       <h1></h1>
+//     </div>
+//   )
+// }
 
-export default MovieSlide
+// export default MovieSlide
 // import React, { useState, useRef } from 'react'
 // import axios from 'axios'
 // import { useSession } from 'next-auth/react'
