@@ -1,4 +1,4 @@
-// Page.tsx
+// Calendar.tsx
 "use client"
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
@@ -34,14 +34,14 @@ const ModalCalendar: React.FC<ModalCalendarProps> = ({ isOpen, closeModal }) => 
       const { result } = response.data;
       console.log(result)
       const emotionDataArray = result || [];
-      console.log('Emotion data from API:', emotionDataArray);
+      console.log('API에서 가져온 감정 데이터:', emotionDataArray);
       setEmotionData(emotionDataArray.map((item: any) => ({
         ...item,
         date: moment(item.diary_userDate).format('YYYY-MM-DD'),
         diary_emotion: typeof item.diary_emotion === 'string' ? JSON.parse(item.diary_emotion) : item.diary_emotion
       })));
     } catch (error) {
-      console.error('Error fetching data from the database:', error);
+      console.error('데이터베이스에서 데이터를 가져오는 중 오류 발생:', error);
     }
   };
 
@@ -49,50 +49,30 @@ const ModalCalendar: React.FC<ModalCalendarProps> = ({ isOpen, closeModal }) => 
     fetchDataFromDatabase();
   }, []);
 
+  const getDestinationUrl = (formattedDate: string) => {
+    const matchingEmotion = emotionData.find((x) => x.date === formattedDate);
+
+    if (matchingEmotion) {
+      return `/diary?date=${formattedDate}`;
+    } else {
+      return `/write?date=${formattedDate}`;
+    }
+  };
+  
+  
+
   const dayClick = (value: Date, event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     const formattedDate = moment(value).format('YYYY-MM-DD');
-    router.push(`/write?date=${formattedDate}`);
+    const destinationUrl = getDestinationUrl(formattedDate);
+    router.push(destinationUrl);
     closeModal();
   };
 
-  const getEmotionImage = (emotionValue: string | { [key: string]: string }): string | null => {
-    if (typeof emotionValue === 'string') {
-      const emotionImages: { [key: string]: string } = {
-        "행복": './happy.png',
-        "분노": './angry.png',
-        "우울": './depress.png',
-        "슬픔": './sad.png',
-        "불안": './nervous.png',
-        "중립": './nothinking.png',
-        "기쁨": './joy.png'
-      };
-  
-      return emotionImages[emotionValue] || null;
-    } else if (typeof emotionValue === 'object') {
-      const key = Object.keys(emotionValue)[0];
-      const emotionImages: { [key: string]: string } = {
-        "행복": './happy.png',
-        "분노": './angry.png',
-        "우울": './depress.png',
-        "슬픔": './sad.png',
-        "불안": './nervous.png',
-        "중립": './nothinking.png',
-        "기쁨": './joy.png'
-      };
-  
-      return emotionImages[key] || null;
-    }
-  
-    return null;
-  };
-
-  const handleMarking = (date: Date, view: any) => {
+  const handleMarking = (date: Date, view: 'month' | 'year' | 'decade') => {
     const formattedDate = moment(date).format('YYYY-MM-DD');
-    
-    
     const matchingEmotion = emotionData.find((x) => x.date === formattedDate);
     
-    if (matchingEmotion) {
+    if (view === 'month' && matchingEmotion) {
       const emotionValue = matchingEmotion.diary_emotion;
   
       if (typeof emotionValue === 'object') {
@@ -102,28 +82,25 @@ const ModalCalendar: React.FC<ModalCalendarProps> = ({ isOpen, closeModal }) => 
           "분노": './angry.png',
           "우울": './depress.png',
           "슬픔": './sad.png',
+          "불안": './nervous.png',
+          "중립": './nothinking.png',
+          "기쁨": './joy.png',
+          "사랑": './3_love.png'
         };
-  
+        
         if (emotionImages[key]) {
           const html = (
-            <div className='dot' key={formattedDate} onClick={() => handleImageClick(formattedDate)}>
+            <div className='dot' key={formattedDate}>
               <img src={emotionImages[key]} alt={`${formattedDate}의 이미지`} />
             </div>
           );
-  
-          return (
-            <div className='dot-img'>
-              {html}
-            </div>
-          );
+          return <div className='dot-img'>{html}</div>;
         }
       }
     }
-  
-    return <div className='dot-img'></div>;
+    
+    return null;
   };
-  
-  
 
   const handleImageClick = (date: string) => {
     if (date === moment().format('YYYY-MM-DD')) {
@@ -167,7 +144,6 @@ const ModalCalendar: React.FC<ModalCalendarProps> = ({ isOpen, closeModal }) => 
 
 const Page: React.FC = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const router = useRouter();
 
   const openModal = () => {
     setModalIsOpen(true);
@@ -177,12 +153,16 @@ const Page: React.FC = () => {
     setModalIsOpen(false);
   };
 
+  const handleButtonClick = () => {
+    setModalIsOpen(!modalIsOpen);
+  };
+
+  useEffect(() => {
+    openModal();
+  }, []);
+
   return (
     <div>
-      <button className="text-2xl p-4" onClick={openModal}>
-        달력 열기
-      </button>
-
       <ModalCalendar isOpen={modalIsOpen} closeModal={closeModal} />
     </div>
   );
