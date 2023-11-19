@@ -19,11 +19,11 @@ export const POST = async (req: Request) => {
   const decoded = verifyJwt(accessToken)
 
   // 현재 시간.
-  const currentTime = Math.floor(Date.now() / 1000) - 60000 // 1분 전에 갱신하기.
+  const currentTime = Math.floor(Date.now() / 1000) - (60000 * 5) // 5분 전에 갱신하기.
 
   // 복호화 된 값이 없다면 => 인증 실패.
   if (decoded === 'signout')
-    return new Response(JSON.stringify({ result: 'signout' }))
+    return new Response(JSON.stringify({ result: 'signout', status: 'error' }))
   if (!decoded)
     return new Response(
       JSON.stringify({ result: 'No Authorization', status: 'error' }),
@@ -50,12 +50,12 @@ export const POST = async (req: Request) => {
   }
   sql = 'SELECT token from TOKEN WHERE user_id = ? and token = ?'
 
-  // 복호화 된 값에서 user_id와 refreshToken 을 가지고 db에서 일치하는지 확인.
+  // 복호화 된 값에서 user_id와 refreshToken을 가지고 db에서 일치하는지 확인.
   let result = await queryPromise(sql, [decoded.user_id, refreshToken])
 
   // 일치하는 값이 없다면 => 리턴.
   if (result.length < 1)
-    return new Response(JSON.stringify({ result: 'no data', status: 'error' }))
+    return new Response(JSON.stringify({ result: 'No data', status: 'error' }))
   const user = {
     user_id: decoded.user_id,
     user_name: decoded.user_name,

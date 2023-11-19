@@ -5,7 +5,7 @@ interface signOption {
 }
 
 const DEFAULT_SIGN_OPTION: signOption = {
-  expiresIn: '1h',
+  expiresIn: '5s',
 }
 
 export const signJwtAccessToken = (
@@ -44,7 +44,7 @@ export const verifyJwt = (token: string) => {
     const currentTime = Math.floor(Date.now() / 1000) - 60000 // 갱신할 시간.
     return decoded as JwtPayload
   } catch (err) {
-    console.log('에러에러에러')
+    // 에러.
     return 'signout'
   }
 }

@@ -12,6 +12,7 @@ import { useSearchParams } from 'next/navigation'
 import Pagination from './_components/Pagination'
 import { IDiary } from '@/app/types/type';
 import axios from 'axios'
+import { useSession } from 'next-auth/react'
 
 const Diary = () => {
   const params = useSearchParams();
@@ -26,10 +27,6 @@ const Diary = () => {
   const [view, setView] = useState<IDiary[]>([]);
   const curPage = params.get('page') as string;
 
-  useEffect(() => {
-    setPage(prev => Number(curPage))
-  }, [curPage])
-
   const getDiary = async () => {
     if(!user.id) return;
     const result = await axios.get(
@@ -40,13 +37,18 @@ const Diary = () => {
     setView(prev => data.result);
   }
   useEffect(() => {
-    if (startDate > endDate) {
-      alert('잘못된 날짜 선택이에요.');
-      setStartDate(prev => endDate);
+    setPage(prev => Number(curPage));
+  },[curPage])
+  useEffect(() => {
+      // 로그인 
+      if (startDate > endDate) {
+        alert('잘못된 날짜 선택이에요.');
+        setStartDate(prev => endDate);
     }
   }, [startDate, endDate])
+
   useEffect(() => {
-    getDiary();
+      getDiary();
   }, [page, startDate, endDate, user])
 
   const CalendarInput = forwardRef(({ value, onClick }: any, ref: any) => (
@@ -62,8 +64,18 @@ const Diary = () => {
     </div>
   ))
   return (
-    <div className="w-full h-full mt-[20px] flex flex-col justify-center items-center">
-      <div className="border h-[50px] rounded-md flex justify-around items-center self-start ml-[335px] mb-[50px]">
+    <div className="w-full mt-[100px] flex flex-col justify-center items-center">
+      <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
+        {
+          view.map((data: IDiary, index: number) => (
+            <DiaryLayout
+              key={data.diary_number}
+              data={data}
+            />
+          ))
+        }
+      </div>
+      <div className="border h-[50px] rounded-md flex justify-around items-center mb-[50px]">
         <div className="flex items-center px-[60px]">
           <DatePicker
             selected={startDate}
@@ -87,16 +99,6 @@ const Diary = () => {
             customInput={<CalendarInput />}
           />
         </div>
-      </div>
-      <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
-        {
-          view.map((data: IDiary, index: number) => (
-            <DiaryLayout
-              key={data.diary_number}
-              data={data}
-            />
-          ))
-        }
       </div>
       <Pagination
         total={total}

@@ -39,7 +39,9 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
   const end = moment(new Date(endDate)).format('YYYY-MM-DD')
   console.log(start, end)
 
-  const offset = (parseInt(curPage) - 1) * 6
+  const offset = isNaN((parseInt(curPage) - 1) * 6)
+    ? 0
+    : (parseInt(curPage) - 1) * 6
 
   const getNum = 6
 

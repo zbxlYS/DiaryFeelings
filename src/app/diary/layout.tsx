@@ -7,22 +7,16 @@ import { useEffect } from "react";
 
 
 const Layout = ({children}: {children: React.ReactNode}) => {
-    // 이 주소 내에선
-    // 얘가 다 감싸고 있으니까
-    // 여기서 토큰 검증... 갸꿀? ㅇㅇㅈ
+    const { data: session, status } = useSession();
 
-    // const { data: session } = useSession();
-    // const router = useRouter();
-    // // if(!session) {
-    // //     alert('워닝우어닝');
-    // //     router.push('/');
-    // // }
-    // useEffect(() => {
-    //     if(!session) {
-    //         alert('워닝우어닝');
-    //         router.push('/');
-    //     }
-    // },[session])
+    if(status === 'loading') {
+        return <p>Loading...</p>
+    }
+    if(status === 'unauthenticated') {
+        return <p>Access Denined</p>
+    }
+    // layout에서 하위 애들을 감싸고 있으니
+    // 여기에서 로그인/로딩 같은 거 만들기.
     return (
         <>
             {
