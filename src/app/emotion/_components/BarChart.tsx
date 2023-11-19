@@ -109,7 +109,7 @@ const BarChart = () => {
     }
   }, [])
 
-  return <canvas ref={chartRef} />
+  return <canvas ref={chartRef} className="" />
 }
 
 export default BarChart
