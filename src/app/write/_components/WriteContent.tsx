@@ -11,7 +11,7 @@ const WriteContent = () => {
   return (
     /* write content area */
     <div className="write-cont">
-      <textarea placeholder="content"></textarea>
+      <textarea name="write-content" placeholder="content"></textarea>
     </div>
   )
 }
