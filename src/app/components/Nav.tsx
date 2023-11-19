@@ -20,7 +20,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const { systemTheme, theme, setTheme } = useTheme() // 다크모드테마 설정
   const currentTheme = theme === 'system' ? systemTheme : theme
   const [inputValue, setInputValue] = useState('') // 일기검색
-  const [isCalendarModalOpen, setIsCalendarModalOpen] = useState(false);//달력모달
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);//달력모달
 
 
   // 로그인후 사용자 아이콘 클릭시 모달생성
@@ -32,12 +32,8 @@ const Nav: React.FC<SearchComponentProps> = () => {
 
   //Calendar 모달
 
-  const openCalendarModal = () => {
-    setIsCalendarModalOpen(true);
-  };
-
-  const closeCalendarModal = () => {
-    setIsCalendarModalOpen(false);
+  const toggleCalendar = () => {
+    setIsCalendarOpen(!isCalendarOpen);
   };
 
 
@@ -146,17 +142,13 @@ const Nav: React.FC<SearchComponentProps> = () => {
               </div>
 
               {/* 달력 버튼 */}
-              {/* 달력 버튼 */}
+             
               <div className="absolute right-[9.8rem] top-[22px]">
-                <button onClick={openCalendarModal} className="text-slate-500 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">
-                  달력
-                </button>
+              <button onClick={toggleCalendar}>달력</button>
               </div>
 
               {/* 모달 렌더링 */}
-              {isCalendarModalOpen && (
-                <ModalCalendar isOpen={isCalendarModalOpen} closeModal={closeCalendarModal} />
-              )}
+              {isCalendarOpen && <ModalCalendar isOpen={isCalendarOpen} closeModal={toggleCalendar} />}
               <Link
                 href="/diary"
                 className="absolute right-[17rem] top-[22px] "
