@@ -33,13 +33,15 @@ interface IImg {
 interface ImageGalleryProps {
   showCount: number
 }
-const emotionImg: { [key: string]: string | { src: string; text?: string } } = {
-  행복: { src: '/3_love.png', text: '늘 행복해 :)' },
-  놀람: { src: '/happy.png', text: '엄마야!' },
-  분노: { src: '/angry.png', text: '너무 화가난다아' },
-  슬픔: { src: '/sad.png', text: '너무 슬퍼 :(' },
-  불안: { src: '/depress.png', text: '너무 불안불안..' },
-  중립: { src: '/nothinking.png', text: '나는 아무생각이없어' },
+const emotionImg: {
+  [key: string]: string | { src: string; text?: string; emo?: string }
+} = {
+  행복: { src: '/3_love.png', text: '늘 행복해 :)', emo: '행복' },
+  놀람: { src: '/happy.png', text: '엄마야!', emo: '놀람' },
+  분노: { src: '/angry.png', text: '너무 화가난다아', emo: '분노' },
+  슬픔: { src: '/sad.png', text: '너무 슬퍼 :(', emo: '슬픔' },
+  불안: { src: '/depress.png', text: '너무 불안불안..', emo: '불안' },
+  중립: { src: '/nothinking.png', text: '나는 아무생각이없어', emo: '중립' },
   // 추가적인 감정과 이미지 경로는 여기에 계속 추가하세요
 }
 function formatDateString(dateString: string): string {
@@ -119,7 +121,7 @@ const page = () => {
   }
   return (
     <>
-      {/* <Snow></Snow> */}
+      <Snow></Snow>
       <div className="h-[160vh]">
         {/* 일기목록 */}
         <div className="flex flex-col items-center ">
@@ -260,7 +262,11 @@ const page = () => {
                 } `}
               >
                 {graph ? <BarChart></BarChart> : <DoughnuChart></DoughnuChart>}
-                <div className="flex flex-row ml-10 just justify-around">
+                <div
+                  className={`flex flex-row ml-10 just justify-around ${
+                    graph ? '' : 'mt-5 ml-3 mr-3'
+                  }`}
+                >
                   {' '}
                   {Object.entries(emotionImg).map(([key, value]) => (
                     <>
@@ -295,11 +301,22 @@ const page = () => {
                       >
                         <Image
                           src={typeof value === 'string' ? value : value.src}
-                          className="w-full mt-1"
+                          className="w-full mt-1 "
                           width={70}
                           height={70}
                         ></Image>
                       </Tooltip>
+                      {graph ? (
+                        ''
+                      ) : (
+                        <span className="mt-5 mr-3 opacity-90">
+                          {typeof value === 'string' ? (
+                            ''
+                          ) : (
+                            <span>{value.emo}</span>
+                          )}
+                        </span>
+                      )}
                     </>
                   ))}
                 </div>
