@@ -7,7 +7,7 @@ interface Emotion {
 
 const Page: React.FC<Emotion> = () => {
   return (
-    <div className="z-[-50]">
+    <div className="-z-50">
       <div className={style.snowflakes} aria-hidden="true">
         <div className="intro">
           <a href="https://codeconvey.com"></a>

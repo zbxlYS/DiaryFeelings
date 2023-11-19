@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import MypageModal from './MypageModal'
-import { useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil'
 import { userInfo } from '@/app/lib/atoms/atom'
 
 interface SearchComponentProps {
@@ -20,7 +20,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const { systemTheme, theme, setTheme } = useTheme() // 다크모드테마 설정
   const currentTheme = theme === 'system' ? systemTheme : theme
   const [inputValue, setInputValue] = useState('') // 일기검색
-  const [user, setUser] = useRecoilState(userInfo);
+  const [user, setUser] = useRecoilState(userInfo)
 
   // 로그인후 사용자 아이콘 클릭시 모달생성
   const handleButtonClick = () => {
@@ -41,7 +41,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
       setUser({
         id: session.user?.id as string,
         name: session.user?.name as string,
-        provider: session.user?.provider as string
+        provider: session.user?.provider as string,
       })
     } else {
       SetIsLogin(false)
@@ -114,7 +114,10 @@ const Nav: React.FC<SearchComponentProps> = () => {
                   >
                     {/* Modal content */}
                     <div>
-                      <MypageModal closeModal={handleButtonClick}></MypageModal>
+                      <MypageModal
+                        closeModal={handleButtonClick}
+                        user={user}
+                      ></MypageModal>
                     </div>
                   </div>
                 </>

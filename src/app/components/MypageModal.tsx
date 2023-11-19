@@ -6,9 +6,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 interface MypageModalProps {
   closeModal: () => void
+  user: any
 }
 
-const MypageModal: React.FC<MypageModalProps> = ({ closeModal }) => {
+const MypageModal: React.FC<MypageModalProps> = ({ closeModal, user }) => {
   const idRef = useRef<HTMLInputElement>(null)
   const pwRef = useRef<HTMLInputElement>(null)
   const { data: session } = useSession()
@@ -97,7 +98,7 @@ const MypageModal: React.FC<MypageModalProps> = ({ closeModal }) => {
           />
         </div>
 
-        <h1 className="mt-[9px] ml-3 text-lg">호빵현진 님</h1>
+        <h1 className="mt-[9px] ml-3 text-lg">{user.id} 님</h1>
       </div>
       <div className="ml-3 mb-5">
         {/* 조언텍스트가 들어갈 곳? */}

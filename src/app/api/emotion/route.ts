@@ -1,7 +1,8 @@
 import axios from 'axios'
-import { NextResponse } from 'next/server'
 import { verifyJwt } from '@/app/lib/jwt'
-
+import { NextApiRequest, NextApiResponse } from 'next'
+import queryPromise from '@/app/lib/db'
+import { NextResponse } from 'next/server'
 type reqBody = {
   text: string
 }
@@ -28,5 +29,28 @@ export async function POST(req: Request) {
   } catch (err) {
     console.log(err)
     return NextResponse.json(err)
+  }
+}
+
+export async function GET(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    // 여기에 필요한 SQL 쿼리를 작성
+    const sql = 'SELECT * FROM tb_diary ORDER BY created_at DESC LIMIT ?'
+
+    const imgsql = `
+    SELECT d.*, i.*
+    FROM tb_diary d
+    JOIN tb_image i ON d.diary_number = i.diary_number
+    ORDER BY d.created_at ASC
+    LIMIT ?;
+  `
+
+    // 쿼리를 실행하고 결과를 가져오기
+    const rows = await queryPromise(sql, ['5']) // Specify the type for rows
+    const imgrows = await queryPromise(imgsql, ['5'])
+    return NextResponse.json({ result: rows, imgrows: imgrows })
+  } catch (error) {
+    console.error('에러 발생:', error)
+    return NextResponse.json({ result: 'error' })
   }
 }

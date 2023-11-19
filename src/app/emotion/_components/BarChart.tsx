@@ -24,6 +24,19 @@ type Options = {
   }
 }
 
+type EmotionImgData = {
+  src?: string
+  text?: string
+}
+
+const emotionImg: { [key: string]: string | { src: string; text?: string } } = {
+  행복: { src: '/3_love.png', text: '늘 행복해 :)' },
+  놀람: { src: '/happy.png', text: '엄마야!' },
+  분노: { src: '/angry.png', text: '너무 화가난다아' },
+  슬픔: { src: '/sad.png', text: '너무 슬퍼 :(' },
+  불안: { src: '/depress.png', text: '너무 불안불안..' },
+  중립: { src: '/nothinking.png', text: '나는 아무생각이없어' },
+}
 const BarChart = () => {
   const chartRef = useRef<HTMLCanvasElement>(null) // ref 타입 명시
   let chartInstance: Chart | null = null // chartInstance 타입 명시
@@ -40,42 +53,49 @@ const BarChart = () => {
           labels: [
             '행복',
             '기쁨',
-            '사랑',
+            // '사랑',
             '화남',
             '슬픔',
-            '우울',
+            // '우울',
             '불안',
             '생각없음 ',
           ],
           datasets: [
             {
-              label: '{11월} 감정 기록',
-              data: [15, 20, 60, 10, 22, 30, 2, 10],
+              label: '11월 감정 기록',
+              data: [10, 5, 2, 7, 4, 5],
               backgroundColor: [
-                'rgba(255, 159, 64, 0.2)', // 행복
-                'rgba(255, 206, 86, 0.2)', // 기쁨
-                'rgba(239, 203, 207, 0.2)', // 사랑
-                'rgba(255, 99, 132, 0.2)', // 화남
-                'rgba(75, 192, 192, 0.2)', // 슬픔
-                'rgba(174, 221, 251, 0.2)', // 우울
-                'rgba(153, 102, 255, 0.2)', // 불안
-                'rgba(171, 171, 171, 0.2)', // 생각없음
+                'rgba(240, 207, 211, 0.4)',
+                'rgba(255, 206, 86, 0.4)',
+
+                // 'rgba(239, 203, 207, 0.2)', // 사랑
+                'rgba(255, 99, 132, 0.4)',
+                'rgba(75, 192, 192, 0.4)',
+
+                // 'rgba(174, 221, 251, 0.2)', // 우울
+                'rgba(181, 224, 251, 0.4)',
+                'rgba(171, 171, 171, 0.4)', // 생각없음
               ],
               borderColor: [
-                'rgba(255, 159, 64, 1)',
+                'rgba(240, 207, 211, 1)',
                 'rgba(255, 206, 86, 1)',
-                'rgba(239, 203, 207, 1)',
+                // 'rgba(239, 203, 207, 1)',
                 'rgba(255, 99, 132, 1)',
                 'rgba(75, 192, 192, 1)',
-                'rgba(174, 221, 251, 1)', //우울
-                'rgba(153, 102, 255, 1)', // 불안
+                // 'rgba(174, 221, 251, 1)', //우울
+                'rgba(181, 224, 251, 1)',
                 'rgba(171, 171, 171, 1)', // 생각없음
               ],
               borderWidth: 1,
             },
           ],
-        } as Data, // data 타입 단언
+        } as unknown as Data, // data 타입 단언
         options: {
+          // 다른 차트 옵션들
+          plugins: {
+            example: { option1: 'value1', option2: 'value2' }, // 플러그인 옵션
+            labels: {},
+          },
           scales: {
             x: {
               grid: {
@@ -84,7 +104,7 @@ const BarChart = () => {
             },
             y: {
               beginAtZero: true,
-              max: 100,
+              max: 30,
               grid: {
                 display: false, // Set display to false to hide grid lines
               },
