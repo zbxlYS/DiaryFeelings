@@ -10,7 +10,8 @@ import 'react-datepicker/dist/react-datepicker.css'
 import RadioEmo from "../../_components/RadioEmo"
 import { useSession } from "next-auth/react"
 import axios from "axios"
-
+import { ainmom, bareun, kyobo, omyu, ridi, shin, pretendard } from '@/app/components/fonts/fonts'
+import LottieCat from '@/app/components/LottieCat'
 
 interface Props {
     id: string;
@@ -29,8 +30,9 @@ const Modify = ({params}: { params: Props}) => {
     const [weather, setWeather] = useState('sunny');
     const [selWeather, setSelWeather] = useState(false);
     const [selFont, setSelFont] = useState(false);
-    const [curFont, setCurFont] = useState('pretendard')
+    const [curFont, setCurFont] = useState(0)
     const [imgUrl, setImgUrl] = useState('');
+    const [loading, setLoading] = useState(true)
 
     const titleRef = useRef<HTMLInputElement>(null);
     const contentRef = useRef<HTMLTextAreaElement>(null);
@@ -46,14 +48,13 @@ const Modify = ({params}: { params: Props}) => {
         ["normal", "오늘은 무난한 날이에요."]
     ]
     const fontList = [
-        ["프리텐다드", "pretendard"],
-        ["바른히피", "bareunhipi"],
-        ["오뮤 다예쁨","omyu"],
-        ["네이버 나눔고딕","nanum"],
-        ["리디바탕","ridi"],
-        ["아인맘","ainmom"],
-        ["교보 손글씨","kyobo"],
-        ["신동엽 손글씨","shin"]
+        ["프리텐다드", pretendard.className],
+        ["바른히피", bareun.className],
+        ["오뮤 다예쁨",omyu.className],
+        ["리디바탕",ridi.className],
+        ["아인맘",ainmom.className],
+        ["교보 손글씨",kyobo.className],
+        ["신동엽 손글씨",shin.className]
     ]
     const CalendarInput = forwardRef(({ value, onClick }: any, ref: any) => (
         // any 안 쓰고 싶은데 몰루겠다...
@@ -92,7 +93,7 @@ const Modify = ({params}: { params: Props}) => {
         formData.append('weather', weather)
         formData.append('emotion', value)
         formData.append('datetime', date.toString())
-        formData.append('font', curFont)
+        formData.append('font', curFont.toString())
         formData.append('diary_num', params.id)
         const result = await axios.patch(
             `/api/diary/${params.id}`,
@@ -107,6 +108,7 @@ const Modify = ({params}: { params: Props}) => {
         console.log(result.data)
     }
     const getData = async(id: string) => {
+        setLoading(true)
         const result = await fetch(
             `/api/diary/${id}`
         );
@@ -123,6 +125,7 @@ const Modify = ({params}: { params: Props}) => {
         setWeather(prev => data.result.diary_weather)
         setValue(prev => data.result.diary_userEmo)
         // setDate(prev => new Date(data.result.updated_at))
+        setLoading(false)
     }
     useEffect(() => {
         getData(params.id)
@@ -131,7 +134,9 @@ const Modify = ({params}: { params: Props}) => {
     return (
         <>
         {
-            (
+            loading ? (
+                <LottieCat />
+            ) : (
                 <div className="w-[1280px] h-[600px] flex flex-col items-end p-[10px] relative">
                     <div className="absolute p-[10px] shadow-xl rounded-md my-[20px] flex flex-col justify-center items-center top-0 right-[-150px]">
                         <div className="relative flex flex-col justify-center items-center"
@@ -173,7 +178,7 @@ const Modify = ({params}: { params: Props}) => {
                             customInput={<CalendarInput />}
                         />
                     </div>
-                    <input type='text' onChange={(e) => setTitleValue(e.target.value)} value={titleValue} ref={titleRef} className={`w-full h-[50px] px-[10px] py-[30px] text-[30px] mt-[30px] border-b-[2px] outline-0 bg-[transparent] font-${curFont}`} />
+                    <input type='text' onChange={(e) => setTitleValue(e.target.value)} value={titleValue} ref={titleRef} className={`w-full h-[50px] px-[10px] py-[30px] text-[30px] mt-[30px] border-b-[2px] outline-0 bg-[transparent] ${fontList[curFont][1]}`} />
                     <div className="w-full py-[10px] mt-[10px] flex items-center flex flex-col justify-center items-center">
                         <RadioGroup label="emotion" value={value} onChange={setValue}>
                             {
@@ -217,8 +222,8 @@ const Modify = ({params}: { params: Props}) => {
                                                 <div className="absolute p-[3px] flex flex-col justify-center items-center border bg-white rounded-md cursor-pointer">
                                                     {
                                                         fontList.map((data, index) => (
-                                                            <span key={index} className={`my-[2px] font-${data[1]} hover:text-[#b2a4d4]`}
-                                                                onClick={() => setCurFont(`${data[1]}`)}
+                                                            <span key={index} className={`my-[2px] ${data[1]} hover:text-[#b2a4d4]`}
+                                                                onClick={() => setCurFont(index)}
                                                             >{data[0]}</span>
                                                         ))
                                                     }
@@ -231,7 +236,7 @@ const Modify = ({params}: { params: Props}) => {
                                 <textarea ref={contentRef} name="content" id="content"
                                     onChange={(e) => setContentValue(e.target.value)}
                                     value={contentValue}
-                                    className={`border resize-none w-full h-full outline-none rounded-md p-[10px] text-lg bg-[transparent] font-${curFont}`}
+                                    className={`border resize-none w-full h-full outline-none rounded-md p-[10px] text-lg bg-[transparent] ${fontList[curFont][1]}`}
                                 />
                             </div>
                         </div>
@@ -244,7 +249,6 @@ const Modify = ({params}: { params: Props}) => {
                         </span>
                     </div>
                 </div>
-
             )
         }
         </>

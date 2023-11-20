@@ -10,6 +10,7 @@ import { useRecoilState } from 'recoil';
 import { userInfo } from '@/app/lib/atoms/atom'
 import NotLoginMain from './NotLoginMain'
 import Loading from './Loading'
+import LottieCat from './LottieCat'
 
 interface SearchComponentProps {
   className?: string
@@ -50,10 +51,19 @@ const Nav: React.FC<SearchComponentProps> = () => {
     }
   }, [session])
   if(status === 'loading') {
-    return <Loading />
+    return <LottieCat />
   }
   if(status === 'unauthenticated') {
-    return <></>
+    return (
+      <div className="flex w-full h-[67px] border justify-self-start justify-end items-center z-10">
+        <Link href="/signin">
+          <button>
+            <span className='mr-[30px]'>로그인</span>
+          </button>
+        </Link>
+        <span className='border px-[10px] py-[5px] rounded-md mr-[60px] text-white bg-[#b2a4d4]'>감정을 기록하기</span>
+      </div>
+    )
   }
   return (
     <div className="w-full h-[67px] ">

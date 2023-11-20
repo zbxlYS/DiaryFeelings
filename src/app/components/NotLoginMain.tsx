@@ -5,8 +5,7 @@ import { useState } from "react"
 const NotLoginMain = () => {
     const [hover, setHover] = useState('first');
     return (
-        <div className="w-full flex flex-col justify-center items-center py-[200px]">
-
+        <div className="w-full flex flex-col justify-center items-center pt-[150px] pb-[150px]">
             <div className="flex flex-col justify-center items-center">
                 <span className="text-[60px] font-bold">
                     하루를 기록하는 일기

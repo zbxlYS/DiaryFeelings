@@ -9,6 +9,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import RadioEmo from "./_components/RadioEmo"
 import { useSession } from "next-auth/react"
 import axios from "axios"
+import { ainmom, bareun, kyobo, omyu, ridi, shin, pretendard } from '@/app/components/fonts/fonts'
 
 // 감정 선택
 // 사진 넣을 곳 추가
@@ -22,13 +23,13 @@ const Write = () => {
     const [weather, setWeather] = useState('sunny');
     const [selWeather, setSelWeather] = useState(false);
     const [selFont, setSelFont] = useState(false);
-    const [curFont, setCurFont] = useState('pretendard')
+    const [curFont, setCurFont] = useState(0)
     const imgRef = useRef<HTMLInputElement>(null);
     const [imgUrl, setImgUrl] = useState('');
 
     const titleRef = useRef<HTMLInputElement>(null);
     const contentRef = useRef<HTMLTextAreaElement>(null);
-
+    console.log(pretendard.className)
     const emotionList = [
         ["happy", "오늘은 행복한 날이에요!"],
         ["sad", "오늘은 슬픈 날이에요..."],
@@ -37,14 +38,13 @@ const Write = () => {
         ["normal", "오늘은 무난한 날이에요."]
     ]
     const fontList = [
-        ["프리텐다드", "Pretendard-Regular"],
-        ["바른히피", "Bareun_hipi"],
-        ["오뮤 다예쁨","omyu_pretty"],
-        ["네이버 나눔고딕","Nanum_Gothic"],
-        ["리디바탕","RIDIBatang"],
-        ["아인맘","Ainmom"],
-        ["교보 손글씨","KyoboHand"],
-        ["신동엽 손글씨","shin"]
+        ["프리텐다드", pretendard.className],
+        ["바른히피", bareun.className],
+        ["오뮤 다예쁨",omyu.className],
+        ["리디바탕",ridi.className],
+        ["아인맘",ainmom.className],
+        ["교보 손글씨",kyobo.className],
+        ["신동엽 손글씨",shin.className]
     ]
     const CalendarInput = forwardRef(({ value, onClick }: any, ref: any) => (
         // any 안 쓰고 싶은데 몰루겠다...
@@ -90,6 +90,7 @@ const Write = () => {
         formData.append('weather', weather)
         formData.append('emotion', value)
         formData.append('datetime', date.toString())
+        formData.append('font', curFont.toString())
         if(imgRef.current && imgRef.current.files && imgRef.current.files.length > 0) {
             formData.append('img', imgRef.current.files[0])
         }
@@ -148,7 +149,7 @@ const Write = () => {
                     customInput={<CalendarInput />}
                 />
             </div>
-            <input type='text' ref={titleRef}className={`w-full h-[50px] px-[10px] py-[30px] text-[30px] mt-[30px] border-b-[2px] outline-0 bg-[transparent] font-[${curFont}]`} placeholder="오늘은 무슨 일이 있었나요?" />
+            <input type='text' ref={titleRef} className={`w-full h-[50px] px-[10px] py-[30px] text-[30px] mt-[30px] border-b-[2px] outline-0 bg-[transparent] ${fontList[curFont][1]}`} placeholder="오늘은 무슨 일이 있었나요?" />
             <div className="w-full py-[10px] mt-[10px] flex items-center flex flex-col justify-center items-center">
                 <RadioGroup label="emotion" value={value} onChange={setValue}>
                     {
@@ -210,8 +211,8 @@ const Write = () => {
                                         <div className="absolute p-[3px] flex flex-col justify-center items-center border bg-white rounded-md cursor-pointer">
                                             {
                                                 fontList.map((data, index) => (
-                                                    <span key={index} className={`my-[2px] font-[${data[1]}] hover:text-[#b2a4d4]`}
-                                                        onClick={() => setCurFont(`${data[1]}`)}
+                                                    <span key={index} className={`my-[2px] ${data[1]} hover:text-[#b2a4d4]`}
+                                                        onClick={() => setCurFont(index)}
                                                     >{data[0]}</span>
                                                 ))
                                             }
@@ -222,7 +223,7 @@ const Write = () => {
 
                         </div>
                         <textarea ref={contentRef} name="content" id="content"
-                            className={`border resize-none w-full h-full outline-none rounded-md p-[10px] text-lg bg-[transparent] font-[${curFont}]`}
+                            className={`border resize-none w-full h-full outline-none rounded-md p-[10px] text-lg bg-[transparent] ${fontList[curFont][1]}`}
                             placeholder="당신의 하루를 들려주세요"
                         />
                     </div>

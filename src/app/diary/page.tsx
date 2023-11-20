@@ -13,6 +13,7 @@ import Pagination from './_components/Pagination'
 import { IDiary } from '@/app/types/type';
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
+import LottieCat from '@/app/components/LottieCat'
 
 const Diary = () => {
   const params = useSearchParams();
@@ -24,16 +25,19 @@ const Diary = () => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(6);
   const [view, setView] = useState<IDiary[]>([]);
+  const [loading, setLoading] = useState(true);
   const curPage = params.get('page') as string;
 
   const getDiary = async () => {
     if(!user.id) return;
+    setLoading(true)
     const result = await axios.get(
       `/api/diary?page=${curPage}&userId=${user.id}&s=${startDate}&e=${endDate}`
     );
     const data = result.data;
     setTotal(prev => data.total);
     setView(prev => data.result);
+    setLoading(false)
   }
   useEffect(() => {
     setPage(prev => Number(curPage));
@@ -63,7 +67,12 @@ const Diary = () => {
     </div>
   ))
   return (
-    <div className="w-full mt-[100px] flex flex-col justify-center items-center">
+    <>
+    {
+      loading ? (
+        <LottieCat />
+      ) : (
+        <div className="w-full mt-[100px] flex flex-col justify-center items-center">
       <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
         {
           view.map((data: IDiary, index: number) => (
@@ -105,6 +114,9 @@ const Diary = () => {
         page={page}
       />
     </div> 
+      )
+    }
+    </>
   )
 }
 
