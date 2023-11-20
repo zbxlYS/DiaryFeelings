@@ -13,7 +13,8 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
         const keyword = req.nextUrl.searchParams.get('keyword') as string
     
     let sql = `SELECT * FROM tb_diary WHERE user_id = ? AND diary_content LIKE ?`
-    let values = [userId, '%'+keyword+'%']
+    let values = [userId, `%${keyword}%`]
+    console.log(userId, keyword)
     
     let result = await queryPromise(sql, values)
     return NextResponse.json({result: result, msg: 'success'})

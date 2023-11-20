@@ -6,47 +6,47 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { ko } from 'date-fns/esm/locale'
 import DiaryLayout from './_components/DiaryLayout'
-import { useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil'
 import { userInfo } from '@/app/lib/atoms/atom'
 import { useSearchParams } from 'next/navigation'
 import Pagination from './_components/Pagination'
-import { IDiary } from '@/app/types/type';
+import { IDiary } from '@/app/types/type'
 import axios from 'axios'
 
 const Diary = () => {
-  const params = useSearchParams();
-  const curDate = new Date();
-  curDate.setFullYear(curDate.getFullYear() - 1);
-  const [startDate, setStartDate] = useState<Date>(curDate);
+  const params = useSearchParams()
+  const curDate = new Date()
+  curDate.setFullYear(curDate.getFullYear() - 1)
+  const [startDate, setStartDate] = useState<Date>(curDate)
   const [endDate, setEndDate] = useState<Date>(new Date())
   const [user, setUser] = useRecoilState(userInfo)
-  const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(6);
-  const [loading, setLoading] = useState(true);
-  const [view, setView] = useState<IDiary[]>([]);
-  const curPage = params.get('page') as string;
+  const [page, setPage] = useState(1)
+  const [total, setTotal] = useState(6)
+  const [loading, setLoading] = useState(true)
+  const [view, setView] = useState<IDiary[]>([])
+  const curPage = params.get('page') as string
 
   useEffect(() => {
-    setPage(prev => Number(curPage))
+    setPage((prev) => Number(curPage))
   }, [curPage])
 
   const getDiary = async () => {
-    if(!user.id) return;
+    if (!user.id) return
     const result = await axios.get(
-      `/api/diary?page=${curPage}&userId=${user.id}&s=${startDate}&e=${endDate}`
-    );
-    const data = result.data;
-    setTotal(prev => data.total);
-    setView(prev => data.result);
+      `/api/diary?page=${curPage}&userId=${user.id}&s=${startDate}&e=${endDate}`,
+    )
+    const data = result.data
+    setTotal((prev) => data.total)
+    setView((prev) => data.result)
   }
   useEffect(() => {
     if (startDate > endDate) {
-      alert('잘못된 날짜 선택이에요.');
-      setStartDate(prev => endDate);
+      alert('잘못된 날짜 선택이에요.')
+      setStartDate((prev) => endDate)
     }
   }, [startDate, endDate])
   useEffect(() => {
-    getDiary();
+    getDiary()
   }, [page, startDate, endDate, user])
 
   const CalendarInput = forwardRef(({ value, onClick }: any, ref: any) => (
@@ -89,21 +89,12 @@ const Diary = () => {
         </div>
       </div>
       <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
-        {
-          view.map((data: IDiary, index: number) => (
-            <DiaryLayout
-              key={data.diary_number}
-              data={data}
-            />
-          ))
-        }
+        {view.map((data: IDiary, index: number) => (
+          <DiaryLayout key={data.diary_number} data={data} />
+        ))}
       </div>
-      <Pagination
-        total={total}
-        limit={6}
-        page={page}
-      />
-    </div> 
+      <Pagination total={total} limit={6} page={page} />
+    </div>
   )
 }
 

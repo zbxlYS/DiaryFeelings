@@ -10,12 +10,14 @@ import { useRecoilState } from 'recoil'
 import { userInfo } from '@/app/lib/atoms/atom'
 import axios from 'axios'
 import { IDiary } from '../types/type'
+import { useRouter } from 'next/navigation'
 
 interface SearchComponentProps {
   className?: string
 }
 
 const Nav: React.FC<SearchComponentProps> = () => {
+  const router = useRouter()
   const { data: session } = useSession()
   const [isLogin, SetIsLogin] = useState<boolean>(false) // 로그인시 네비 상단바 변경
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false) // 마이페이지 모달창
@@ -23,7 +25,6 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const currentTheme = theme === 'system' ? systemTheme : theme
   const [inputValue, setInputValue] = useState<string>('') // 일기검색
   const [user, setUser] = useRecoilState(userInfo)
-  const [searchContent, setSearchContent] = useState<IDiary[]>([])
 
   // 로그인후 사용자 아이콘 클릭시 모달생성
   const handleButtonClick = () => {
@@ -40,22 +41,23 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const onClickSearch = async (e: any) => {
     e.preventDefault()
     console.log('user', user.id, 'inputvalue', inputValue)
+    router.push(`/search?userId=${user.id}&keyword=${inputValue}`)
+    // try {
+    //   // const response = await axios.get(
+    //   //   `/api/search?userId=${user.id}&keyword=${inputValue}`,
+    //   // )
+    //   // const data = response.data
 
-    try {
-      const response = await axios.get(
-        `/api/search?userId=${user.id}&keyword=${inputValue}`,
-      )
-      const data = response.data
-
-      console.log('response from back', data)
-      if (response.data.msg === 'success') {
-        alert('검색 완료~')
-      } else {
-        alert('검색 실패~')
-      }
-    } catch {
-      console.error('search error')
-    }
+    //   // console.log('response from back', data)
+    //   // if (response.data.msg === 'success') {
+    //   //   alert('검색 완료~')
+    //     router.push(`/search?userId=${user.id}&keyword=${inputValue}`)
+    //   } else {
+    //     alert('검색 실패~')
+    //   }
+    // } catch {
+    //   console.error('search error')
+    // }
   }
 
   useEffect(() => {
