@@ -1,13 +1,15 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import MypageModal from './MypageModal'
-import { useRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil'
 import { userInfo } from '@/app/lib/atoms/atom'
+import axios from 'axios'
+import { IDiary } from '../types/type'
 
 interface SearchComponentProps {
   className?: string
@@ -19,13 +21,41 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false) // 마이페이지 모달창
   const { systemTheme, theme, setTheme } = useTheme() // 다크모드테마 설정
   const currentTheme = theme === 'system' ? systemTheme : theme
-  const [inputValue, setInputValue] = useState('') // 일기검색
-  const [user, setUser] = useRecoilState(userInfo);
+  const [inputValue, setInputValue] = useState<string>('') // 일기검색
+  const [user, setUser] = useRecoilState(userInfo)
+  const [searchContent, setSearchContent] = useState<IDiary[]>([])
 
   // 로그인후 사용자 아이콘 클릭시 모달생성
   const handleButtonClick = () => {
     setIsModalOpen(!isModalOpen)
     // console.log('isModalOpen', isModalOpen)
+  }
+
+  /* Get Search Data from input tag */
+  const getSearchData = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value.toLowerCase())
+  }
+
+  /* Search Function */
+  const onClickSearch = async (e: any) => {
+    e.preventDefault()
+    console.log('user', user.id, 'inputvalue', inputValue)
+
+    try {
+      const response = await axios.get(
+        `/api/search?userId=${user.id}&keyword=${inputValue}`,
+      )
+      const data = response.data
+
+      console.log('response from back', data)
+      if (response.data.msg === 'success') {
+        alert('검색 완료~')
+      } else {
+        alert('검색 실패~')
+      }
+    } catch {
+      console.error('search error')
+    }
   }
 
   useEffect(() => {
@@ -41,7 +71,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
       setUser({
         id: session.user?.id as string,
         name: session.user?.name as string,
-        provider: session.user?.provider as string
+        provider: session.user?.provider as string,
       })
     } else {
       SetIsLogin(false)
@@ -183,21 +213,22 @@ const Nav: React.FC<SearchComponentProps> = () => {
             )}
           </button>
 
-          {/* 검색창  */}
+          {/* 검색창 */}
           <div className="flex justify-center items-center self-center w-[30%] max-w-2xl h-[37px] left-[9rem] bottom-[0.7rem] absolute shadow hover:shadow-md focus-within:shadow-md  rounded-full bg-white dark:bg-[#171717] dark:shadow-slate-600">
             <Image
               src="/search.svg"
               alt="Search Logo"
-              className="left-[0.5rem] absolute stroke-slate-600"
+              className="left-[0.5rem] absolute stroke-slate-600 cursor-pointer"
               width={23}
               height={23}
               priority
+              onClick={onClickSearch}
             />
             <input
               type="text"
               placeholder="일기검색 . . ."
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={getSearchData}
               className="absolute w-[90%] max-w-[60%] h-full left-[3rem] border-none outline-none dark:bg-[#171717] "
             ></input>
           </div>
