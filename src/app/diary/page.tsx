@@ -23,7 +23,6 @@ const Diary = () => {
   const [user, setUser] = useRecoilState(userInfo)
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(6);
-  const [loading, setLoading] = useState(true);
   const [view, setView] = useState<IDiary[]>([]);
   const curPage = params.get('page') as string;
 

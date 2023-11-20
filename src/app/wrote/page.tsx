@@ -7,12 +7,15 @@ import DatePicker from 'react-datepicker'
 import { ko } from 'date-fns/esm/locale'
 import 'react-datepicker/dist/react-datepicker.css'
 import RadioEmo from "./_components/RadioEmo"
+import { useSession } from "next-auth/react"
+import axios from "axios"
 
 // 감정 선택
 // 사진 넣을 곳 추가
 // 날씨 선택
 // 글 수정, 삭제, 작성 기능
 const Write = () => {
+    const { data: session } = useSession();
     const [value, setValue] = useState('happy');
     const [view, setView] = useState('');
     const [date, setDate] = useState<Date>(new Date());
@@ -23,21 +26,24 @@ const Write = () => {
     const imgRef = useRef<HTMLInputElement>(null);
     const [imgUrl, setImgUrl] = useState('');
 
+    const titleRef = useRef<HTMLInputElement>(null);
+    const contentRef = useRef<HTMLTextAreaElement>(null);
+
     const emotionList = [
         ["happy", "오늘은 행복한 날이에요!"],
         ["sad", "오늘은 슬픈 날이에요..."],
         ["angry", "오늘은 뿔나는 날이에요!!"],
         ["depress", "오늘은 풀죽은 날이에요..."],
-        ["nervous", "오늘은 무심한 날이에요."]
+        ["normal", "오늘은 무난한 날이에요."]
     ]
     const fontList = [
-        ["프리텐다드", "pretendard"],
-        ["바른히피", "bareunhipi"],
-        ["오뮤 다예쁨","omyu"],
-        ["네이버 나눔고딕","nanum"],
-        ["리디바탕","ridi"],
-        ["아인맘","ainmom"],
-        ["교보 손글씨","kyobo"],
+        ["프리텐다드", "Pretendard-Regular"],
+        ["바른히피", "Bareun_hipi"],
+        ["오뮤 다예쁨","omyu_pretty"],
+        ["네이버 나눔고딕","Nanum_Gothic"],
+        ["리디바탕","RIDIBatang"],
+        ["아인맘","Ainmom"],
+        ["교보 손글씨","KyoboHand"],
         ["신동엽 손글씨","shin"]
     ]
     const CalendarInput = forwardRef(({ value, onClick }: any, ref: any) => (
@@ -64,6 +70,41 @@ const Write = () => {
             URL.revokeObjectURL(imgUrl);
             setImgUrl(prev => '');
         }
+    }
+    const send = async() => {
+        if(!session) return
+
+        if(!titleRef.current) {
+            alert('제목을 입력해 주세요.')
+            return;
+        }
+        if(!contentRef.current) {
+            alert('내용을 입력해 주세요.')
+            return;
+        }
+        const formData = new FormData();
+        formData.append('title', titleRef.current.value)
+        formData.append('content', contentRef.current.value)
+        formData.append('id', session?.user?.id as string)
+        formData.append('name', session?.user?.name as string)
+        formData.append('weather', weather)
+        formData.append('emotion', value)
+        formData.append('datetime', date.toString())
+        if(imgRef.current && imgRef.current.files && imgRef.current.files.length > 0) {
+            formData.append('img', imgRef.current.files[0])
+        }
+        const result = await axios.post(
+            "/api/diary",
+            formData,
+            {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    "Authorization": `mlru ${session?.accessToken}`
+                }
+            }
+        );
+        console.log(result.data)
+        imgReset()
     }
     return (
         <div className="w-[1280px] h-[600px] flex flex-col items-end p-[10px] relative">
@@ -107,7 +148,7 @@ const Write = () => {
                     customInput={<CalendarInput />}
                 />
             </div>
-            <input type='text' className={`w-full h-[50px] px-[10px] py-[30px] text-[30px] mt-[30px] border-b-[2px] outline-0 bg-[transparent] font-${curFont}`} placeholder="오늘은 무슨 일이 있었나요?" />
+            <input type='text' ref={titleRef}className={`w-full h-[50px] px-[10px] py-[30px] text-[30px] mt-[30px] border-b-[2px] outline-0 bg-[transparent] font-[${curFont}]`} placeholder="오늘은 무슨 일이 있었나요?" />
             <div className="w-full py-[10px] mt-[10px] flex items-center flex flex-col justify-center items-center">
                 <RadioGroup label="emotion" value={value} onChange={setValue}>
                     {
@@ -163,13 +204,13 @@ const Write = () => {
                                 onMouseOver={() => setSelFont(true)}
                                 onMouseLeave={() => setSelFont(false)}
                             >
-                                <span className="relatvie">폰트를 바꿔 보세요!</span>
+                                <span className={`relatvie font-[${curFont}]`}>폰트를 바꿔 보세요!</span>
                                 {
                                     selFont ? (
                                         <div className="absolute p-[3px] flex flex-col justify-center items-center border bg-white rounded-md cursor-pointer">
                                             {
                                                 fontList.map((data, index) => (
-                                                    <span className={`my-[2px] font-${data[1]} hover:text-[#b2a4d4]`}
+                                                    <span key={index} className={`my-[2px] font-[${data[1]}] hover:text-[#b2a4d4]`}
                                                         onClick={() => setCurFont(`${data[1]}`)}
                                                     >{data[0]}</span>
                                                 ))
@@ -180,15 +221,17 @@ const Write = () => {
                             </div>
 
                         </div>
-                        <textarea name="content" id="content"
-                            className={`border resize-none w-full h-full outline-none rounded-md p-[10px] text-lg bg-[transparent] font-${curFont}`}
+                        <textarea ref={contentRef} name="content" id="content"
+                            className={`border resize-none w-full h-full outline-none rounded-md p-[10px] text-lg bg-[transparent] font-[${curFont}]`}
                             placeholder="당신의 하루를 들려주세요"
                         />
                     </div>
                 </div>
             </div>
             <div className="bg-[#b2a4d4] text-white px-[14px] py-[7px] rounded-md cursor-pointer opacity-[0.8] hover:opacity-[1]">
-                <span className="text-lg">
+                <span className="text-lg"
+                    onClick={send}
+                >
                     작성 완료
                 </span>
             </div>

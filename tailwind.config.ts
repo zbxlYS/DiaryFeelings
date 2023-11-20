@@ -39,11 +39,11 @@ const config: Config = {
       pretendard: ['Pretendard-Regular'], // 프리텐다드
       bareunhipi: ['Bareun_hipi'], // 바른히피
       omyu: ['omyu_pretty'], // 오뮤 다예쁨
-      nanum: ['Nanum Gothic'], // 네이버 나눔
+      nanum: ['Nanum_Gothic'], // 네이버 나눔
       ridi: ['RIDIBatang'], // 리디바탕
       ainmom: ['Ainmom'], // 아인맘
       kyobo: ['KyoboHand'], // 교보손
-      shin: ['ShinDongYupHandwriting-R'] // 신동엽
+      shin: ['ShinDongYupHandwriting-R'] // 신동
     },
   },
   darkMode: 'class',

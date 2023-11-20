@@ -5,12 +5,12 @@ interface Props {
   data: IDiary
 }
 const emotionImg: { [key: string]: string } = {
-        "중립": "/kkomul.png",
-        "슬픔": "/sad.png",
-        "분노": "/angry.png",
-        "놀람": "/yuumi.png",
-        "행복": "/3_love.png",
-        "불안": "/depress.png"
+        "normal": "/normal.png",
+        "sad": "/sad.png",
+        "angry": "/angry.png",
+        "suprise": "/yuumi.png",
+        "happy": "/3_love.png",
+        "depress": "/depress.png"
 };
 const Diary = ({data}: Props) => {
   return (
@@ -29,7 +29,7 @@ const Diary = ({data}: Props) => {
           }
         </div>
         <div className="absolute p-[7px] w-[60px] h-[60px] rounded-[50%] bg-white shadow-lg bottom-[-30px] right-[30px] object-cover overflow-hidden z-10">
-          <img src={data.diary_userEmo ? emotionImg[data.diary_userEmo] : "/kkomul.png"} alt="" className="w-full h-full" />
+          <img src={data.diary_userEmo ? emotionImg[data.diary_userEmo] : "/normal.png"} alt="" className="w-full h-full" />
         </div>
       </div>
       <div className="flex flex-col w-full p-[20px] justify-around">

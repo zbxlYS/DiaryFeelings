@@ -1,22 +1,21 @@
 "use client"
 
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import Loading from "../components/Loading";
+import Denined from "../components/Deniend";
+import { useEffect, useState } from "react";
+interface Props {
+    id: string;
+}
 
-
-
-const Layout = ({children}: {children: React.ReactNode}) => {
+const Layout = ({children, params}: {children: React.ReactNode, params: Props}) => {
     const { data: session, status } = useSession();
-
     if(status === 'loading') {
-        return <p>Loading...</p>
+        return <Loading />
     }
     if(status === 'unauthenticated') {
-        return <p>Access Denined</p>
+        return <Denined />
     }
-    // layout에서 하위 애들을 감싸고 있으니
-    // 여기에서 로그인/로딩 같은 거 만들기.
     return (
         <>
             {

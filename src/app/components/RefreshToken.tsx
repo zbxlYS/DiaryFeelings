@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import { useSession, signOut } from 'next-auth/react'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 const RefreshToken = () => {
   const { data: session } = useSession()
   // if(!session) return (<></>);
@@ -44,7 +44,8 @@ const RefreshToken = () => {
       clearInterval(checking)
     }
   }, [session])
-  return <></>
+  return <>
+  </>
 }
 
 export default RefreshToken

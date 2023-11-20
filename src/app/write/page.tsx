@@ -3,7 +3,7 @@
 import React from 'react'
 import WriteContent from './_components/WriteContent'
 import WriteTitle from './_components/WriteTitle'
-import '../write/write.css'
+// import '../write/write.css'
 import SideBar from './_components/SideBar'
 import DiaryWrite from './_components/DiaryWrite'
 const WriteDiary = () => {

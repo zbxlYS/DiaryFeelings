@@ -8,13 +8,15 @@ import { useSession } from 'next-auth/react'
 import MypageModal from './MypageModal'
 import { useRecoilState } from 'recoil';
 import { userInfo } from '@/app/lib/atoms/atom'
+import NotLoginMain from './NotLoginMain'
+import Loading from './Loading'
 
 interface SearchComponentProps {
   className?: string
 }
 
 const Nav: React.FC<SearchComponentProps> = () => {
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const [isLogin, SetIsLogin] = useState<boolean>(false) // 로그인시 네비 상단바 변경
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false) // 마이페이지 모달창
   const { systemTheme, theme, setTheme } = useTheme() // 다크모드테마 설정
@@ -47,7 +49,12 @@ const Nav: React.FC<SearchComponentProps> = () => {
       SetIsLogin(false)
     }
   }, [session])
-
+  if(status === 'loading') {
+    return <Loading />
+  }
+  if(status === 'unauthenticated') {
+    return <></>
+  }
   return (
     <div className="w-full h-[67px] ">
       <div className="fixed w-full z-50">
