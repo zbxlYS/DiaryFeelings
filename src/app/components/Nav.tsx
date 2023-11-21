@@ -1,31 +1,47 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import React, { useEffect, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import MypageModal from './MypageModal'
 import { useRecoilState } from 'recoil'
 import { userInfo } from '@/app/lib/atoms/atom'
+import axios from 'axios'
+import { IDiary } from '../types/type'
+import { useRouter } from 'next/navigation'
 
 interface SearchComponentProps {
   className?: string
 }
 
 const Nav: React.FC<SearchComponentProps> = () => {
+  const router = useRouter()
   const { data: session } = useSession()
   const [isLogin, SetIsLogin] = useState<boolean>(false) // 로그인시 네비 상단바 변경
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false) // 마이페이지 모달창
   const { systemTheme, theme, setTheme } = useTheme() // 다크모드테마 설정
   const currentTheme = theme === 'system' ? systemTheme : theme
-  const [inputValue, setInputValue] = useState('') // 일기검색
+  const [inputValue, setInputValue] = useState<string>('') // 일기검색
   const [user, setUser] = useRecoilState(userInfo)
 
   // 로그인후 사용자 아이콘 클릭시 모달생성
   const handleButtonClick = () => {
     setIsModalOpen(!isModalOpen)
     // console.log('isModalOpen', isModalOpen)
+  }
+
+  /* Get Search Data from input tag */
+  const getSearchData = (e: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value.toLowerCase())
+  }
+
+  /* Search Function */
+  const onClickSearch = async (e: any) => {
+    e.preventDefault()
+    console.log('user', user.id, 'inputvalue', inputValue)
+    router.push(`/search?userId=${user.id}&keyword=${inputValue}&page=1`)
   }
 
   useEffect(() => {
@@ -185,21 +201,22 @@ const Nav: React.FC<SearchComponentProps> = () => {
             )}
           </button>
 
-          {/* 검색창  */}
+          {/* 검색창 */}
           <div className="flex justify-center items-center self-center w-[30%] max-w-2xl h-[37px] left-[9rem] bottom-[0.7rem] absolute shadow hover:shadow-md focus-within:shadow-md  rounded-full bg-white dark:bg-[#171717] dark:shadow-slate-600">
             <Image
               src="/search.svg"
               alt="Search Logo"
-              className="left-[0.5rem] absolute stroke-slate-600"
+              className="left-[0.5rem] absolute stroke-slate-600 cursor-pointer"
               width={23}
               height={23}
               priority
+              onClick={onClickSearch}
             />
             <input
               type="text"
               placeholder="일기검색 . . ."
               value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
+              onChange={getSearchData}
               className="absolute w-[90%] max-w-[60%] h-full left-[3rem] border-none outline-none dark:bg-[#171717] "
             ></input>
           </div>

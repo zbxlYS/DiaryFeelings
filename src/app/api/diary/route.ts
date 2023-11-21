@@ -38,7 +38,6 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
   const start = moment(new Date(startDate)).format('YYYY-MM-DD')
   const end = moment(new Date(endDate)).format('YYYY-MM-DD')
   console.log(start, end)
-
   const offset = (parseInt(curPage) - 1) * 6
 
   const getNum = 6
@@ -51,6 +50,8 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
   let values = [userId]
   result = await queryPromise(sql, values)
   return NextResponse.json({ result: result, total: total })
+
+  
 }
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -219,3 +220,4 @@ export const PUT = async (req: Request) => {
 
   return NextResponse.json({ result: imgs })
 }
+
