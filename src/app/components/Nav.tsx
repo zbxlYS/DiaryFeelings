@@ -98,7 +98,6 @@ const Nav: React.FC<SearchComponentProps> = () => {
                   priority
                 />
               </button>
-
               {isModalOpen && (
                 // 모달 컴포넌트 렌더링 컴포넌트로 뺼껀지??
                 <>

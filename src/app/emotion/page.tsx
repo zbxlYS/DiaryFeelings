@@ -19,6 +19,7 @@ import { useMediaQuery } from 'react-responsive'
 import axios from 'axios'
 import { DoughnuChart } from './_components/DoughnuChart'
 // img 상태의 타입을 정의하는 인터페이스
+import { Carousel } from 'react-bootstrap'
 
 interface IImg {
   diary_userEmo: string
@@ -139,10 +140,24 @@ const page = () => {
   const graphclick = () => {
     setGraph(!graph)
   }
+
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  const handleNextButtonClick = () => {
+    // 현재 인덱스가 이미지 배열 길이보다 작을 때만 다음 일기로 이동
+    if (currentIndex < imgView.length - showCount) {
+      setCurrentIndex(currentIndex + 1)
+    }
+  }
+  const handlePrevButtonClick = () => {
+    if (currentIndex > 0) {
+      setCurrentIndex(currentIndex - 1)
+    }
+  }
   return (
     <>
       <Snow></Snow>
-      <div className="h-[160vh]">
+      <div className="h-[160vh] cz-shortcut-listen={false}">
         {/* 일기목록 */}
         <div className="flex flex-col items-center ">
           <h1 className="w-auto flex items-start justify-start mt-20 mb-9 text-xxxl">
@@ -152,7 +167,7 @@ const page = () => {
             최근 5일동안 작성한 일기를 볼수 있어요
           </span>
           {/* 최근 일기목록  */}
-          <div className="w-5/6 h-[23rem] flex flex-row justify-center mt-5">
+          <div className="w-11/12 h-[23rem] flex flex-row justify-center mt-5 ">
             {/* =============================
               
               일기 내용 들어갈 부분
@@ -166,12 +181,12 @@ const page = () => {
               =============================
           */}
 
-            {imgView.slice(0, showCount).map(
+            {imgView.slice(currentIndex, currentIndex + showCount).map(
               (src, index) =>
                 // 보여줄 이미지 개수만큼만 렌더링하기
                 index < showCount && (
                   <div
-                    key={index}
+                    key={src.diary_number}
                     className="relative w-[20rem] h-[21rem] bg-white mb-10 rounded-2xl ml-4 mr-5  mt-5 shadow-lg border border-neutral-200  hover:scale-105 transition-transform duration-400 cursor-grab "
                   >
                     <div className="absolute right-3 top-[8.3rem] flex items-center justify-center  w-14 h-14 border border-neutral-100 rounded-full z-50 bg-white">
@@ -188,14 +203,15 @@ const page = () => {
                     </div>
                     <Image
                       isZoomed
+                      radius="none"
                       src={src.image_src}
-                      className="w-[20rem] h-[10rem] rounded-none "
+                      className="w-[20rem] h-[10rem] rounded-t-xl"
                     />
                     {/* 사용자 이모지  */}
 
                     <div className="mt-4 ml-4 mr-4">
                       <h1 className="text-lg mb-5">{src.diary_title}</h1>
-                      <span className="opacity-70">
+                      <span className="opacity-70 overflow-x-auto ">
                         {src.diary_content.length > maxLength
                           ? src.diary_content.slice(0, maxLength) + '...'
                           : src.diary_content}
@@ -223,16 +239,33 @@ const page = () => {
                   </div>
                 ),
             )}
+
             {/* 일기 내용 끝  */}
           </div>
-
+          {/* 버튼을 눌렀을 때 다음 일기로 넘어가기 */}
+          <div className="flex flex-row mt-5 opacity-80">
+            <button>
+              <Image
+                src="/left-arrow.png"
+                className="w-7  mr-6"
+                onClick={handlePrevButtonClick}
+              ></Image>
+            </button>
+            <button>
+              <Image
+                src="/right-arrow.png"
+                className="w-7 opacity-50 ml-6"
+                onClick={handleNextButtonClick}
+              ></Image>
+            </button>
+          </div>
           {/* =============================
 
                 사용자 정보 부분 
                 
               ===========================*/}
         </div>
-        <div className="flex justify-center items-center flex-col mt-20 mb-10">
+        <div className="flex justify-center items-center flex-col mt-10 mb-10">
           <h1 className="text-xxl">{user.name}님 감정정보 </h1>
           <span className="max-w-[30rem] mt-7 opacity-70">
             아래는 최근 한 달 동안의 감정을 기록하는 내용입니다: 한 달 동안의
@@ -303,10 +336,10 @@ const page = () => {
                 <h1 className="text-sm mt-1 opacity-80">그래프변경</h1>
               </div>
               <div
-                className={`absolute top-10 w-full ${
+                className={`absolute w-full ${
                   graph
-                    ? ''
-                    : 'h-[35rem] flex flex-col justify-center items-center mt-10 ml-10 mr-10'
+                    ? 'top-[5rem]'
+                    : 'top-12 h-[35rem] flex flex-col justify-center items-center mt-10 ml-10 mr-10'
                 } `}
               >
                 {graph ? (
@@ -321,10 +354,9 @@ const page = () => {
                 >
                   {' '}
                   {Object.entries(emotionImg).map(([key, value]) => (
-                    <>
+                    <React.Fragment key={key}>
                       {' '}
                       <Tooltip
-                        key={key}
                         placement="top"
                         content={
                           typeof value === 'string' ? key : value.text || key
@@ -369,7 +401,7 @@ const page = () => {
                           )}
                         </span>
                       )}
-                    </>
+                    </React.Fragment>
                   ))}
                 </div>
               </div>
