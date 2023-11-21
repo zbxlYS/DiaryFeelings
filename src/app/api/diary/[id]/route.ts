@@ -15,7 +15,7 @@ export const GET = async(req: Request, {params}: {params: Props}) => {
     try {
         let sql = 'SELECT * FROM tb_diary WHERE diary_number = ?'
         const result = await queryPromise(sql, [id]);
-        return NextResponse.json({result: result[0]});
+        return NextResponse.json({result: result[0], msg:'success'});
     } catch(err) {
         console.log(err);
         return NextResponse.json({result: 'eror!'})
