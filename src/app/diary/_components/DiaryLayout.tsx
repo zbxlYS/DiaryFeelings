@@ -1,6 +1,9 @@
+'use client'
+
 import { IDiary } from '@/app/types/type';
 import moment from 'moment';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 interface Props {
   data: IDiary
 }
@@ -13,8 +16,11 @@ const emotionImg: { [key: string]: string } = {
         "depress": "/depress.png"
 };
 const Diary = ({data}: Props) => {
+  const router = useRouter();
   return (
-    <div className="border relative w-[350px] h-[500px] rounded-[20px] flex flex-col justify-between overflow-hidden pb-[10px] shadow-lg mx-[35px] mb-[140px] hover:shadow-xl hover:scale-[1.02] ease-in duration-200 cursor-pointer">
+    <div className="border border-[#A2A2A2] relative w-[350px] h-[500px] rounded-[20px] flex flex-col justify-between overflow-hidden pb-[10px] shadow-lg mx-[35px] mb-[140px] hover:shadow-xl hover:scale-[1.02] ease-in duration-200 cursor-pointer"
+      onClick={()=>router.push(`/diary/${data.diary_number}`)}
+    >
       <div className="relative w-full h-[250px] bg-gray-200 object-cover">
         <div className="w-full h-full object-cover overflow-hidden flex justify-center items-center">
         {
@@ -35,7 +41,7 @@ const Diary = ({data}: Props) => {
       <div className="flex flex-col w-full p-[20px] justify-around">
         <div className="flex flex-col w-full">
           <span className="text-[18px] font-pretendard">{data.diary_title}</span>
-          <pre className="text-sm mt-[20px] text-gray-400 whitespace-pre-wrap font-pretendard">
+          <pre className="text-sm mt-[20px] text-gray-500 whitespace-pre-wrap font-pretendard">
             {
               data.diary_content.length >= 68 ? `${data.diary_content.replaceAll('\n',' ').slice(0,68)}...` : data.diary_content.replaceAll('\n',' ')
             }
@@ -47,8 +53,8 @@ const Diary = ({data}: Props) => {
           <img src="./yuumi.jpg" alt="" className="w-full h-full" />
         </div>
         <div className="flex flex-col ml-[15px] justify-center">
-          <span className="text-gray-600 text-[14px]">{data.user_name}</span>
-          <span className="text-gray-400 text-[12px]">{moment(data.diary_userDate).format('YYYY-MM-DD-HH:MM')}</span>
+          <span className="text-white-600 text-[14px]">{data.user_name}</span>
+          <span className="text-white-400 text-[12px]">{moment(data.diary_userDate).format('YYYY-MM-DD-HH:MM')}</span>
         </div>
       </div>
     </div>

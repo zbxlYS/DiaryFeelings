@@ -37,7 +37,7 @@ const Login = () => {
       // 사용자를 찾을 수 없는 경우
       setError('없는 아이디예요.')
     } else {
-      router.push('/')
+      router.push('/diary?page=1')
     }
   }
 
@@ -55,7 +55,7 @@ const handleKakao = async () => {
   try {
     const result = await signIn('kakao', {
       redirect: true,
-      callbackUrl: '/',
+      callbackUrl: '/diary?page=1',
     });
 
     // 성공적으로 소셜 로그인을 수행하면 result에 로그인 정보가 담깁니다.
@@ -70,7 +70,7 @@ const handleGoogle = async () => {
   try {
     const result = await signIn('google', {
       redirect: true,
-      callbackUrl: '/',
+      callbackUrl: '/diary?page=1',
     });
     console.log('Google Login Result:', result);
   } catch (error) {

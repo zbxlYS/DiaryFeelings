@@ -50,18 +50,20 @@ const Nav: React.FC<SearchComponentProps> = () => {
       SetIsLogin(false)
     }
   }, [session])
-  if(status === 'loading') {
-    return <LottieCat />
-  }
   if(status === 'unauthenticated') {
     return (
-      <div className="flex w-full h-[67px] border justify-self-start justify-end items-center z-10">
-        <Link href="/signin">
-          <button>
-            <span className='mr-[30px]'>로그인</span>
-          </button>
+      <div className="flex w-full h-[67px] border justify-between items-center z-10 flex-[none]">
+        <Link href='/' className='ml-[60px]'>
+          <span className='px-[14px] py-[7px] rounded-md border'>감기</span>
         </Link>
-        <span className='border px-[10px] py-[5px] rounded-md mr-[60px] text-white bg-[#b2a4d4]'>감정을 기록하기</span>
+        <div>
+          <Link href="/signin">
+              <span className='mr-[30px]'>로그인</span>
+          </Link>
+          <Link href='/join'>
+            <span className='border px-[10px] py-[7px] rounded-md mr-[60px] text-white bg-[#b2a4d4]'>감정을 기록하기</span>
+          </Link>
+        </div>
       </div>
     )
   }
@@ -131,7 +133,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                   >
                     {/* Modal content */}
                     <div>
-                      <MypageModal closeModal={handleButtonClick}></MypageModal>
+                      <MypageModal  closeModal={handleButtonClick}></MypageModal>
                     </div>
                   </div>
                 </>

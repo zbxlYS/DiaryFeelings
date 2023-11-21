@@ -3,6 +3,7 @@
 import { useSession } from "next-auth/react";
 import Denined from "../components/Deniend";
 import { useEffect, useState } from "react";
+import LottieCat from '@/app/components/LottieCat'
 interface Props {
     id: string;
 }

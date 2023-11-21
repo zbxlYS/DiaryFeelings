@@ -40,8 +40,11 @@ export const signJwtRefreshToken = async (user_id: string) => {
 export const verifyJwt = (token: string) => {
   try {
     const secret_key = process.env.SECRET_KEY
-    const decoded = jwt.verify(token, secret_key!)
+    const decoded = jwt.verify(token, secret_key!) as JwtPayload
     const currentTime = Math.floor(Date.now() / 1000) - (60000 * 5) // 갱신할 시간.
+    if(decoded.exp && decoded.exp < currentTime) {
+      return 'refresh';
+    }
     return decoded as JwtPayload
   } catch (err) {
     // 에러.

@@ -10,7 +10,7 @@ const Layout = ({children} : {children: React.ReactNode}) => {
     const { data: session, status } = useSession();
 
     if(status === 'loading') {
-        return <LottieCat />
+        return <LottieCat text={'읽어오고 있어요'}/>
     }
     if(status === 'unauthenticated') {
         return <Denined />

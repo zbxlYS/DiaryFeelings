@@ -12,6 +12,8 @@ import { useSession } from "next-auth/react"
 import axios from "axios"
 import { ainmom, bareun, kyobo, omyu, ridi, shin, pretendard } from '@/app/components/fonts/fonts'
 import LottieCat from '@/app/components/LottieCat'
+import { useRouter } from "next/navigation"
+import UpLoading from "@/app/wrote/_components/UpLoading";
 
 interface Props {
     id: string;
@@ -33,13 +35,14 @@ const Modify = ({params}: { params: Props}) => {
     const [curFont, setCurFont] = useState(0)
     const [imgUrl, setImgUrl] = useState('');
     const [loading, setLoading] = useState(true)
+    const [upLoading, setUpLoading] = useState(false);
 
     const titleRef = useRef<HTMLInputElement>(null);
     const contentRef = useRef<HTMLTextAreaElement>(null);
 
     const [titleValue, setTitleValue] = useState('')
     const [contentValue, setContentValue] = useState('');
-
+    const router = useRouter()
     const emotionList = [
         ["happy", "오늘은 행복한 날이에요!"],
         ["sad", "오늘은 슬픈 날이에요..."],
@@ -76,7 +79,7 @@ const Modify = ({params}: { params: Props}) => {
     const send = async() => {
         console.log('hi')
         if(!session) return
-
+        setUpLoading(prev => true);
         if(!titleRef.current) {
             alert('제목을 입력해 주세요.')
             return;
@@ -106,6 +109,8 @@ const Modify = ({params}: { params: Props}) => {
             }
         );
         console.log(result.data)
+        setUpLoading(prev => false);
+        router.push(`/diary/${result.data.result.insertId}`)
     }
     const getData = async(id: string) => {
         setLoading(true)
@@ -124,6 +129,7 @@ const Modify = ({params}: { params: Props}) => {
         })
         setWeather(prev => data.result.diary_weather)
         setValue(prev => data.result.diary_userEmo)
+        setCurFont(prev => data.result.diary_font)
         // setDate(prev => new Date(data.result.updated_at))
         setLoading(false)
     }
@@ -135,10 +141,11 @@ const Modify = ({params}: { params: Props}) => {
         <>
         {
             loading ? (
-                <LottieCat />
+                <LottieCat text={'읽어오고 있어요'}/>
             ) : (
-                <div className="w-[1280px] h-[600px] flex flex-col items-end p-[10px] relative">
-                    <div className="absolute p-[10px] shadow-xl rounded-md my-[20px] flex flex-col justify-center items-center top-0 right-[-150px]">
+                <div className="w-[1280px] flex flex-col items-end p-[30px] relative border rounded-md shadow-lg mt-[40px]">
+                    { upLoading && <UpLoading /> }
+                    <div className="border shadow-lg absolute p-[10px] shadow-xl rounded-md my-[20px] flex flex-col justify-center items-center top-[-20px] right-[-150px]">
                         <div className="relative flex flex-col justify-center items-center"
                             onMouseOver={() => setSelWeather(true)}
                             onMouseLeave={() => setSelWeather(false)}

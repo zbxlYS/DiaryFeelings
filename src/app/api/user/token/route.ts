@@ -5,6 +5,7 @@ import {
   verifyJwt,
 } from '@/app/lib/jwt'
 import queryPromise from '@/app/lib/db'
+import { Jwt, JwtPayload } from 'jsonwebtoken'
 
 export const POST = async (req: Request) => {
   console.log('fetched...')
@@ -17,6 +18,16 @@ export const POST = async (req: Request) => {
   let refreshToken = req.headers.get('refreshToken') as string
   // accessToken을 복호화.
   const decoded = verifyJwt(accessToken)
+  let user = {
+    user_id: '',
+    user_name: ''
+  }
+  if(decoded instanceof Object) {
+    user = {
+      user_id: decoded.user_id,
+      user_name: decoded.user_name
+    }
+  }
 
   // 현재 시간.
   const currentTime = Math.floor(Date.now() / 1000) - (60000 * 5) // 5분 전에 갱신하기.
@@ -24,13 +35,19 @@ export const POST = async (req: Request) => {
   // 복호화 된 값이 없다면 => 인증 실패.
   if (decoded === 'signout')
     return new Response(JSON.stringify({ result: 'signout', status: 'error' }))
+  if (decoded === 'refresh') {
+    const refreshed = signJwtAccessToken(user);
+    console.log('token has refreshed.')
+    return new Response(JSON.stringify({ result: refreshed, status: 'ok' }))
+  }
+
   if (!decoded)
     return new Response(
       JSON.stringify({ result: 'No Authorization', status: 'error' }),
     )
 
   // 만료 기간이 지나지 않았다면 => 리턴.
-  if (decoded.exp && decoded.exp >= currentTime)
+  if (decoded instanceof Object && decoded.exp && decoded.exp >= currentTime)
     return new Response(
       JSON.stringify({ result: 'Not Expired', status: 'error' }),
     )
@@ -56,12 +73,9 @@ export const POST = async (req: Request) => {
   // 일치하는 값이 없다면 => 리턴.
   if (result.length < 1)
     return new Response(JSON.stringify({ result: 'No data', status: 'error' }))
-  const user = {
-    user_id: decoded.user_id,
-    user_name: decoded.user_name,
-  }
 
   // accessToken 생성 후 리턴.
   let token = signJwtAccessToken(user)
+  console.log('token has refreshed.')
   return new Response(JSON.stringify({ result: token, status: 'ok' }))
 }

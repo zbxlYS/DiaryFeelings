@@ -10,6 +10,8 @@ import RadioEmo from "./_components/RadioEmo"
 import { useSession } from "next-auth/react"
 import axios from "axios"
 import { ainmom, bareun, kyobo, omyu, ridi, shin, pretendard } from '@/app/components/fonts/fonts'
+import UpLoading from "./_components/UpLoading"
+import { useRouter } from "next/navigation"
 
 // 감정 선택
 // 사진 넣을 곳 추가
@@ -26,10 +28,11 @@ const Write = () => {
     const [curFont, setCurFont] = useState(0)
     const imgRef = useRef<HTMLInputElement>(null);
     const [imgUrl, setImgUrl] = useState('');
+    const [upLoading, setUpLoading] = useState(false);
 
     const titleRef = useRef<HTMLInputElement>(null);
     const contentRef = useRef<HTMLTextAreaElement>(null);
-    console.log(pretendard.className)
+    const router = useRouter()
     const emotionList = [
         ["happy", "오늘은 행복한 날이에요!"],
         ["sad", "오늘은 슬픈 날이에요..."],
@@ -40,11 +43,11 @@ const Write = () => {
     const fontList = [
         ["프리텐다드", pretendard.className],
         ["바른히피", bareun.className],
-        ["오뮤 다예쁨",omyu.className],
-        ["리디바탕",ridi.className],
-        ["아인맘",ainmom.className],
-        ["교보 손글씨",kyobo.className],
-        ["신동엽 손글씨",shin.className]
+        ["오뮤 다예쁨", omyu.className],
+        ["리디바탕", ridi.className],
+        ["아인맘", ainmom.className],
+        ["교보 손글씨", kyobo.className],
+        ["신동엽 손글씨", shin.className]
     ]
     const CalendarInput = forwardRef(({ value, onClick }: any, ref: any) => (
         // any 안 쓰고 싶은데 몰루겠다...
@@ -71,14 +74,14 @@ const Write = () => {
             setImgUrl(prev => '');
         }
     }
-    const send = async() => {
-        if(!session) return
-
-        if(!titleRef.current) {
+    const send = async () => {
+        if (!session) return
+        setUpLoading(prev => true);
+        if (!titleRef.current) {
             alert('제목을 입력해 주세요.')
             return;
         }
-        if(!contentRef.current) {
+        if (!contentRef.current) {
             alert('내용을 입력해 주세요.')
             return;
         }
@@ -91,7 +94,7 @@ const Write = () => {
         formData.append('emotion', value)
         formData.append('datetime', date.toString())
         formData.append('font', curFont.toString())
-        if(imgRef.current && imgRef.current.files && imgRef.current.files.length > 0) {
+        if (imgRef.current && imgRef.current.files && imgRef.current.files.length > 0) {
             formData.append('img', imgRef.current.files[0])
         }
         const result = await axios.post(
@@ -106,10 +109,13 @@ const Write = () => {
         );
         console.log(result.data)
         imgReset()
+        setUpLoading(prev => false);
+        router.push(`/diary/${result.data.result.insertId}`)
     }
     return (
-        <div className="w-[1280px] h-[600px] flex flex-col items-end p-[10px] relative">
-            <div className="absolute p-[10px] shadow-xl rounded-md my-[20px] flex flex-col justify-center items-center top-0 right-[-150px]">
+        <div className="relative w-[1280px] flex flex-col items-end p-[30px] relative border rounded-md shadow-lg mt-[40px]">
+            { upLoading && <UpLoading />}
+            <div className="border shadow-lg absolute p-[10px] shadow-xl rounded-md my-[20px] flex flex-col justify-center items-center top-[-20px] right-[-150px]">
                 <div className="relative flex flex-col justify-center items-center"
                     onMouseOver={() => setSelWeather(true)}
                     onMouseLeave={() => setSelWeather(false)}
