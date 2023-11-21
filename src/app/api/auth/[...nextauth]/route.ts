@@ -50,10 +50,8 @@ const handler = NextAuth({
         account.snsRefresh = account.refresh_token
         account.access_token = result.accessToken
         account.refresh_token = result.refreshToken
-        return true
-      } else {
-        return true
       }
+      return true
     },
     async jwt({ token, account, user, profile }: any) {
       if (account) {
@@ -88,9 +86,9 @@ const handler = NextAuth({
       return session
     },
   },
-  // pages: {
-  //     signIn: '/signin'
-  // }
+  pages: {
+      signIn: '/signin'
+  }
 })
 
 export { handler as GET, handler as POST }

@@ -19,7 +19,6 @@ import { useMediaQuery } from 'react-responsive'
 import axios from 'axios'
 import { DoughnuChart } from './_components/DoughnuChart'
 // img 상태의 타입을 정의하는 인터페이스
-import { Carousel } from 'react-bootstrap'
 
 interface IImg {
   diary_userEmo: string
@@ -157,7 +156,7 @@ const page = () => {
   return (
     <>
       <Snow></Snow>
-      <div className="h-[160vh] cz-shortcut-listen={false}">
+      <div className="h-[160vh] ">
         {/* 일기목록 */}
         <div className="flex flex-col items-center ">
           <h1 className="w-auto flex items-start justify-start mt-20 mb-9 text-xxxl">

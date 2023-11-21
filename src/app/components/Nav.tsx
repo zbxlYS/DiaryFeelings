@@ -8,6 +8,9 @@ import { useSession } from 'next-auth/react'
 import MypageModal from './MypageModal'
 import { useRecoilState } from 'recoil'
 import { userInfo } from '@/app/lib/atoms/atom'
+import NotLoginMain from './NotLoginMain'
+import Loading from './Loading'
+import LottieCat from './LottieCat'
 import axios from 'axios'
 import { IDiary } from '../types/type'
 import { useRouter } from 'next/navigation'
@@ -18,7 +21,7 @@ interface SearchComponentProps {
 
 const Nav: React.FC<SearchComponentProps> = () => {
   const router = useRouter()
-  const { data: session } = useSession()
+  const { data: session, status } = useSession()
   const [isLogin, SetIsLogin] = useState<boolean>(false) // 로그인시 네비 상단바 변경
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false) // 마이페이지 모달창
   const { systemTheme, theme, setTheme } = useTheme() // 다크모드테마 설정
@@ -63,7 +66,25 @@ const Nav: React.FC<SearchComponentProps> = () => {
       SetIsLogin(false)
     }
   }, [session])
-
+  if (status === 'unauthenticated') {
+    return (
+      <div className="flex w-full h-[67px] border justify-between items-center z-10 flex-[none]">
+        <Link href="/" className="ml-[60px]">
+          <span className="px-[14px] py-[7px] rounded-md border">감기</span>
+        </Link>
+        <div>
+          <Link href="/signin">
+            <span className="mr-[30px]">로그인</span>
+          </Link>
+          <Link href="/join">
+            <span className="border px-[10px] py-[7px] rounded-md mr-[60px] text-white bg-[#b2a4d4]">
+              감정을 기록하기
+            </span>
+          </Link>
+        </div>
+      </div>
+    )
+  }
   return (
     <div className="w-full h-[67px] ">
       <div className="fixed w-full z-50">
