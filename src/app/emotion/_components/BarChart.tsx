@@ -24,10 +24,62 @@ type Options = {
   }
 }
 
-const BarChart = () => {
+type BarChartProps = {
+  view?: any // Adjust the type according to your needs
+}
+type EmotionCounts = {
+  [key: string]: number
+}
+
+const emotionImg: { [key: string]: string | { src: string; text?: string } } = {
+  행복: { src: '/3_love.png', text: '늘 행복해 :)' },
+  당황: { src: '/happy.png', text: '엄마야!' },
+  분노: { src: '/angry.png', text: '너무 화가난다아' },
+  슬픔: { src: '/sad.png', text: '너무 슬퍼 :(' },
+  불안: { src: '/depress.png', text: '너무 불안불안..' },
+  중립: { src: '/nothinking.png', text: '나는 아무생각이없어' },
+}
+
+const BarChart: React.FC<BarChartProps> = ({ view }) => {
   const chartRef = useRef<HTMLCanvasElement>(null) // ref 타입 명시
   let chartInstance: Chart | null = null // chartInstance 타입 명시
 
+  // 감정 데이터 추출
+
+  const emotion = () => {
+    // 전역 변수로 선언하여 반복문 밖에서 사용할 수 있도록 함
+    const totalEmotionRatios: EmotionCounts = {}
+
+    for (let i = 0; i < view.length; i++) {
+      const emotionCounts: EmotionCounts = JSON.parse(view[i].diary_emotion)
+      const totalEmotion: number = Object.values(emotionCounts).reduce(
+        (acc, value) => acc + value,
+        0,
+      )
+
+      // 현재 감정 데이터의 비율 계산
+      const emotionRatios: EmotionCounts = {}
+      for (const [key, value] of Object.entries(emotionCounts)) {
+        emotionRatios[key] = value / totalEmotion
+      }
+
+      // 기존의 값에 현재 값을 더함
+      for (const [key, value] of Object.entries(emotionRatios)) {
+        if (totalEmotionRatios[key]) {
+          totalEmotionRatios[key] += value
+        } else {
+          totalEmotionRatios[key] = value
+        }
+      }
+    }
+
+    // 최종 결과 출력
+    return totalEmotionRatios // 계산된 값을 반환
+  }
+  const result = emotion() // 함수 호출 및 결과 저장
+  console.log(result) // 결과 출력
+
+  // emotion()
   useEffect(() => {
     const ctx = chartRef.current?.getContext('2d') // optional chaining 사용
 
@@ -39,43 +91,57 @@ const BarChart = () => {
         data: {
           labels: [
             '행복',
-            '기쁨',
-            '사랑',
-            '화남',
+            '당황',
+            // '사랑',
+            '분노',
             '슬픔',
-            '우울',
+            // '우울',
             '불안',
-            '생각없음 ',
+            '중립',
           ],
           datasets: [
             {
-              label: '{11월} 감정 기록',
-              data: [15, 20, 60, 10, 22, 30, 2, 10],
+              label: '11월 감정 기록',
+              data: [
+                result.행복,
+                result.당황,
+                result.분노,
+                result.슬픔,
+                result.불안,
+                result.중립,
+              ],
               backgroundColor: [
-                'rgba(255, 159, 64, 0.2)', // 행복
-                'rgba(255, 206, 86, 0.2)', // 기쁨
-                'rgba(239, 203, 207, 0.2)', // 사랑
-                'rgba(255, 99, 132, 0.2)', // 화남
-                'rgba(75, 192, 192, 0.2)', // 슬픔
-                'rgba(174, 221, 251, 0.2)', // 우울
-                'rgba(153, 102, 255, 0.2)', // 불안
-                'rgba(171, 171, 171, 0.2)', // 생각없음
+                'rgba(240, 207, 211, 0.4)',
+                'rgba(255, 206, 86, 0.4)',
+
+                // 'rgba(239, 203, 207, 0.2)', // 사랑
+                'rgba(255, 99, 132, 0.4)',
+                'rgba(75, 192, 192, 0.4)',
+
+                // 'rgba(174, 221, 251, 0.2)', // 우울
+                'rgba(181, 224, 251, 0.4)',
+                'rgba(171, 171, 171, 0.4)', // 생각없음
               ],
               borderColor: [
-                'rgba(255, 159, 64, 1)',
+                'rgba(240, 207, 211, 1)',
                 'rgba(255, 206, 86, 1)',
-                'rgba(239, 203, 207, 1)',
+                // 'rgba(239, 203, 207, 1)',
                 'rgba(255, 99, 132, 1)',
                 'rgba(75, 192, 192, 1)',
-                'rgba(174, 221, 251, 1)', //우울
-                'rgba(153, 102, 255, 1)', // 불안
+                // 'rgba(174, 221, 251, 1)', //우울
+                'rgba(181, 224, 251, 1)',
                 'rgba(171, 171, 171, 1)', // 생각없음
               ],
               borderWidth: 1,
             },
           ],
-        } as Data, // data 타입 단언
+        } as unknown as Data, // data 타입 단언
         options: {
+          // 다른 차트 옵션들
+          plugins: {
+            example: { option1: 'value1', option2: 'value2' }, // 플러그인 옵션
+            labels: {},
+          },
           scales: {
             x: {
               grid: {
@@ -84,7 +150,7 @@ const BarChart = () => {
             },
             y: {
               beginAtZero: true,
-              max: 100,
+              max: 20,
               grid: {
                 display: false, // Set display to false to hide grid lines
               },
@@ -107,9 +173,9 @@ const BarChart = () => {
     return () => {
       destroyChart() // 컴포넌트가 unmount될 때 차트 파괴
     }
-  }, [])
+  }, [view])
 
-  return <canvas ref={chartRef} />
+  return <canvas ref={chartRef} className="" />
 }
 
 export default BarChart

@@ -12,6 +12,9 @@ import { useSearchParams } from 'next/navigation'
 import Pagination from './_components/Pagination'
 import { IDiary } from '@/app/types/type'
 import axios from 'axios'
+import { useSession } from 'next-auth/react'
+import LottieCat from '@/app/components/LottieCat'
+import NoResult from './_components/NoResult'
 
 const Diary = () => {
   const params = useSearchParams()
@@ -40,11 +43,16 @@ const Diary = () => {
     setView((prev) => data.result)
   }
   useEffect(() => {
+    setPage((prev) => Number(curPage))
+  }, [curPage])
+  useEffect(() => {
+    // 로그인
     if (startDate > endDate) {
       alert('잘못된 날짜 선택이에요.')
       setStartDate((prev) => endDate)
     }
   }, [startDate, endDate])
+
   useEffect(() => {
     getDiary()
   }, [page, startDate, endDate, user])
@@ -55,46 +63,54 @@ const Diary = () => {
       <span>{value}</span>
       <img
         src="./calendar-regular.svg"
-        className="w-[20px] h-[20px] ml-[20px] cursor-pointer"
+        className="w-[20px] h-[20px] ml-[20px] cursor-pointer "
         onClick={onClick}
         ref={ref}
       />
     </div>
   ))
   return (
-    <div className="w-full h-full mt-[20px] flex flex-col justify-center items-center">
-      <div className="border h-[50px] rounded-md flex justify-around items-center self-start ml-[335px] mb-[50px]">
-        <div className="flex items-center px-[60px]">
-          <DatePicker
-            selected={startDate}
-            locale={ko}
-            dateFormat="yyyy. MM. dd"
-            closeOnScroll={true}
-            onChange={(date: Date) => setStartDate(date)}
-            customInput={<CalendarInput />}
-          />
+    <>
+      {loading ? (
+        <LottieCat />
+      ) : total < 1 ? (
+        <NoResult />
+      ) : (
+        <div className="w-full mt-[100px] flex flex-col justify-center items-center">
+          <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
+            {view.map((data: IDiary, index: number) => (
+              <DiaryLayout key={data.diary_number} data={data} />
+            ))}
+          </div>
+          <div className="border h-[50px] rounded-md flex justify-around items-center mb-[50px]">
+            <div className="flex items-center px-[60px]">
+              <DatePicker
+                selected={startDate}
+                locale={ko}
+                dateFormat="yyyy. MM. dd"
+                closeOnScroll={true}
+                onChange={(date: Date) => setStartDate(date)}
+                customInput={<CalendarInput />}
+              />
+            </div>
+            <div>
+              <span> ~ </span>
+            </div>
+            <div className="flex items-center px-[60px]">
+              <DatePicker
+                selected={endDate}
+                locale={ko}
+                dateFormat="yyyy. MM. dd"
+                closeOnScroll={true}
+                onChange={(date: Date) => setEndDate(date)}
+                customInput={<CalendarInput />}
+              />
+            </div>
+          </div>
+          <Pagination total={total} limit={6} page={page} />
         </div>
-        <div>
-          <span> ~ </span>
-        </div>
-        <div className="flex items-center px-[60px]">
-          <DatePicker
-            selected={endDate}
-            locale={ko}
-            dateFormat="yyyy. MM. dd"
-            closeOnScroll={true}
-            onChange={(date: Date) => setEndDate(date)}
-            customInput={<CalendarInput />}
-          />
-        </div>
-      </div>
-      <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
-        {view.map((data: IDiary, index: number) => (
-          <DiaryLayout key={data.diary_number} data={data} />
-        ))}
-      </div>
-      <Pagination total={total} limit={6} page={page} />
-    </div>
+      )}
+    </>
   )
 }
 

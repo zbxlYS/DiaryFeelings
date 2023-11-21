@@ -3,12 +3,17 @@
 import axios from 'axios'
 import { useEffect } from 'react'
 
+import { notFound } from 'next/navigation'
 interface Props {
   id: string
 }
 
 const DiaryDetail = ({ params }: { params: Props }) => {
-  console.log('diary function', params.id)
+  const num = parseInt('diary function', params.id)
+  // 숫자로 변환했는데 NaN이면 없는 페이지.
+  if (isNaN(num)) {
+    notFound()
+  }
   const getDiary = async () => {
     const result = await axios.get(`/api/diary?id=${params.id}`)
     const data = result.data

@@ -40,6 +40,7 @@ export const PUT = async (req: Request) => {
   const password = data.get('password') as string
   const name = data.get('user_name') as string
   const img = data.get('img') as File
+  console.log(img)
   let imgSrc = ''
   if (img) {
     const fb = new FormData()

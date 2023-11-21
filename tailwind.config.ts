@@ -31,12 +31,21 @@ const config: Config = {
       base: ['16px', '24px'],
       lg: ['20px', '28px'],
       xl: ['24px', '32px'],
+      xxl: ['28px', '36px'],
+      xxxl: ['32px', '40px'],
     },
     extend: {
       backgroundImage: {},
     },
     fontFamily: {
-      pretendard: ['Pretendard-Regular'],
+      pretendard: ['Pretendard-Regular'], // 프리텐다드
+      bareunhipi: ['Bareun_hipi'], // 바른히피
+      omyu: ['omyu_pretty'], // 오뮤 다예쁨
+      nanum: ['Nanum_Gothic'], // 네이버 나눔
+      ridi: ['RIDIBatang'], // 리디바탕
+      ainmom: ['Ainmom'], // 아인맘
+      kyobo: ['KyoboHand'], // 교보손
+      shin: ['ShinDongYupHandwriting-R'] // 신동
     },
   },
   darkMode: 'class',

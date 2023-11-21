@@ -14,7 +14,7 @@ export const POST = async (req: Request) => {
     'SELECT user_id, user_password, user_name, user_salt FROM tb_user WHERE user_id = ?'
   let result = await queryPromise(sql, [body.username])
   if (result.length < 1)
-    return NextResponse.json({ result: '아이디가 없습니다.' })
+    return NextResponse.json({ result: 'No user' })
   const hashPassword = crypto
     .createHash('sha512')
     .update(body.password + result[0].user_salt)
@@ -33,5 +33,5 @@ export const POST = async (req: Request) => {
       refreshToken,
     }
     return new Response(JSON.stringify(rst))
-  } else return NextResponse.json({ result: '비밀번호가 일치하지 않습니다.' })
+  } else return NextResponse.json({ result: 'wrong password' })
 }

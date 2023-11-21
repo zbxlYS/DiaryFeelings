@@ -1,3 +1,5 @@
+'use client'
+
 import { IDiary } from '@/app/types/type'
 import moment from 'moment'
 import Image from 'next/image'
@@ -6,12 +8,12 @@ interface Props {
   data: IDiary
 }
 const emotionImg: { [key: string]: string } = {
-  중립: '/kkomul.png',
-  슬픔: '/sad.png',
-  분노: '/angry.png',
-  놀람: '/yuumi.png',
-  행복: '/3_love.png',
-  불안: '/depress.png',
+  normal: '/normal.png',
+  sad: '/sad.png',
+  angry: '/angry.png',
+  suprise: '/yuumi.png',
+  happy: '/3_love.png',
+  depress: '/depress.png',
 }
 const Diary = ({ data }: Props) => {
   const router = useRouter()
@@ -36,7 +38,7 @@ const Diary = ({ data }: Props) => {
             src={
               data.diary_userEmo
                 ? emotionImg[data.diary_userEmo]
-                : '/kkomul.png'
+                : '/normal.png'
             }
             alt=""
             className="w-full h-full"
@@ -48,7 +50,7 @@ const Diary = ({ data }: Props) => {
           <span className="text-[18px] font-pretendard">
             {data.diary_title}
           </span>
-          <pre className="text-sm mt-[20px] text-gray-400 whitespace-pre-wrap font-pretendard">
+          <pre className="text-sm mt-[20px] text-gray-500 whitespace-pre-wrap font-pretendard">
             {data.diary_content.length >= 68
               ? `${data.diary_content.replaceAll('\n', ' ').slice(0, 68)}...`
               : data.diary_content.replaceAll('\n', ' ')}
@@ -60,8 +62,8 @@ const Diary = ({ data }: Props) => {
           <img src="./yuumi.jpg" alt="" className="w-full h-full" />
         </div>
         <div className="flex flex-col ml-[15px] justify-center">
-          <span className="text-gray-600 text-[14px]">{data.user_name}</span>
-          <span className="text-gray-400 text-[12px]">
+          <span className="text-white-600 text-[14px]">{data.user_name}</span>
+          <span className="text-white-400 text-[12px]">
             {moment(data.diary_userDate).format('YYYY-MM-DD-HH:MM')}
           </span>
         </div>
