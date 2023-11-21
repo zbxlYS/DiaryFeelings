@@ -41,23 +41,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const onClickSearch = async (e: any) => {
     e.preventDefault()
     console.log('user', user.id, 'inputvalue', inputValue)
-    router.push(`/search?userId=${user.id}&keyword=${inputValue}`)
-    // try {
-    //   // const response = await axios.get(
-    //   //   `/api/search?userId=${user.id}&keyword=${inputValue}`,
-    //   // )
-    //   // const data = response.data
-
-    //   // console.log('response from back', data)
-    //   // if (response.data.msg === 'success') {
-    //   //   alert('검색 완료~')
-    //     router.push(`/search?userId=${user.id}&keyword=${inputValue}`)
-    //   } else {
-    //     alert('검색 실패~')
-    //   }
-    // } catch {
-    //   console.error('search error')
-    // }
+    router.push(`/search?userId=${user.id}&keyword=${inputValue}&page=1`)
   }
 
   useEffect(() => {

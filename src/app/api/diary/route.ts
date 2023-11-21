@@ -48,7 +48,7 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
   const total = result[0]['count(*)']
   sql = `SELECT A.*, B.image_src FROM tb_diary as A LEFT JOIN tb_image as B ON A.diary_number = B.diary_number WHERE A.user_id = ? and DATE(diary_userDate) BETWEEN '${start}' and '${end}' ORDER BY A.diary_userDate DESC LIMIT ${getNum} OFFSET ${offset}`
   let values = [userId]
-  result = await queryPromise(sql, values)   
+  result = await queryPromise(sql, values)
   return NextResponse.json({ result: result, total: total })
 
   
