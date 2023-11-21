@@ -1,14 +1,14 @@
 'use client'
 
 import type { NextPage } from 'next'
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { signIn } from 'next-auth/react'
 import React from 'react'
 
 import {Input} from "@nextui-org/react";
 import {Button} from "@nextui-org/react";
 import { useRouter } from 'next/navigation'
-
+import styles from './styles.module.css'
 
 
 
@@ -25,6 +25,14 @@ const Login: NextPage = () => {
   // axios post 방식으로 전달해 주기 => 주소: http://localhost:3000/api/login , {username: id, password: password}
   
   
+  useEffect(() => {
+    // 컴포넌트가 마운트되었을 때 스크롤을 숨깁니다.
+    document.body.style.overflow = 'hidden';
+    // 컴포넌트가 언마운트되었을 때 스크롤을 다시 보여줍니다.
+    return () => {
+      document.body.style.overflow = 'visible';
+    };
+  }, []); // 빈 배열을 전달하여 한 번만 실행되도록 합니다.
   
   
   const handleLogin = async () => {
@@ -53,6 +61,10 @@ const Login: NextPage = () => {
     } else {
       router.push('/')
     }
+  }
+  const handleJoin = () => {
+     router.push('/join')
+
   }
 
   const handleFindId = () => {
@@ -100,37 +112,38 @@ const handleNaver = () => {
   // id: test1 pw: 1234
   
   return (
-    <div className="container mx-auto h-screen flex flex-col items-center justify-center">
-      <div className="flex w-64 flex-col  p-2 pt-0">
-        <div className="relu-font">
+
+    <div className="container mx-auto h-[700px] flex flex-col items-center justify-center">
+      <div className="flex w-[270px] flex-col  p-2 pt-0"  >
+        <div className="mb-4 text-[3rem]">
           Relu molu
         </div>
-        <span className="p-1 text-lg font-normal">아이디</span>
+       
         <Input
          isRequired
          type="text"
-         label="Email"
+         label="아이디"
          defaultValue="junior@nextui.org"
-         className="max-w-xs"
+         className="w-full max-w-md py-2"
          ref={idRef}
          value={id}
          onChange={(e) => setId(e.target.value)}
          />
       </div>
-      <div className="flex w-64 flex-col  p-2 pt-0">
-        <span className="p-1 text-lg font-normal">비밀번호</span>
+      <div className="flex w-[270px] flex-col  p-2 pt-0">
+       
     <Input
         isRequired
          type="password"
-         label="Password"
+         label="패스워드"
          defaultValue="junior@nextui.org"
-         className="max-w-xs"
+         className="w-full max-w-md py-2"
          ref={pwRef}
          value={password}
          onChange={(e) => setPassword(e.target.value)}>
     </Input>
       </div>
-      <div className="mt-5 flex items-center   justify-center ">
+      <div className=" mt-3  flex items-center   justify-center ">
         <button
           onClick={handleLogin}
           className="h-10 w-64 rounded-xl bg-gray-300 text-lg font-medium text-white transition-colors duration-300 ease-in-out hover:bg-gray-400" 
@@ -140,47 +153,57 @@ const handleNaver = () => {
       </div>
       {error && <div className="text-red-500 mt-2 text-center">{error}</div>}
 
-<div className="mt-6 flex flex-col items-center justify-center">
-  <span className="text-lg"></span>
-  <span className="text-lg">
-    <button onClick={handleFindId} className="text-blue-500">
-      아이디 찾기
-    </button>
+      <div className="flex justify-center">
+            <hr className="w-[7rem] text-[#888] mt-3 mr-2" />
+            <span className="text-[#888]">or</span>
+            <hr className="w-[7rem] text-[#888] mt-3 ml-2" />
+      </div>
+      <div>
+      <button
+      onClick={handleJoin}
+      className="h-10 w-64 rounded-xl bg-gray-300 text-lg font-medium text-white transition-colors duration-300 ease-in-out hover:bg-gray-400">
+       회원가입
+      </button>
+     </div>
+     <div className="mt-3 flex flex-col items-center justify-center">
+       <span className="text-lg"></span>
+       <span className="text-lg">
+      <button onClick={handleFindId} className="text-blue-500">
+         아이디 찾기
+       </button>
     &nbsp;&nbsp;
     <button onClick={handleFindPassword} className="text-blue-500">
       비밀번호 찾기
     </button>
   </span>
 </div>
-<div className="mt-6 flex flex-col items-center justify-between">
-      <div>
-          <button onClick={handleKakao} className="mx-2">
-          <img
-            src="\KakaoTalk_20231115_161719853_03.png" // 이미지 파일의 경로를 지정해야 합니다.
-            alt="kakao 로그인 이미지"
-            className="w-47 h-12 mx-auto"
-          />
-          </button>
-       
-        <button onClick={handleNaver}  className="mx-2">
-          <img
-            src="\naver.btn_아이콘원형.png" // 이미지 파일의 경로를 지정해야 합니다.
-            alt="naver 로그인 이미지"
-            className="w-47 h-12 mx-auto"
-          />
-          </button>
-       
-       
-        <button onClick={handleGoogle} className="mx-2" >
-          <img
-            src="\google.btn.png" // 이미지 파일의 경로를 지정해야 합니다.
-            alt="구글 로그인 이미지"
-            className="w-47 h-12 mx-auto"
-          />
-        </button>  
-        </div>
-      </div>
-    </div>  
+
+<div className="mt-6 flex flex-row items-center justify-between">
+ 
+    <button onClick={handleKakao} className={` ${styles['login-button']}`}>
+      <img
+        src="/KakaoTalk_20231115_161719853_03.png"
+        alt="카카오 로그인 이미지"
+      />
+    </button>
+    <div className="w-4"></div>
+    <button onClick={handleNaver} className={`${styles['login-button']}`}>
+      <img
+        src="/naver.btn_아이콘원형.png"
+        alt="네이버 로그인 이미지"
+      />
+    </button>
+     
+    <div className="w-4"></div>
+    <button onClick={handleGoogle} className={`${styles['login-button']}`}>
+      <img
+        src="/google.btn.png"
+        alt="구글 로그인 이미지"
+      />
+    </button>
+
+  </div>
+</div>  
   )
 }
 
