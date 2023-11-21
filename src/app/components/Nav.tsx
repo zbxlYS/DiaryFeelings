@@ -6,14 +6,10 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
 import MypageModal from './MypageModal'
-import { useRecoilState } from 'recoil'
-import { userInfo } from '@/app/lib/atoms/atom'
-import NotLoginMain from './NotLoginMain'
-import Loading from './Loading'
-import LottieCat from './LottieCat'
-import axios from 'axios'
-import { IDiary } from '../types/type'
+import ModalCalendar from './Calendar'
 import { useRouter } from 'next/navigation'
+import { useRecoilState } from 'recoil'
+import { userInfo } from '../lib/atoms/atom'
 
 interface SearchComponentProps {
   className?: string
@@ -28,7 +24,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const currentTheme = theme === 'system' ? systemTheme : theme
   const [inputValue, setInputValue] = useState<string>('') // 일기검색
   const [user, setUser] = useRecoilState(userInfo)
-
+  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false) //달력모달
   // 로그인후 사용자 아이콘 클릭시 모달생성
   const handleButtonClick = () => {
     setIsModalOpen(!isModalOpen)
@@ -45,6 +41,12 @@ const Nav: React.FC<SearchComponentProps> = () => {
     e.preventDefault()
     console.log('user', user.id, 'inputvalue', inputValue)
     router.push(`/search?userId=${user.id}&keyword=${inputValue}&page=1`)
+  }
+
+  //Calendar 모달
+
+  const toggleCalendar = () => {
+    setIsCalendarOpen(!isCalendarOpen)
   }
 
   useEffect(() => {
@@ -85,6 +87,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
       </div>
     )
   }
+
   return (
     <div className="w-full h-[67px] ">
       <div className="fixed w-full z-50">
@@ -164,17 +167,31 @@ const Nav: React.FC<SearchComponentProps> = () => {
 
           {isLogin ? (
             <>
+              {/* 일기쓰기 링크 */}
+              <div className="absolute right-[12.5rem] top-[22px]">
+                <Link href="/write">
+                  <span className="text-slate-500 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">
+                    일기쓰기
+                  </span>
+                </Link>
+              </div>
+
+              {/* 달력 버튼 */}
+
+              <div className="absolute right-[9.8rem] top-[22px]">
+                <button onClick={toggleCalendar}>달력</button>
+              </div>
+
+              {/* 모달 렌더링 */}
+              {isCalendarOpen && (
+                <ModalCalendar
+                  isOpen={isCalendarOpen}
+                  closeModal={toggleCalendar}
+                />
+              )}
               <Link
-                href="/write"
-                className="absolute right-[11rem] top-[22px] "
-              >
-                <span className="text-slate-500 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">
-                  일기쓰기
-                </span>
-              </Link>
-              <Link
-                href="/diary?page=1"
-                className="absolute right-[16.5rem] top-[22px] "
+                href="/diary"
+                className="absolute right-[17rem] top-[22px] "
               >
                 <span className="text-slate-500 hover:text-slate-900 dark:text-slate-300 dark:hover:text-slate-100">
                   기록
@@ -241,8 +258,8 @@ const Nav: React.FC<SearchComponentProps> = () => {
               className="absolute w-[90%] max-w-[60%] h-full left-[3rem] border-none outline-none dark:bg-[#171717] "
             ></input>
           </div>
-          <div className="left-[21px] top-[17px] absolute text-black dark:text-white text-xl font-normal ">
-            ReluMolu
+          <div className="left-[21px] top-[17px] absolute text-black dark:text-white text-xl font-normal relu-font">
+            Relu Molu
           </div>
         </nav>
       </div>

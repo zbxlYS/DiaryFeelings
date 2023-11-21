@@ -19,6 +19,7 @@
   margin: auto; /* 가운데 정렬을 추가 */
   min-height: 570px !important; /* 원하는 높이로 수정 */
   margin-top: 13px;
+  z-index: 1000;
 }
 
 /* 모달창 스타일 */
@@ -28,6 +29,9 @@
   width: 80%; /* 모달창 너비 설정 */
   margin: auto; /* 가운데 정렬을 추가 */
   margin-top: 40px;
+  z-index: 1000;
+
+
 }
 
 /* 미디어 쿼리 반응형 */
@@ -96,6 +100,7 @@
   height: 40px; /* 날짜별 칸의 높이를 조절합니다. */
   font-size: 16px; /* 날짜의 글꼴 크기를 조절합니다. */
   margin-top:10px;
+  
 }
 
 /* 날짜 색상 및 크기 */
@@ -244,4 +249,51 @@
   pointer-events: auto; /* 클릭 이벤트 활성화 */
 }
 
+
+
+
+/* 다크 모드 스타일 */
+@media (prefers-color-scheme: dark) {
+  /* 달력 상단 네비게이션 글씨색 변경 */
+  .react-calendar__navigation {
+    color: white !important;
+  }
+
+  /* 요일 글씨색 변경 */
+  .react-calendar__month-view__weekdays abbr {
+    color: white !important;
+  }
+
+  /* 날짜 글씨색 변경 */
+  .react-calendar__tile {
+    color: white !important;
+  }
+
+  .react-calendar__year-view__months__month abbr {
+    color: white !important;
+  }
+
+  .ReactModal__Content .ReactModal__Content--after-open {
+    background-color: black !important; /* 검정색 배경 */
+    color: white; /* 텍스트 색상을 하얀색으로 변경 */
+    
+  }
+}
+
+
+.dark-mode {
+  background-color: #333; /* 어두운 배경색 */
+  color: white; /* 흰색 글자 */
+}
+
+/* 다크 모드에서 달력 스타일 변경 */
+.dark-mode .react-calendar {
+  background-color: #333;
+  border-color: #444;
+}
+
+/* 다크 모드에서 모달창 스타일 변경 */
+.dark-mode .ReactModal__Content {
+  background-color: #222;
+}
 
