@@ -113,11 +113,11 @@ const page = () => {
   }
 
   // 이미지 개수
-  const isLargeScreen = useMediaQuery({ minWidth: 2300 })
+  const isLargeScreen = useMediaQuery({ minWidth: 2100 })
   // 화면 크기가 1500px 이상이고 1900px 미만인지 확인하는 변수
-  const isMediumScreen = useMediaQuery({ minWidth: 1500, maxWidth: 1800 })
-  const isSmallScreen = useMediaQuery({ minWidth: 1024, maxWidth: 1499 })
-  const isSSmallScreen = useMediaQuery({ maxWidth: 1000 })
+  const isMediumScreen = useMediaQuery({ minWidth: 1600, maxWidth: 2000 })
+  const isSmallScreen = useMediaQuery({ minWidth: 1024, maxWidth: 1599 })
+  const SmallScreen = useMediaQuery({ maxWidth: 1023 })
   // 보여줄 이미지 개수를 상태로 관리하는 변수
   const [showCount, setShowCount] = useState(5)
   const maxLength = 30
@@ -129,10 +129,10 @@ const page = () => {
       setShowCount(4)
     } else if (isSmallScreen) {
       setShowCount(3)
-    } else if (isSSmallScreen) {
+    } else if (SmallScreen) {
       setShowCount(2)
     }
-  }, [isLargeScreen, isMediumScreen, isSmallScreen])
+  }, [isLargeScreen, isMediumScreen, isSmallScreen, SmallScreen])
   // 그래프 함수
 
   const [graph, setGraph] = useState<boolean>(true)
@@ -152,7 +152,7 @@ const page = () => {
             최근 5일동안 작성한 일기를 볼수 있어요
           </span>
           {/* 최근 일기목록  */}
-          <div className="w-5/6 h-[23rem] flex flex-row justify-center  mt-5 overscroll-none ">
+          <div className="w-5/6 h-[23rem] flex flex-row justify-center mt-5">
             {/* =============================
               
               일기 내용 들어갈 부분
@@ -172,7 +172,7 @@ const page = () => {
                 index < showCount && (
                   <div
                     key={index}
-                    className="relative w-[20rem] h-[21rem] bg-white mb-10 rounded-2xl ml-4 mr-5  mt-5 shadow-lg border border-neutral-200  hover:scale-105 transition-transform duration-400 overscroll-none "
+                    className="relative w-[20rem] h-[21rem] bg-white mb-10 rounded-2xl ml-4 mr-5  mt-5 shadow-lg border border-neutral-200  hover:scale-105 transition-transform duration-400 cursor-grab "
                   >
                     <div className="absolute right-3 top-[8.3rem] flex items-center justify-center  w-14 h-14 border border-neutral-100 rounded-full z-50 bg-white">
                       <Image
@@ -312,7 +312,7 @@ const page = () => {
                 {graph ? (
                   <BarChart view={view}></BarChart>
                 ) : (
-                  <DoughnuChart></DoughnuChart>
+                  <DoughnuChart view={view}></DoughnuChart>
                 )}
                 <div
                   className={`flex flex-row ml-10 just justify-around ${

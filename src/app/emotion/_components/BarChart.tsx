@@ -24,12 +24,11 @@ type Options = {
   }
 }
 
-type EmotionImgData = {
-  src?: string
-  text?: string
-}
 type BarChartProps = {
   view?: any // Adjust the type according to your needs
+}
+type EmotionCounts = {
+  [key: string]: number
 }
 
 const emotionImg: { [key: string]: string | { src: string; text?: string } } = {
@@ -45,13 +44,42 @@ const BarChart: React.FC<BarChartProps> = ({ view }) => {
   const chartRef = useRef<HTMLCanvasElement>(null) // ref 타입 명시
   let chartInstance: Chart | null = null // chartInstance 타입 명시
 
-  for (let i = 0; i < view.length; i++) {
-    console.log(view[i].diary_emotion)
-    // console.log(emotionImg.당황)
+  // 감정 데이터 추출
+
+  const emotion = () => {
+    // 전역 변수로 선언하여 반복문 밖에서 사용할 수 있도록 함
+    const totalEmotionRatios: EmotionCounts = {}
+
+    for (let i = 0; i < view.length; i++) {
+      const emotionCounts: EmotionCounts = JSON.parse(view[i].diary_emotion)
+      const totalEmotion: number = Object.values(emotionCounts).reduce(
+        (acc, value) => acc + value,
+        0,
+      )
+
+      // 현재 감정 데이터의 비율 계산
+      const emotionRatios: EmotionCounts = {}
+      for (const [key, value] of Object.entries(emotionCounts)) {
+        emotionRatios[key] = value / totalEmotion
+      }
+
+      // 기존의 값에 현재 값을 더함
+      for (const [key, value] of Object.entries(emotionRatios)) {
+        if (totalEmotionRatios[key]) {
+          totalEmotionRatios[key] += value
+        } else {
+          totalEmotionRatios[key] = value
+        }
+      }
+    }
+
+    // 최종 결과 출력
+    return totalEmotionRatios // 계산된 값을 반환
   }
+  const result = emotion() // 함수 호출 및 결과 저장
+  console.log(result) // 결과 출력
 
-  const emotion = () => {}
-
+  // emotion()
   useEffect(() => {
     const ctx = chartRef.current?.getContext('2d') // optional chaining 사용
 
@@ -74,7 +102,14 @@ const BarChart: React.FC<BarChartProps> = ({ view }) => {
           datasets: [
             {
               label: '11월 감정 기록',
-              data: [10, 5, 2, 7, 4, 5],
+              data: [
+                result.행복,
+                result.당황,
+                result.분노,
+                result.슬픔,
+                result.불안,
+                result.중립,
+              ],
               backgroundColor: [
                 'rgba(240, 207, 211, 0.4)',
                 'rgba(255, 206, 86, 0.4)',
@@ -115,7 +150,7 @@ const BarChart: React.FC<BarChartProps> = ({ view }) => {
             },
             y: {
               beginAtZero: true,
-              max: 30,
+              max: 20,
               grid: {
                 display: false, // Set display to false to hide grid lines
               },

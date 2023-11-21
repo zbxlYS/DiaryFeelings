@@ -49,7 +49,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
  `
     // 쿼리를 실행하고 결과를 가져오기
     const rows = await queryPromise(sql, [userId]) // Specify the type for rows
-    const imgrows = await queryPromise(imgsql, ['5'])
+    const imgrows = await queryPromise(imgsql, ['10'])
     return NextResponse.json({ result: rows, imgrows: imgrows })
   } catch (error) {
     console.error('에러 발생:', error)
