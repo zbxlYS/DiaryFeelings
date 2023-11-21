@@ -114,7 +114,11 @@ const MypageModal: React.FC<MypageModalProps> = ({ closeModal, user }) => {
         </Link>
       </div>
       <div className="hover:bg-slate-100 rounded-full p-1">
-        <Link href="/emotion" className="ml-4" onClick={closeModal}>
+        <Link
+          href={`/emotion?userId=${user.id}`}
+          className="ml-4"
+          onClick={closeModal}
+        >
           <span className="text-slate-800 hover:text-slate-900">
             내 감정보기
           </span>

@@ -1,8 +1,8 @@
 import axios from 'axios'
 import { verifyJwt } from '@/app/lib/jwt'
-import { NextApiRequest, NextApiResponse } from 'next'
 import queryPromise from '@/app/lib/db'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse, userAgent } from 'next/server'
+
 type reqBody = {
   text: string
 }
@@ -32,21 +32,23 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+export async function GET(req: NextRequest, res: NextResponse) {
   try {
+    const userId = req.nextUrl.searchParams.get('userId') as string
+    console.log(userId)
     // 여기에 필요한 SQL 쿼리를 작성
-    const sql = 'SELECT * FROM tb_diary ORDER BY created_at DESC LIMIT ?'
+    const sql =
+      'SELECT diary_number,diary_emotion,created_at,updated_at FROM tb_diary WHERE user_id = ? ORDER BY created_at DESC  '
 
     const imgsql = `
     SELECT d.*, i.*
     FROM tb_diary d
     JOIN tb_image i ON d.diary_number = i.diary_number
-    ORDER BY d.created_at ASC
+    ORDER BY d.created_at DESC, d.diary_number DESC
     LIMIT ?;
-  `
-
+ `
     // 쿼리를 실행하고 결과를 가져오기
-    const rows = await queryPromise(sql, ['5']) // Specify the type for rows
+    const rows = await queryPromise(sql, [userId]) // Specify the type for rows
     const imgrows = await queryPromise(imgsql, ['5'])
     return NextResponse.json({ result: rows, imgrows: imgrows })
   } catch (error) {

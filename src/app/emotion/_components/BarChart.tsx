@@ -28,18 +28,29 @@ type EmotionImgData = {
   src?: string
   text?: string
 }
+type BarChartProps = {
+  view?: any // Adjust the type according to your needs
+}
 
 const emotionImg: { [key: string]: string | { src: string; text?: string } } = {
   행복: { src: '/3_love.png', text: '늘 행복해 :)' },
-  놀람: { src: '/happy.png', text: '엄마야!' },
+  당황: { src: '/happy.png', text: '엄마야!' },
   분노: { src: '/angry.png', text: '너무 화가난다아' },
   슬픔: { src: '/sad.png', text: '너무 슬퍼 :(' },
   불안: { src: '/depress.png', text: '너무 불안불안..' },
   중립: { src: '/nothinking.png', text: '나는 아무생각이없어' },
 }
-const BarChart = () => {
+
+const BarChart: React.FC<BarChartProps> = ({ view }) => {
   const chartRef = useRef<HTMLCanvasElement>(null) // ref 타입 명시
   let chartInstance: Chart | null = null // chartInstance 타입 명시
+
+  for (let i = 0; i < view.length; i++) {
+    console.log(view[i].diary_emotion)
+    // console.log(emotionImg.당황)
+  }
+
+  const emotion = () => {}
 
   useEffect(() => {
     const ctx = chartRef.current?.getContext('2d') // optional chaining 사용
@@ -52,13 +63,13 @@ const BarChart = () => {
         data: {
           labels: [
             '행복',
-            '기쁨',
+            '당황',
             // '사랑',
-            '화남',
+            '분노',
             '슬픔',
             // '우울',
             '불안',
-            '생각없음 ',
+            '중립',
           ],
           datasets: [
             {
@@ -127,7 +138,7 @@ const BarChart = () => {
     return () => {
       destroyChart() // 컴포넌트가 unmount될 때 차트 파괴
     }
-  }, [])
+  }, [view])
 
   return <canvas ref={chartRef} className="" />
 }
