@@ -1,4 +1,5 @@
 export interface IDiary {
+  user_image: any
   created_at: any
   diary_number: number
   user_id: string

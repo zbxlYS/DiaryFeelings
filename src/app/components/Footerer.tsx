@@ -46,9 +46,9 @@ const FooterCopyright = styled.div`
 
 const Footer: React.FC = () => {
   return (
-    <FooterWrapper>
-      <InnerContainer>
-        <FooterCopyright>
+    <FooterWrapper className="dark:bg-black dark:border-black">
+      <InnerContainer className="dark:bg-black ">
+        <FooterCopyright className=" dark:text-white/80 ">
           Created with by {''}
           <a
             href="https://github.com/JS-A-CoreProject/DiaryFeelings"

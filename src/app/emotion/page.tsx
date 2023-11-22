@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import BarChart from './_components/BarChart'
-import Snow from './_components/Snow'
 import {
   Avatar,
   Image,
@@ -19,9 +18,11 @@ import { IDiary } from '@/app/types/type'
 import { useMediaQuery } from 'react-responsive'
 import axios from 'axios'
 import { DoughnuChart } from './_components/DoughnuChart'
+import { usePathname } from 'next/navigation'
 // img 상태의 타입을 정의하는 인터페이스
 
 interface IImg {
+  diary_weather: any
   diary_userEmo: string
   diary_number: string
   image_src: string
@@ -31,6 +32,7 @@ interface IImg {
   user_name: string // 이 부분을 추가
   user_id: string // 이 부분을 추가
   src: string
+  user_image: string
   // 추가적인 필요한 속성들을 여기에 추가
 }
 type EmotionImg = {
@@ -43,20 +45,20 @@ type EmotionImg = {
 
 // 사용자 감정 모음
 const emotionImg: EmotionImg = {
-  행복: { src: '/3_love.png', text: '늘 행복해 :)', emo: '행복' },
-  놀람: { src: '/happy.png', text: '엄마야!', emo: '놀람' },
-  분노: { src: '/angry.png', text: '너무 화가난다아', emo: '분노' },
-  슬픔: { src: '/sad.png', text: '너무 슬퍼 :(', emo: '슬픔' },
-  불안: { src: '/depress.png', text: '너무 불안불안..', emo: '불안' },
-  중립: { src: '/nothinking.png', text: '나는 아무생각이없어', emo: '중립' },
+  happy: { src: '/3_love.png', text: '늘 행복해 :)', emo: '행복' },
+  suprise: { src: '/normal.png', text: '엄마야!', emo: '놀람' },
+  angry: { src: '/angry.png', text: '너무 화가난다아', emo: '분노' },
+  sad: { src: '/sad.png', text: '너무 슬퍼 :(', emo: '슬픔' },
+  depress: { src: '/depress.png', text: '너무 불안불안..', emo: '불안' },
+  normal: { src: '/nothinking.png', text: '나는 아무생각이없어', emo: '중립' },
 }
 
 // 사용자 날씨 정보
 const weather: EmotionImg = {
-  맑음: { src: '/cloudy.png', emo: '맑음' },
-  흐림: { src: '/cloudy.png', emo: '흐림' },
-  눈: { src: '/cloudy.png', emo: '눈' },
-  비: { src: '/cloudy.png', emo: '비' },
+  sunny: { src: '/sunny.png', emo: '맑음' },
+  cloudy: { src: '/cloudy.png', emo: '흐림' },
+  snow: { src: '/cloudy.png', emo: '눈' },
+  rainy: { src: '/rainy.png', emo: '비' },
   바람: { src: '/cloudy.png', emo: '바람' },
 }
 
@@ -69,8 +71,9 @@ const page = () => {
   const [view, setView] = useState<IDiary[]>([])
   const [imgView, setImgView] = useState<IImg[]>([]) // 일기 이미지주소
   const [datePart, setDatePart] = useState<string>() //시간
+  const pathname = usePathname()
   // console.log(emotionImg.놀람)
-  // console.log('imgView', imgView)
+  console.log('view', view[0]?.user_image)
   // console.log(user)
 
   // API 주소를 env 파일에서 가져오기
@@ -121,7 +124,7 @@ const page = () => {
   const SmallScreen = useMediaQuery({ maxWidth: 1023 })
   // 보여줄 이미지 개수를 상태로 관리하는 변수
   const [showCount, setShowCount] = useState(5)
-  const maxLength = 30
+  const maxLength = 40
   // 화면 크기가 변경될 때마다 보여줄 이미지 개수를 업데이트하는 함수
   useEffect(() => {
     if (isLargeScreen) {
@@ -157,7 +160,6 @@ const page = () => {
 
   return (
     <>
-      <Snow></Snow>
       <div className="h-[160vh] ">
         {/* 일기목록 */}
         <div className="flex flex-col items-center ">
@@ -170,12 +172,11 @@ const page = () => {
           {/* 최근 일기목록  */}
           <div className={'h-[23rem] flex flex-row justify-center mt-5 '}>
             <div className="flex flex-row mt-5 opacity-60 hover:opacity-100">
-              <button>
-                <Image
-                  src="/arrow-left.png"
-                  className="w-7 "
-                  onClick={handlePrevButtonClick}
-                ></Image>
+              <button
+                className="border rounded-full  dark:border-white/80"
+                onClick={handlePrevButtonClick}
+              >
+                <Image src="/arrow-left.png" className="w-7"></Image>
               </button>
             </div>
 
@@ -198,16 +199,16 @@ const page = () => {
                 index < showCount && (
                   <div
                     key={src.diary_number}
-                    className="relative w-[20rem] h-[21rem] bg-white mb-10 rounded-2xl ml-4 mr-5  mt-5 shadow-lg border border-neutral-200  hover:scale-105 transition-transform duration-400 cursor-grab "
+                    className="relative w-[20rem] h-[21rem] bg-white mb-10 rounded-2xl ml-4 mr-5  mt-5 shadow-lg border border-neutral-200  hover:scale-105 transition-transform duration-400 cursor-grab  dark:text-black"
                   >
-                    <div className="absolute right-3 top-[8.3rem] flex items-center justify-center  w-14 h-14 border border-neutral-100 rounded-full z-50 bg-white">
+                    <div className="absolute right-3 top-[8.3rem] flex items-center justify-center  w-14 h-14 border border-neutral-100 rounded-full z-20 bg-white">
                       <Image
                         // 추가할곳
                         src={
-                          // src.diary_userEmo
-                          //   ? emotionImg[src.diary_userEmo]?.src
-                          //   : '/happy.png'
-                          '/normal.png'
+                          src.diary_userEmo
+                            ? emotionImg[src.diary_userEmo]?.src
+                            : '/happy.png'
+                          // '/normal.png'
                         }
                         className="w-10 h-10"
                       ></Image>
@@ -221,20 +222,23 @@ const page = () => {
                     {/* 사용자 이모지  */}
 
                     <div className="mt-4 ml-4 mr-4">
-                      <h1 className="text-lg mb-5">{src.diary_title}</h1>
+                      <h1 className="text-lg mb-5">
+                        {src.diary_title.length > 10
+                          ? src.diary_title.slice(0, 10) + ' ...'
+                          : src.diary_title}
+                      </h1>
                       <span className="opacity-70 overflow-x-auto ">
                         {src.diary_content.length > maxLength
-                          ? src.diary_content.slice(0, maxLength) + '...'
+                          ? src.diary_content.slice(0, maxLength) + ' ...'
                           : src.diary_content}
                       </span>
                       {/* 일기 날씨  추가할곳*/}{' '}
                       <div className="absolute right-4 mb-10 w-12 h-12 ">
                         <Image
                           src={
-                            // src.diary_weather
-                            //   ? weathre[src.diary_weather]?.src
-                            //   : '/happy.png'
-                            '/cloudy.png'
+                            src.diary_weather
+                              ? weather[src.diary_weather]?.src
+                              : ''
                           }
                         ></Image>{' '}
                       </div>
@@ -250,12 +254,14 @@ const page = () => {
                   </div>
                 ),
             )}
-            <div className="flex flex-row mt-5 opacity-60 hover:opacity-100">
-              <button>
+            <div className="flex flex-row mt-5 opacity-60 hover:opacity-100 rounded-full">
+              <button
+                className="border rounded-full  dark:border-white/80"
+                onClick={handleNextButtonClick}
+              >
                 <Image
                   src="/arrow-right.png"
                   className="w-7 opacity-50 ml"
-                  onClick={handleNextButtonClick}
                 ></Image>
               </button>
             </div>
@@ -286,14 +292,25 @@ const page = () => {
               <div className="w-11/12 min-w-[18rem] h-[44rem] mr-10 bg-white opacity-90 rounded-xl shadow-xl border border-neutral-200">
                 <div className="flex items-center flex-col">
                   <Avatar
-                    src="/yuumi.jpg"
-                    className="w-[10rem] h-[10rem] text-large m-10"
+                    // view[0]?.user_image
+                    src={
+                      view[0]?.user_image === 'no image' ||
+                      view[0]?.user_image === undefined ||
+                      view[0]?.user_image === ''
+                        ? '/3_love.png' // Fallback image path
+                        : view[0]?.user_image
+                    }
+                    className="w-[10rem] h-[10rem] text-large m-10 bg-white border-1 border-neutral-300"
                   />
                 </div>
 
-                <h1 className="text-xl ml-5 mb-1">{user.name} 님</h1>
-                <span className="ml-5 opacity-70 ">{user.id}</span>
-                <div className="mt-3">
+                <h1 className="text-xl ml-5 mb-1 dark:text-black">
+                  {user.name} 님
+                </h1>
+                <span className="ml-5 opacity-70  dark:text-black">
+                  {user.id}
+                </span>
+                <div className="mt-3  dark:text-black">
                   <Textarea
                     label="Description"
                     variant="bordered"
@@ -338,13 +355,15 @@ const page = () => {
                   color="secondary"
                   className="opacity-70"
                 ></Switch>
-                <h1 className="text-sm mt-1 opacity-80">그래프변경</h1>
+                <h1 className="text-sm mt-1 opacity-80 dark:text-black">
+                  그래프변경
+                </h1>
               </div>
               <div
                 className={`absolute w-full ${
                   graph
-                    ? 'top-[5rem]'
-                    : 'top-12 h-[35rem] flex flex-col justify-center items-center mt-10 ml-10 mr-10'
+                    ? 'top-[5rem]  dark:text-black'
+                    : 'top-12 h-[35rem] flex flex-col justify-center items-center mt-10 ml-10 mr-10  dark:text-black'
                 } `}
               >
                 {graph ? (
