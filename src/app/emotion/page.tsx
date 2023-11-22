@@ -11,6 +11,7 @@ import {
   Link,
   Tooltip,
   Switch,
+  button,
 } from '@nextui-org/react'
 import { useRecoilState } from 'recoil'
 import { userInfo } from '@/app/lib/atoms/atom'
@@ -206,9 +207,9 @@ const page = () => {
                           // src.diary_userEmo
                           //   ? emotionImg[src.diary_userEmo]?.src
                           //   : '/happy.png'
-                          '/happy.png'
+                          '/normal.png'
                         }
-                        className="w-12 h-12"
+                        className="w-10 h-10"
                       ></Image>
                     </div>
                     <Image

@@ -1,159 +1,79 @@
 'use client'
-
-import { useState } from 'react'
-import { signIn } from 'next-auth/react'
-import React from 'react'
-
-import { Input } from "@nextui-org/react";
-import { useRouter } from 'next/navigation'
+import { signIn, signOut, useSession } from 'next-auth/react'
+import { useRef, useState } from 'react'
+import axios from 'axios'
+import LoginPage from './_components/LoginPage'
 
 const Login = () => {
-  const [id, setId] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const router = useRouter()
-
+  // useRef로 아이디랑, 비밀번호 값 가져오기.
+  const idRef = useRef<HTMLInputElement>(null)
+  const pwRef = useRef<HTMLInputElement>(null)
+  // axios post 방식으로 전달해 주기 => 주소: http://localhost:3000/api/login , {username: id, password: password}
   const handleLogin = async () => {
-
-    if(id.length === 0) {
-      alert('아이디를 입력해주세요.')
-      return
-    }
-    if(password.length === 0) {
-      alert('패스워드를 입력해주세요.')
-      return
-    }
+    console.log('aaaa')
     const result = await signIn('credentials', {
-      username: id,
-      password: password,
+      username: idRef.current?.value,
+      password: pwRef.current?.value,
       redirect: false,
       callbackUrl: '/',
     })
 
-    if (result?.error == 'wrong password') {
-      // 비밀번호 일치하지 않았을 때 보여줄 것.
-      setError('비밀번호가 틀렸어요.')
-    } else if (result?.error === 'No user') {
-      // 사용자를 찾을 수 없는 경우
-      setError('없는 아이디예요.')
-    } else {
-      router.push('/diary?page=1')
-    }
+    console.log(result?.error)
   }
 
-  const handleFindId = () => {
-    // 아이디 찾기 로직 추가
-    alert('아이디 찾기 기능이 추가되었습니다.');
-  };
+  // 로그인이 성공하면 알아서 홈으로 이동됨.
 
-  const handleFindPassword = () => {
-    // 비밀번호 찾기 로직 추가
-    alert('비밀번호 찾기 기능이 추가되었습니다.');
-  };
+  // id: test1 pw: 1234
 
-const handleKakao = async () => {
-  try {
-    const result = await signIn('kakao', {
-      redirect: true,
-      callbackUrl: '/diary?page=1',
-    });
-
-    // 성공적으로 소셜 로그인을 수행하면 result에 로그인 정보가 담깁니다.
-    console.log('Kakao Login Result:', result);
-  } catch (error) {
-    // 소셜 로그인 실패 시 에러를 처리합니다.
-    console.error('Kakao Login Error:', error);
-  }
-};
-
-const handleGoogle = async () => {
-  try {
-    const result = await signIn('google', {
-      redirect: true,
-      callbackUrl: '/diary?page=1',
-    });
-    console.log('Google Login Result:', result);
-  } catch (error) {
-    console.error('Google Login Error:', error);
-  }
-};
-const handleNaver = () => {
-  // 네이버 로그인 처리 로직 추가
-};
   return (
-    <div className="flex flex-col items-center justify-center border rounded-md p-[60px] shadow-lg">
-      <div className="flex w-64 flex-col p-2 pt-0 justify-center">
-        <div className="">
-          
-        </div>
-        <span className="p-1 text-lg font-normal">아이디</span>
-        <Input
-         type="text"
-         className="max-w-xs"
-         value={id}
-         onChange={(e) => setId(e.target.value)}
-         />
-      </div>
-      <div className="flex w-64 flex-col  p-2 pt-0">
-        <span className="p-1 text-lg font-normal">비밀번호</span>
-    <Input
-         type="password"
-         className="max-w-xs"
-         value={password}
-         onChange={(e) => setPassword(e.target.value)}>
-    </Input>
-      </div>
-      <div className="mt-5 flex items-center justify-center ">
-        <button
-          onClick={handleLogin}
-          className="h-10 w-64 rounded-xl bg-gray-300 text-lg font-medium text-white transition-colors duration-300 ease-in-out hover:bg-gray-400" 
-        >
-          로그인
-        </button>
-      </div>
-      {error && <div className="text-red-500 mt-2 text-center">{error}</div>}
+    <LoginPage />
+    // <div className="mt-10 flex h-screen w-screen flex-col items-center">
+    //   <div className=" p-10 text-2xl font-bold">
+    //     <span>Relu molu</span>
+    //   </div>
+    //   <div className="flex w-64 flex-col  p-2 pt-0">
+    //     <span className="p-1 text-sm font-normal">아이디</span>
+    //     <input className="border-2" type="text" ref={idRef}></input>
+    //   </div>
+    //   <div className="flex w-64 flex-col  p-2 pt-0">
+    //     <span className="p-1 text-sm font-normal">비밀번호</span>
+    //     <input className="border-2" type="text" ref={pwRef}></input>
+    //   </div>
+    //   <div className="mt-5 flex items-center   justify-center ">
+    //     <button onClick={handleLogin} className=" h-10 w-64 rounded-xl bg-gray-300 text-sm font-medium text-white">
+    //       로그인
+    //     </button>
+    //   </div>
+    //   <div className="mt-6 flex flex-col items-center justify-center">
+    //     <span className="text-sm">
+    //     </span>
+    //     <span className="text-sm">Relumolu@google.com</span>
+    //   </div>
+    //   <div>
+    //   <div className="mt-6">
+    //     <img
+    //       src="/kakao_login_medium_narrow.png"  // 이미지 파일의 경로를 지정해야 합니다.
+    //       alt="kakao 로그인 이미지"
+    //       className="max-w-full h-auto mx-auto"
+    //     />
+    //   </div>
+    //   <div className="mb-1">
+    //     <img
+    //       src="/naver.btnG_완성형.png"  // 이미지 파일의 경로를 지정해야 합니다.
+    //       alt="naver 로그인 이미지"
+    //       className="w-47 h-12 mx-auto"
+    //     />
+    //   </div>
+    //   <div className="mt-1">
+    //     <img
+    //       src="/android_light_sq_SI@1x.png"  // 이미지 파일의 경로를 지정해야 합니다.
+    //       alt="구글 로그인 이미지"
+    //       className="max-w-full h-auto mx-auto"
+    //     />
+    //   </div>
 
-<div className="mt-6 flex flex-col items-center justify-center">
-  <span className="text-lg"></span>
-  <span className="text-lg">
-    <button onClick={handleFindId} className="text-blue-500">
-      아이디 찾기
-    </button>
-    &nbsp;&nbsp;
-    <button onClick={handleFindPassword} className="text-blue-500">
-      비밀번호 찾기
-    </button>
-  </span>
-</div>
-<div className="mt-6 flex flex-col items-center justify-between">
-      <div>
-          <button onClick={handleKakao} className="mx-2">
-          <img
-            src="/sign/kakao.png"
-            alt="kakao 로그인 이미지"
-            className="w-47 h-12 mx-auto"
-          />
-          </button>
-       
-        <button onClick={handleNaver}  className="mx-2">
-          <img
-            src="/sign/naver.png"
-            alt="naver 로그인 이미지"
-            className="w-47 h-12 mx-auto"
-          />
-          </button>
-       
-       
-        <button onClick={handleGoogle} className="mx-2" >
-          <img
-            src="/sign/google.png"
-            alt="구글 로그인 이미지"
-            className="w-47 h-12 mx-auto"
-          />
-        </button>  
-        </div>
-      </div>
-    </div>  
+    //   </div>
+    // </div>
   )
 }
 
