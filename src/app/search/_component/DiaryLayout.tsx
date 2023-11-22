@@ -15,6 +15,7 @@ const emotionImg: { [key: string]: string } = {
 }
 const DiaryLayout = ({ data }: Props) => {
   const router = useRouter()
+
   return (
     <div
       className="border border-[#A2A2A2] relative w-[350px] h-[500px] rounded-[20px] flex flex-col justify-between overflow-hidden pb-[10px] shadow-lg mx-[35px] mb-[140px] hover:shadow-xl hover:scale-[1.02] ease-in duration-200 cursor-pointer"

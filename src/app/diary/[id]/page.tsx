@@ -1,35 +1,37 @@
 'use client'
 
 import axios from 'axios'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import { notFound } from 'next/navigation'
+import { IDiary } from '@/app/types/type'
 interface Props {
-  id: string
+  id: any
 }
 
 const DiaryDetail = ({ params }: { params: Props }) => {
-  const num = parseInt('diary function', params.id)
+  const [view, setView] = useState<IDiary>()
+  const num = parseInt(params.id)
   // 숫자로 변환했는데 NaN이면 없는 페이지.
   if (isNaN(num)) {
     notFound()
   }
+
   const getDiary = async () => {
-    const result = await axios.get(`/api/diary?id=${params.id}`)
+    const result = await axios.get(`/api/diary/${num}`)
     const data = result.data
-    console.log('data', data)
+    setView((prev) => data.result)
+    console.log('view', data)
 
     if (result.data.msg === 'success') {
-      console.log('성공')
-    } else {
-      console.log('실패')
+      console.log('Get Diary Success')
     }
   }
   useEffect(() => {
     getDiary()
-  }, [])
+  }, [num])
 
-  return <div></div>
+  return <div>{view?.diary_title}</div>
 }
 
 export default DiaryDetail

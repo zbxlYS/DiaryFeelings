@@ -42,7 +42,7 @@ const Search = () => {
   }, [id, keyword])
 
   return (
-    <div className="w-full h-full mt-[20px] flex flex-col justify-center items-center">
+    <div className="w-full mt-[100px] flex flex-col justify-center items-center">
       <div className=" h-[50px] rounded-md flex justify-around items-center self-start ml-[110px] mb-[50px]">
         <div>
           "{keyword}" 에 대한 검색 결과 ({total}개)

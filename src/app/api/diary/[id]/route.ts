@@ -10,15 +10,15 @@ interface Props {
 // GET 가져오기
 export const GET = async (req: Request, { params }: { params: Props }) => {
   const id = parseInt(params.id)
-
+  console.log(params.id)
   try {
     let sql =
       'SELECT A.*, B.image_src FROM tb_diary as A LEFT JOIN tb_image as B ON A.diary_number = B.diary_number WHERE A.diary_number = ?'
     const result = await queryPromise(sql, [id])
-    return NextResponse.json({ result: result[0] })
+    return NextResponse.json({ result: result[0], msg:'success' })
   } catch (err) {
-    console.log(err)
-    return NextResponse.json({ result: 'eror!' })
+    console.log('backerror',err)
+    return NextResponse.json({ result: err, msg: 'error' })
   }
 }
 
