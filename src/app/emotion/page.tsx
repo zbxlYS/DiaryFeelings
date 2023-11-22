@@ -153,6 +153,7 @@ const page = () => {
       setCurrentIndex(currentIndex - 1)
     }
   }
+
   return (
     <>
       <Snow></Snow>
@@ -166,7 +167,17 @@ const page = () => {
             최근 5일동안 작성한 일기를 볼수 있어요
           </span>
           {/* 최근 일기목록  */}
-          <div className="w-11/12 h-[23rem] flex flex-row justify-center mt-5 ">
+          <div className={'h-[23rem] flex flex-row justify-center mt-5 '}>
+            <div className="flex flex-row mt-5 opacity-60 hover:opacity-100">
+              <button>
+                <Image
+                  src="/arrow-left.png"
+                  className="w-7 "
+                  onClick={handlePrevButtonClick}
+                ></Image>
+              </button>
+            </div>
+
             {/* =============================
               
               일기 내용 들어갈 부분
@@ -238,33 +249,27 @@ const page = () => {
                   </div>
                 ),
             )}
+            <div className="flex flex-row mt-5 opacity-60 hover:opacity-100">
+              <button>
+                <Image
+                  src="/arrow-right.png"
+                  className="w-7 opacity-50 ml"
+                  onClick={handleNextButtonClick}
+                ></Image>
+              </button>
+            </div>
 
             {/* 일기 내용 끝  */}
           </div>
           {/* 버튼을 눌렀을 때 다음 일기로 넘어가기 */}
-          <div className="flex flex-row mt-5 opacity-80">
-            <button>
-              <Image
-                src="/left-arrow.png"
-                className="w-7  mr-6"
-                onClick={handlePrevButtonClick}
-              ></Image>
-            </button>
-            <button>
-              <Image
-                src="/right-arrow.png"
-                className="w-7 opacity-50 ml-6"
-                onClick={handleNextButtonClick}
-              ></Image>
-            </button>
-          </div>
+
           {/* =============================
 
                 사용자 정보 부분 
                 
               ===========================*/}
         </div>
-        <div className="flex justify-center items-center flex-col mt-10 mb-10">
+        <div className="flex justify-center items-center flex-col mt-16 mb-10">
           <h1 className="text-xxl">{user.name}님 감정정보 </h1>
           <span className="max-w-[30rem] mt-7 opacity-70">
             아래는 최근 한 달 동안의 감정을 기록하는 내용입니다: 한 달 동안의
