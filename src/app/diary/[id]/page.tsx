@@ -148,34 +148,28 @@ const DiaryDetail = ({ params }: { params: Props }) => {
         {/* user image */}
         <div className="w-full py-[10px] flex items-center flex flex-col justify-center items-center">
           <div className="mt-[30px] w-full flex">
-            <div className="mr-[30px]">
-              <div className="w-[300px] h-[300px] rounded-md bg-gray-200 object-contain flex justify-center items-center overflow-hidden">
+            <div className="mr-[30px] h-[350px] shadow-lg dark:bg-[#171717] dark:shadow-slate-600 border hover:border-1 focus-within:border-1 ">
+              <div className="w-[300px] h-[300px] p-3 rounded-md object-contain flex justify-center items-center overflow-hidden">
                 {
                   <Image
-                    src={view?.image_src}
+                    src={view?.image_src as string}
                     alt="preview"
                     width={300}
                     height={300}
                   />
                 }
               </div>
-              <input type="file" accept="image/*" hidden={true} />
             </div>
             <div className="w-full flex flex-col">
-              {/* <div className="relative border p-[5px] mb-[5px] rounded-md flex items-center">
-                  <span className={`relatvie `}>
-                    선택된 폰트: {view?.diary_font}
-                  </span>
-                </div> */}
               {/* diary content */}
               <div
-                className={`border resize-none w-full h-full outline-none rounded-md p-[10px] text-lg bg-[transparent] ${fontList[font][1]}`}
+                className={`border resize-none  max-w-4xl h-full outline-none rounded-md p-[25px] text-lg bg-[transparent] ${fontList[font][1]} leading-9`}
               >
                 {view?.diary_content}
               </div>
             </div>
           </div>
-        </div>{' '}
+        </div>
         <div className="flex mt-5">
           <div className="bg-[#b2a4d4] text-white px-[14px] py-[7px] rounded-md cursor-pointer opacity-[0.8] hover:opacity-[1]">
             <span className="text-lg" onClick={handleModify}>

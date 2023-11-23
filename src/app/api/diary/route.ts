@@ -13,14 +13,18 @@ export const api = {
 export async function DELETE(req: NextRequest, res: NextResponse) {
   const data = await req.json()
   const userID = data.id
-  // const deletePost = data.get('diary_number') as string
-  // const userID= req.body
+  const diaryNum = data.diary_number
 
   try {
-    let sql = 'SELECT diary_content FROM tb_diary WHERE user_id = ?'
-    let values: any = userID
-    const result = await queryPromise(sql, [values])
-    console.log('delete function', userID)
+    // delete in tb_image
+    let sql = 'delete from tb_image where diary_number = ?'
+    let values: any = diaryNum
+    let result = await queryPromise(sql, [values])
+
+    // delete in tb_diary
+    sql = 'DELETE FROM tb_diary WHERE user_id = ? AND diary_number = ?'
+    values = [userID, diaryNum]
+    result = await queryPromise(sql, values)
     return NextResponse.json({ msg: 'success' })
   } catch (err) {
     console.log(err)
