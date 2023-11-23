@@ -14,10 +14,10 @@ const Snow: React.FC<Emotion> = () => {
         </div>
 
         <div className={style.snowflake}>
-          <Image src="/3_love.png" width={40} height={40}></Image>
+          <Image src="/snowflake-free.png" width={20} height={20}></Image>
         </div>
         <div className={style.snowflake}>
-          <Image src="/angry.png" width={40} height={40}></Image>
+          <Image src="/snowflake.png" width={20} height={20}></Image>
         </div>
         <div className={style.snowflake}>
           <Image src="/snowflake-four.png" width={20} height={20}></Image>

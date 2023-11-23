@@ -6,6 +6,8 @@ import Providers from './components/Providers'
 import RefreshToken from './components/RefreshToken'
 import NavBar from './components/Nav'
 
+import Footerer from './components/Footerer'
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -26,6 +28,7 @@ export default function RootLayout({
           <DarkMode>
             <NavBar />
             {children}
+            <Footerer/>
           </DarkMode>
         </Providers>
       </body>

@@ -37,9 +37,16 @@ export async function GET(req: NextRequest, res: NextResponse) {
     const userId = req.nextUrl.searchParams.get('userId') as string
     console.log(userId)
     // 여기에 필요한 SQL 쿼리를 작성
-    const sql =
-      'SELECT diary_number,diary_emotion,created_at,updated_at FROM tb_diary WHERE user_id = ? ORDER BY created_at DESC  '
-
+    const sql = `SELECT tb_diary.diary_number,
+    tb_diary.diary_emotion,
+    tb_diary.created_at,
+    tb_diary.updated_at,
+    tb_user.user_image
+    FROM tb_diary
+    JOIN tb_user ON tb_diary.user_id = tb_user.user_id
+    WHERE tb_diary.user_id = ?
+    ORDER BY tb_diary.created_at DESC`
+    // 'SELECT diary_number,diary_emotion,created_at,updated_at FROM tb_diary WHERE user_id = ? ORDER BY created_at DESC  '
     const imgsql = `
     SELECT d.*, i.*
     FROM tb_diary d
@@ -47,10 +54,17 @@ export async function GET(req: NextRequest, res: NextResponse) {
     ORDER BY d.created_at DESC, d.diary_number DESC
     LIMIT ?;
  `
+    // 현진11.22일 : 사용자 이미지 가져옴
+    let userImg = 'SELECT user_image FROM tb_user WHERE user_id = ? '
+    let imgResult = await queryPromise(userImg, [userId])
     // 쿼리를 실행하고 결과를 가져오기
     const rows = await queryPromise(sql, [userId]) // Specify the type for rows
     const imgrows = await queryPromise(imgsql, ['10'])
-    return NextResponse.json({ result: rows, imgrows: imgrows })
+    return NextResponse.json({
+      result: rows,
+      imgrows: imgrows,
+      userimg: imgResult,
+    })
   } catch (error) {
     console.error('에러 발생:', error)
     return NextResponse.json({ result: 'error' })
