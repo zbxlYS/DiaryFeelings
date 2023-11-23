@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import UpLoading from '@/app/wrote/_components/UpLoading'
+import UpLoading from '@/app/write/_components/UpLoading'
 import { notFound } from 'next/navigation'
 import { IDiary } from '@/app/types/type'
 import DatePicker from 'react-datepicker'
@@ -72,25 +72,24 @@ const DiaryDetail = ({ params }: { params: Props }) => {
   const handleDelete = async (e: any) => {
     e.preventDefault()
     /* get user id from session */
+    if (confirm('정말 삭제하시겠어요?')) {
+      try {
+        const response = await axios.delete(`http://localhost:3000/api/diary`, {
+          data: {
+            id: userObj,
+            diary_number: view?.diary_number,
+          },
+        })
 
-    console.log(userObj)
-    try {
-      const response = await axios.delete(`http://localhost:3000/api/diary`, {
-        data: {
-          id: userObj,
-          diary_number: view?.diary_number,
-        },
-      })
-
-      if (response.data.msg === 'success') {
-        alert('삭제 완료~')
-        window.location.href = '/diary'
-      } else {
-        alert('삭제 실패~')
+        if (response.data.msg === 'success') {
+          alert('삭제 되었습니다🤗')
+          window.location.href = '/diary?page=1'
+        }
+      } catch (error) {
+        alert('삭제에 실패했어요🥲\n 다시 시도해 주세요')
       }
-    } catch (error) {
-      console.error(error)
-      alert('삭제 실패~')
+    } else {
+      alert('삭제에 실패했어요🥲\n 다시 시도해 주세요')
     }
   }
 

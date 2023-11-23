@@ -29,10 +29,9 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const [inputValue, setInputValue] = useState<string>('') // 일기검색
   const [user, setUser] = useRecoilState(userInfo)
   const [isCalendarOpen, setIsCalendarOpen] = useState(false) //달력모달
-  const [searchBlur, setSearchBlur] = useState(false) // 검색창 선 색상 변경 용도
+
   const [userImg, setUserImg] = useState<any>('') // 유저 이미지
   const [snowTheme, setSnowTheme] = useState<boolean>(false)
-  const [searchBlur, setSearchBlur] = useState(false)
 
   const themeOnClick = () => {
     setSnowTheme(!snowTheme)
@@ -80,9 +79,6 @@ const Nav: React.FC<SearchComponentProps> = () => {
     setIsCalendarOpen(!isCalendarOpen)
   }
 
-  const handleBlur = () => {
-    setSearchBlur(!searchBlur)
-  }
   useEffect(() => {
     // 초기 렌더링 시 테마를 라이트 모드로 설정
     if (currentTheme !== 'light') {
@@ -124,11 +120,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
             />
             <input
               type="text"
-              className={`w-[400px] h-[40px] outline-none border-b-[2px] ${
-                searchBlur ? 'border-[#b2a4d4]' : 'border-gray'
-              } bg-[transparent] p-[7px] pl-[30px]`}
-              onFocus={() => setSearchBlur(true)}
-              onBlur={() => setSearchBlur(false)}
+              className={`w-[400px] h-[40px] outline-none border-b-[2px] bg-[transparent] p-[7px] pl-[30px]`}
             />
           </div>
         </div>
