@@ -6,12 +6,12 @@ interface Props {
   data: IDiary
 }
 const emotionImg: { [key: string]: string } = {
-  중립: '/kkomul.png',
-  슬픔: '/sad.png',
-  분노: '/angry.png',
-  놀람: '/yuumi.png',
-  행복: '/3_love.png',
-  불안: '/depress.png',
+  normal: '/normal.png',
+  sad: '/sad.png',
+  angry: '/angry.png',
+  suprise: '/yuumi.png',
+  happy: '/3_love.png',
+  depress: '/depress.png',
 }
 const DiaryLayout = ({ data }: Props) => {
   const router = useRouter()

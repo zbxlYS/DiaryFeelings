@@ -14,6 +14,8 @@ import { ainmom, bareun, kyobo, omyu, ridi, shin, pretendard } from '@/app/compo
 import LottieCat from '@/app/components/LottieCat'
 import { useRouter } from "next/navigation"
 import UpLoading from "@/app/wrote/_components/UpLoading";
+import DragIcon from "@/app/wrote/_components/DragIcon"
+import DragView from "../../_components/DragView";
 
 interface Props {
     id: string;
@@ -42,6 +44,7 @@ const Modify = ({params}: { params: Props}) => {
 
     const [titleValue, setTitleValue] = useState('')
     const [contentValue, setContentValue] = useState('');
+    const [icons, setIcons] = useState<any[]>([]);
     const router = useRouter()
     const emotionList = [
         ["happy", "오늘은 행복한 날이에요!"],
@@ -88,6 +91,8 @@ const Modify = ({params}: { params: Props}) => {
             alert('내용을 입력해 주세요.')
             return;
         }
+        const fonts = curFont.toString()
+        console.log(fonts)
         const formData = new FormData();
         formData.append('title', titleRef.current.value)
         formData.append('content', contentRef.current.value)
@@ -96,7 +101,7 @@ const Modify = ({params}: { params: Props}) => {
         formData.append('weather', weather)
         formData.append('emotion', value)
         formData.append('datetime', date.toString())
-        formData.append('font', curFont.toString())
+        formData.append('font', fonts)
         formData.append('diary_num', params.id)
         const result = await axios.patch(
             `/api/diary/${params.id}`,
@@ -110,7 +115,7 @@ const Modify = ({params}: { params: Props}) => {
         );
         console.log(result.data)
         setUpLoading(prev => false);
-        router.push(`/diary/${result.data.result.insertId}`)
+        router.push(`/diary/${params.id}`)
     }
     const getData = async(id: string) => {
         setLoading(true)
@@ -135,7 +140,7 @@ const Modify = ({params}: { params: Props}) => {
     }
     useEffect(() => {
         getData(params.id)
-    },[])
+    },[session])
     // const data = await getData(params.id)
     return (
         <>
@@ -218,15 +223,15 @@ const Modify = ({params}: { params: Props}) => {
                                 </div>
                             </div>
                             <div className="w-full flex flex-col">
-                                <div className="relative border p-[5px] mb-[5px] rounded-md flex items-center">
-                                    <div className="cursor-pointer"
+                                <div className="relative p-[5px] mb-[5px] rounded-md flex items-center">
+                                    <div className="cursor-pointer z-10"
                                         onMouseOver={() => setSelFont(true)}
                                         onMouseLeave={() => setSelFont(false)}
                                     >
-                                        <span className="relatvie">폰트를 바꿔 보세요!</span>
+                                        <span className={`relatvie ${fontList[curFont][1]} p-4 border shadow-lg rounded-md w-[50px]`}>폰트 바꾸기</span>
                                         {
                                             selFont ? (
-                                                <div className="absolute p-[3px] flex flex-col justify-center items-center border bg-white rounded-md cursor-pointer">
+                                                <div className="absolute mt-[12px] w-[105px] p-[3px] flex flex-col justify-center items-center border bg-white rounded-md cursor-pointer">
                                                     {
                                                         fontList.map((data, index) => (
                                                             <span key={index} className={`my-[2px] ${data[1]} hover:text-[#b2a4d4]`}
@@ -240,11 +245,20 @@ const Modify = ({params}: { params: Props}) => {
                                     </div>
 
                                 </div>
-                                <textarea ref={contentRef} name="content" id="content"
-                                    onChange={(e) => setContentValue(e.target.value)}
-                                    value={contentValue}
-                                    className={`border resize-none w-full h-full outline-none rounded-md p-[10px] text-lg bg-[transparent] ${fontList[curFont][1]}`}
-                                />
+                                <div className="relative w-full h-full shadow-lg border rounded-md">
+                                    <textarea ref={contentRef} name="content" id="content"
+                                        onChange={(e) => setContentValue(e.target.value)}
+                                        value={contentValue}
+                                        className={`resize-none w-full h-full outline-none rounded-md p-[10px] text-lg bg-[transparent] ${fontList[curFont][1]}`}
+                                    />
+                                            {
+                                                icons.length > 0 && icons.map((data: any, index) => (
+                                                    <DragView
+                                                        data={data}
+                                                    />
+                                                ))
+                                            }
+                                </div>
                             </div>
                         </div>
                     </div>

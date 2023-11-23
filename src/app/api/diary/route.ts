@@ -66,11 +66,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const content = data.get('content') as string
   const weather = data.get('weather') as string
   const emotion = data.get('emotion') as string
+  const fonts = data.get('fonts') as string
   let date: string | Date = data.get('datetime') as string
   date = new Date(date) as Date
   const id = data.get('id') as string
   const name = data.get('name') as string
-
   const predictEmo = await axios.post(
     `${process.env.BASE_URL}/api/emotion`,
     { text: content },
@@ -167,13 +167,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
       content,
       predictEmo.data,
       weather,
-      'pretendard',
+      fonts,
       null,
       predictAdvice.data,
       new Date(),
       new Date(),
       emotion,
-      date,
+      date
     ]
     const result = await queryPromise(sql, values)
     sql = 'INSERT INTO tb_image VALUES(?,?,?,?,?)'

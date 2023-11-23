@@ -210,7 +210,7 @@ const page = () => {
             )}
 
             {/* =============================
-              
+              h-[23rem]
               일기 내용 들어갈 부분
               - 이미지
               - 제목
@@ -336,7 +336,7 @@ const page = () => {
             {/* 사용자 정보  */}
 
             <div className="flex flex-col justify-center ">
-              <div className="w-11/12 min-w-[18rem] h-[44rem] mr-10 bg-white opacity-90 rounded-xl shadow-xl border border-neutral-200">
+              <div className="w-11/12 min-w-[18rem] mr-10 bg-white opacity-90 rounded-xl shadow-xl border border-neutral-200">
                 <div className="flex items-center flex-col">
                   <Avatar
                     // view[0]?.user_image
@@ -397,7 +397,7 @@ const page = () => {
 
             <div
               className={`w-8/12 max-w-[65rem] min-w-[40rem] flex items-center justify-center bg-white opacity-90 rounded-xl shadow-xl relative  border border-neutral-200 ${
-                graph ? '' : 'h-[44rem]'
+                graph ? '' : ''
               }`}
             >
               <div className="absolute top-0 left-0 flex flex-row mt-4 ml-4">

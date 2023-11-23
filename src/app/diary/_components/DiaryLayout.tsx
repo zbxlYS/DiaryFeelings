@@ -2,7 +2,7 @@
 
 import { IDiary } from '@/app/types/type'
 import moment from 'moment'
-import Image from 'next/image'
+import { Image } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 interface Props {
   data: IDiary
@@ -27,9 +27,6 @@ const Diary = ({ data }: Props) => {
           {data.image_src && (
             <Image
               src={data.image_src.split(',')[0]}
-              width={350}
-              height={250}
-              alt="image"
             />
           )}
         </div>

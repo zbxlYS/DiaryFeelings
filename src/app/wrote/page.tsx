@@ -12,6 +12,8 @@ import axios from "axios"
 import { ainmom, bareun, kyobo, omyu, ridi, shin, pretendard } from '@/app/components/fonts/fonts'
 import UpLoading from "./_components/UpLoading"
 import { useRouter } from "next/navigation"
+import DragIcon from "./_components/DragIcon"
+import { randomStrings } from '@/app/hooks/hooks'
 
 // 감정 선택
 // 사진 넣을 곳 추가
@@ -49,6 +51,13 @@ const Write = () => {
         ["교보 손글씨", kyobo.className],
         ["신동엽 손글씨", shin.className]
     ]
+
+    const [icons, setIcons] = useState<any[]>([]);
+
+    // [{
+    //     icon: 'heart',
+    //     posFunc: {[pos, setPos] = useState({x: 0, y: 0})}
+    // }]
     const CalendarInput = forwardRef(({ value, onClick }: any, ref: any) => (
         // any 안 쓰고 싶은데 몰루겠다...
         <div className="flex">
@@ -93,7 +102,7 @@ const Write = () => {
         formData.append('weather', weather)
         formData.append('emotion', value)
         formData.append('datetime', date.toString())
-        formData.append('font', curFont.toString())
+        formData.append('fonts', curFont.toString())
         if (imgRef.current && imgRef.current.files && imgRef.current.files.length > 0) {
             formData.append('img', imgRef.current.files[0])
         }
@@ -112,9 +121,30 @@ const Write = () => {
         setUpLoading(prev => false);
         router.push(`/diary/${result.data.result.insertId}`)
     }
+    const iconArr = [
+        ["🥳"], ["🥹"],
+        ["😗"], ["✌️"]
+    ]
+    // const [iconsPos, setIconsPos] = useState<any[]>([])
+    const iconsHandle = (data: string, index: number, str: string) => {
+        setIcons((prev: any) => ([...prev,
+        {
+            str: str,
+            comp: <DragIcon icon={data} icons={icons} setIcons={setIcons} num={index} str={str}/>,
+            pos: {x: 0, y: 0},
+            data: data
+        }
+    ]))
+    }
+    const testButton = () => {
+        console.log(icons)
+    }
+    useEffect(() => {
+        console.log('바뀌어라~', icons)
+    },[icons])
     return (
         <div className="relative w-[1280px] flex flex-col items-end p-[30px] relative border rounded-md shadow-lg mt-[40px]">
-            { upLoading && <UpLoading />}
+            {upLoading && <UpLoading />}
             <div className="border shadow-lg absolute p-[10px] shadow-xl rounded-md my-[20px] flex flex-col justify-center items-center top-[-20px] right-[-150px]">
                 <div className="relative flex flex-col justify-center items-center"
                     onMouseOver={() => setSelWeather(true)}
@@ -206,15 +236,15 @@ const Write = () => {
                         />
                     </div>
                     <div className="w-full flex flex-col">
-                        <div className="relative border p-[5px] mb-[5px] rounded-md flex items-center">
-                            <div className="cursor-pointer"
+                        <div className="relative p-[5px] mb-[5px] rounded-md flex items-center">
+                            <div className="cursor-pointer z-10"
                                 onMouseOver={() => setSelFont(true)}
                                 onMouseLeave={() => setSelFont(false)}
                             >
-                                <span className={`relatvie font-[${curFont}]`}>폰트를 바꿔 보세요!</span>
+                                <span className={`relatvie ${fontList[curFont][1]} p-4 border shadow-lg rounded-md w-[50px]`}>폰트 바꾸기</span>
                                 {
                                     selFont ? (
-                                        <div className="absolute p-[3px] flex flex-col justify-center items-center border bg-white rounded-md cursor-pointer">
+                                        <div className="absolute mt-[12px] w-[105px] p-[3px] flex flex-col justify-center items-center border bg-white rounded-md cursor-pointer">
                                             {
                                                 fontList.map((data, index) => (
                                                     <span key={index} className={`my-[2px] ${data[1]} hover:text-[#b2a4d4]`}
@@ -226,12 +256,16 @@ const Write = () => {
                                     ) : null
                                 }
                             </div>
-
                         </div>
-                        <textarea ref={contentRef} name="content" id="content"
-                            className={`border resize-none w-full h-full outline-none rounded-md p-[10px] text-lg bg-[transparent] ${fontList[curFont][1]}`}
-                            placeholder="당신의 하루를 들려주세요"
-                        />
+                        <div className="relative w-full h-full shadow-lg border rounded-md">
+                            <textarea ref={contentRef} name="content" id="content"
+                                className={`icontext resize-none w-full h-full outline-none rounded-md p-[10px] text-lg bg-[transparent] ${fontList[curFont][1]}`}
+                                placeholder="당신의 하루를 들려주세요"
+                            />
+                            {
+                                icons.map((data, index) => <>{data.comp}</>)
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
@@ -242,6 +276,9 @@ const Write = () => {
                     작성 완료
                 </span>
             </div>
+            <span onClick={testButton}>
+                    테스트 버튼...
+                </span>
         </div>
     )
 }

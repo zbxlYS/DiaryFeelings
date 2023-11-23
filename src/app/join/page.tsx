@@ -37,6 +37,10 @@ const page = () => {
     URL.revokeObjectURL(img)
     setImg((prev) => '')
   }
+  const imgReset = () => {
+    URL.revokeObjectURL(img)
+    setImg((prev) => '')
+  }
 
   //이메일 사용 가능 여부 확인
 
@@ -147,7 +151,7 @@ const page = () => {
 
   return (
     <div className="flex w-screen h-full flex-col justify-center items-center">
-      <div className="p-[20px] px-[100px]  border border-slate-300 rounded-2xl shadow-lg">
+      <div className="p-[20px] px-[100px] border shadow-lg rounded-md">
         <div>
           <form>
             <p className="text-xl font-bold text-center mb-4 ">회원가입</p>

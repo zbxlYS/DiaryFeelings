@@ -6,8 +6,10 @@ import { IDiary } from '../types/type'
 import { useSearchParams } from 'next/navigation'
 import DiaryLayout from './_component/DiaryLayout'
 import Pagination from '../diary/_components/Pagination'
+import { useSession } from 'next-auth/react'
 
 const Search = () => {
+  const { data: session, status } = useSession();
   const params = useSearchParams()
   const curDate = new Date()
   curDate.setFullYear(curDate.getFullYear() - 1)
@@ -17,7 +19,6 @@ const Search = () => {
   const [search, setSearch] = useState(false)
   const curPage = params.get('page') as string
 
-  const id = params.get('userId') as string
   const keyword = params.get('keyword') as string
 
   useEffect(() => {
@@ -27,19 +28,21 @@ const Search = () => {
   useEffect(() => {})
 
   const getDiary = async () => {
-    const result = await axios.get(
-      `/api/search?userId=${id}&keyword=${keyword}&page=${curPage}`,
-    )
-    const data = result.data
-    setTotal((prev) => data.total)
-    setView((prev) => data.result)
-
-    data.result.length != 0 ? setSearch(true) : setSearch(false)
+    if(status === 'authenticated') {
+      const result = await axios.get(
+        `/api/search?userId=${session.user?.id}&keyword=${keyword}&page=${curPage}`,
+      )
+      const data = result.data
+      setTotal((prev) => data.total)
+      setView((prev) => data.result)
+  
+      data.result.length != 0 ? setSearch(true) : setSearch(false)
+    }
   }
 
   useEffect(() => {
     getDiary()
-  }, [id, keyword])
+  }, [keyword, session])
 
   return (
     <div className="w-full mt-[100px] flex flex-col justify-center items-center">

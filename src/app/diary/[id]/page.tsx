@@ -101,9 +101,9 @@ const DiaryDetail = ({ params }: { params: Props }) => {
 
   return (
     <div className="w-full flex justify-center items-center p-[7px]">
-      <div className="relative w-[1280px] flex flex-col items-end p-[30px] relative border rounded-md shadow-lg mt-[40px]">
+      <div className="relative w-[1280px] flex flex-col items-end p-[30px]  border rounded-md shadow-lg mt-[40px]">
         {upLoading && <UpLoading />}
-        <div className="border shadow-lg absolute p-[10px] shadow-xl rounded-md my-[20px] flex flex-col justify-center items-center top-[-20px] right-[-150px]">
+        <div className="border shadow-lg absolute p-[10px] rounded-md my-[20px] flex flex-col justify-center items-center top-[-20px] right-[-150px]">
           {/* weather */}
           <div className="relative flex flex-col justify-center items-center">
             <span>오늘의 날씨</span>
@@ -123,7 +123,7 @@ const DiaryDetail = ({ params }: { params: Props }) => {
           {view?.diary_title}
         </div>
         {/* emotion */}
-        <div className="w-full py-[10px] mt-[20px] flex flex-col items-center justify-center items-center">
+        <div className="w-full py-[10px] mt-[20px] flex flex-col items-center justify-center">
           <div className="flex">
             <div className="flex flex-col items-center gap-[15px] w-full ">
               <Image

@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import './cal.css'
 import { useTheme } from '../context/themeContext'
+import { View } from 'react-calendar/dist/cjs/shared/types'
 
 type ValuePiece = Date | null
 type Value = ValuePiece | [ValuePiece, ValuePiece]

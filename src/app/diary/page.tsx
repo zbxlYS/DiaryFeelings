@@ -35,12 +35,14 @@ const Diary = () => {
 
   const getDiary = async () => {
     if (!user.id) return
+    setLoading(true)
     const result = await axios.get(
       `/api/diary?page=${curPage}&userId=${user.id}&s=${startDate}&e=${endDate}`,
     )
     const data = result.data
     setTotal((prev) => data.total)
     setView((prev) => data.result)
+    setLoading(false)
   }
   useEffect(() => {
     setPage((prev) => Number(curPage))
@@ -72,43 +74,43 @@ const Diary = () => {
   return (
     <>
       {loading ? (
-        <LottieCat />
-      ) : total < 1 ? (
-        <NoResult />
+        <LottieCat text={'읽어오고 있어요'}/>
       ) : (
-        <div className="w-full mt-[100px] flex flex-col justify-center items-center">
-          <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
-            {view.map((data: IDiary, index: number) => (
-              <DiaryLayout key={data.diary_number} data={data} />
-            ))}
+        total < 1 ? (<NoResult />) : (
+          <div className="w-full mt-[100px] flex flex-col justify-center items-center">
+            <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
+              {view.map((data: IDiary, index: number) => (
+                <DiaryLayout key={data.diary_number} data={data} />
+              ))}
+            </div>
+            <div className="border h-[50px] rounded-md flex justify-around items-center mb-[50px]">
+              <div className="flex items-center px-[60px]">
+                <DatePicker
+                  selected={startDate}
+                  locale={ko}
+                  dateFormat="yyyy. MM. dd"
+                  closeOnScroll={true}
+                  onChange={(date: Date) => setStartDate(date)}
+                  customInput={<CalendarInput />}
+                />
+              </div>
+              <div>
+                <span> ~ </span>
+              </div>
+              <div className="flex items-center px-[60px]">
+                <DatePicker
+                  selected={endDate}
+                  locale={ko}
+                  dateFormat="yyyy. MM. dd"
+                  closeOnScroll={true}
+                  onChange={(date: Date) => setEndDate(date)}
+                  customInput={<CalendarInput />}
+                />
+              </div>
+            </div>
+            <Pagination total={total} limit={6} page={page} />
           </div>
-          <div className="border h-[50px] rounded-md flex justify-around items-center mb-[50px]">
-            <div className="flex items-center px-[60px]">
-              <DatePicker
-                selected={startDate}
-                locale={ko}
-                dateFormat="yyyy. MM. dd"
-                closeOnScroll={true}
-                onChange={(date: Date) => setStartDate(date)}
-                customInput={<CalendarInput />}
-              />
-            </div>
-            <div>
-              <span> ~ </span>
-            </div>
-            <div className="flex items-center px-[60px]">
-              <DatePicker
-                selected={endDate}
-                locale={ko}
-                dateFormat="yyyy. MM. dd"
-                closeOnScroll={true}
-                onChange={(date: Date) => setEndDate(date)}
-                customInput={<CalendarInput />}
-              />
-            </div>
-          </div>
-          <Pagination total={total} limit={6} page={page} />
-        </div>
+        )
       )}
     </>
   )
