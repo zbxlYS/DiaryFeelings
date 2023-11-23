@@ -180,9 +180,9 @@ const page = () => {
 
   return (
     <>
-      <div className="h-[200vh] ">
+      <div className="">
         {/* 일기목록 */}
-        <div className="flex flex-col items-center ">
+        <div className="flex flex-col items-center mt-20">
           <h1 className="w-auto flex items-start justify-start mt-20 mb-9 text-xxxl">
             ✏️ 최근 일기목록
           </h1>
@@ -324,14 +324,14 @@ const page = () => {
               ===========================*/}
         </div>
         <div className="flex justify-center items-center flex-col mt-16 mb-10">
-          <h1 className="text-xxl">{user.name}님 감정기록 </h1>
+          <h1 className="text-xxl ">{user.name}님 감정기록 </h1>
           <span className="max-w-[30rem] mt-7 opacity-70">
             아래는 최근 한 달 동안의 감정을 기록하는 내용입니다: 한 달 동안의
             다양한 경험과 감정을 기록해보세요. :)
           </span>
         </div>
         {/* 사용자 컨테이너*/}
-        <div className="flex justify-center flex-row ">
+        <div className="flex justify-center flex-row">
           <div className="flex flex-row justify-center w-5/6">
             {/* 사용자 정보  */}
 
@@ -486,8 +486,8 @@ const page = () => {
         </div>
 
         {/* 캐릭터 컬러에 대한 설명  */}
-        {/* <div className=" flex justify-center mt-20">
-          <div className="w-3/6 h-[30rem]  border flex flex-col justify-between mr-10">
+        <div className=" flex justify-center mt-20 h-20">
+          {/* <div className="w-3/6 h-[30rem]  border flex flex-col justify-between mr-10">
             {Object.values(emotionImg).map((emotion, index) => (
               <div key={index} className="mt-2">
                 <div className="ml-7 flex">
@@ -501,8 +501,8 @@ const page = () => {
                 </div>
               </div>
             ))}
-          </div>
-        </div> */}
+          </div> */}
+        </div>
       </div>
     </>
   )
