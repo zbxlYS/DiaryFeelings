@@ -146,7 +146,7 @@ const DiaryDetail = ({ params }: { params: Props }) => {
           </div>
         </div>
         {/* user image */}
-        <div className="w-full py-[10px] flex items-center flex flex-col justify-center items-center">
+        <div className="w-full py-[10px] flex flex-col justify-center items-center">
           <div className="mt-[30px] w-full flex">
             <div className="mr-[30px] h-[350px] shadow-lg dark:bg-[#171717] dark:shadow-slate-600 border hover:border-1 focus-within:border-1 ">
               <div className="w-[300px] h-[300px] p-3 rounded-md object-contain flex justify-center items-center overflow-hidden">
