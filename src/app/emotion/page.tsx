@@ -156,7 +156,7 @@ const page = () => {
   return (
     <>
       <Snow></Snow>
-      <div className="h-[160vh] ">
+      <div className="flex flex-col justify-center items-center">
         {/* 일기목록 */}
         <div className="flex flex-col items-center ">
           <h1 className="w-auto flex items-start justify-start mt-20 mb-9 text-xxxl">
@@ -166,9 +166,9 @@ const page = () => {
             최근 5일동안 작성한 일기를 볼수 있어요
           </span>
           {/* 최근 일기목록  */}
-          <div className="w-11/12 h-[23rem] flex flex-row justify-center mt-5 ">
+          <div className="w-11/12 flex flex-row justify-center mt-5 ">
             {/* =============================
-              
+              h-[23rem]
               일기 내용 들어갈 부분
               - 이미지
               - 제목
@@ -186,13 +186,13 @@ const page = () => {
                 index < showCount && (
                   <div
                     key={src.diary_number}
-                    className="relative w-[20rem] h-[21rem] bg-white mb-10 rounded-2xl ml-4 mr-5  mt-5 shadow-lg border border-neutral-200  hover:scale-105 transition-transform duration-400 cursor-grab "
+                    className="relative w-[20rem] bg-white mb-10 rounded-2xl ml-4 mr-5  mt-5 shadow-lg border border-neutral-200  hover:scale-105 transition-transform duration-400 cursor-grab "
                   >
                     <div className="absolute right-3 top-[8.3rem] flex items-center justify-center  w-14 h-14 border border-neutral-100 rounded-full z-50 bg-white">
                       <Image
                         // 추가할곳
                         src={
-                          // src.diary_userEmo
+                          // src.diary_userEmo h-[21rem]
                           //   ? emotionImg[src.diary_userEmo]?.src
                           //   : '/happy.png'
                           '/happy.png'
@@ -277,7 +277,7 @@ const page = () => {
             {/* 사용자 정보  */}
 
             <div className="flex flex-col justify-center ">
-              <div className="w-11/12 min-w-[18rem] h-[44rem] mr-10 bg-white opacity-90 rounded-xl shadow-xl border border-neutral-200">
+              <div className="w-11/12 min-w-[18rem] mr-10 bg-white opacity-90 rounded-xl shadow-xl border border-neutral-200">
                 <div className="flex items-center flex-col">
                   <Avatar
                     src="/yuumi.jpg"
@@ -322,7 +322,7 @@ const page = () => {
 
             <div
               className={`w-8/12 max-w-[65rem] min-w-[40rem] flex items-center justify-center bg-white opacity-90 rounded-xl shadow-xl relative  border border-neutral-200 ${
-                graph ? '' : 'h-[44rem]'
+                graph ? '' : ''
               }`}
             >
               <div className="absolute top-0 left-0 flex flex-row mt-4 ml-4">

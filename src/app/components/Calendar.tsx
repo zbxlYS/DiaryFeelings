@@ -9,12 +9,13 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import './cal.css'
 import { useTheme } from '../context/themeContext'
+import { View } from 'react-calendar/dist/cjs/shared/types'
 
 type ValuePiece = Date | null
 type Value = ValuePiece | [ValuePiece, ValuePiece]
 
 interface ModalProps {
-  isOpen: boolean | any
+  isOpen: boolean
   closeModal: () => void
 }
 
@@ -24,7 +25,7 @@ interface YourEmotionDataItem {
   diary_emotion: string | { [key: string]: string }
 }
 
-const ModalCalendar: React.FC<ModalProps> = ({ isOpen, closeModal }) => {
+const ModalCalendar = ({ isOpen, closeModal }: ModalProps) => {
   const { theme } = useTheme()
   const [emotionData, setEmotionData] = useState<YourEmotionDataItem[]>([])
   const [value, onChange] = useState<Value>(new Date())
@@ -78,7 +79,7 @@ const ModalCalendar: React.FC<ModalProps> = ({ isOpen, closeModal }) => {
     closeModal()
   }
 
-  const handleMarking = (date: Date, view: 'month' | 'year' | 'decade') => {
+  const handleMarking = (date: Date, view: View) => {
     // "century" 값을 포함한 다른 view 값에 대한 처리를 제외합니다.
     if (view !== 'month') {
       return null
@@ -195,4 +196,4 @@ const Page: React.FC = () => {
   )
 }
 
-export default Page
+export default ModalCalendar;

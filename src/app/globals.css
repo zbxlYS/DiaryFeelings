@@ -70,9 +70,13 @@
   font-size: 16px;
 }
 
-/* html {
+html {
   height: 100%;
-} */
+}
+
+.searh-icon {
+  filter: invert(65%) sepia(18%) saturate(481%) hue-rotate(216deg) brightness(100%) contrast(94%);
+}
 
 /* Relu Molu사이트 폰트지정  */
 .relu-font {

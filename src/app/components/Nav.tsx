@@ -24,7 +24,8 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const currentTheme = theme === 'system' ? systemTheme : theme
   const [inputValue, setInputValue] = useState<string>('') // 일기검색
   const [user, setUser] = useRecoilState(userInfo)
-  const [isCalendarOpen, setIsCalendarOpen] = useState<boolean>(false) //달력모달
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false) //달력모달
+  const [searchBlur, setSearchBlur] = useState(false) // 검색창 선 색상 변경 용도
   // 로그인후 사용자 아이콘 클릭시 모달생성
   const handleButtonClick = () => {
     setIsModalOpen(!isModalOpen)
@@ -40,7 +41,8 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const onClickSearch = async (e: any) => {
     e.preventDefault()
     console.log('user', user.id, 'inputvalue', inputValue)
-    router.push(`/search?userId=${user.id}&keyword=${inputValue}&page=1`)
+    router.push(`/search?keyword=${inputValue}&page=1`)
+    // 아이디는 숨겨서 보내는 게 좋겠음.
   }
 
   //Calendar 모달
@@ -49,6 +51,9 @@ const Nav: React.FC<SearchComponentProps> = () => {
     setIsCalendarOpen(!isCalendarOpen)
   }
 
+  const handleBlur = () => {
+    setSearchBlur(!searchBlur)
+  }
   useEffect(() => {
     // 초기 렌더링 시 테마를 라이트 모드로 설정
     if (currentTheme !== 'light') {
@@ -69,11 +74,29 @@ const Nav: React.FC<SearchComponentProps> = () => {
     }
   }, [session])
   if (status === 'unauthenticated') {
+    // 인증 안 됨(로그인 안 돼있을 때 보여줄 Nav)
     return (
       <div className="flex w-full h-[67px] border justify-between items-center z-10 flex-[none]">
-        <Link href="/" className="ml-[60px]">
-          <span className="px-[14px] py-[7px] rounded-md border">감기</span>
-        </Link>
+        <div className='flex justify-center items-center'>
+          <Link href="/" className="ml-[60px]">
+            <span className="px-[14px] py-[7px] rounded-md border mr-[60px]">감기</span>
+          </Link>
+          <div className='relative flex justify-center items-center bg-none'>
+          <Image
+              src="/search.svg"
+              alt="Search Logo"
+              className="left-0 absolute stroke-slate-600 cursor-pointer searh-icon"
+              width={23}
+              height={23}
+              priority
+              onClick={onClickSearch}
+            />
+            <input type='text' className={`w-[400px] h-[40px] outline-none border-b-[2px] ${searchBlur ? 'border-[#b2a4d4]' : 'border-gray'} bg-[transparent] p-[7px] pl-[30px]`}
+              onFocus={() => setSearchBlur(true)}
+              onBlur={() => setSearchBlur(false)}
+            />
+          </div>
+        </div>
         <div>
           <Link href="/signin">
             <span className="mr-[30px]">로그인</span>
