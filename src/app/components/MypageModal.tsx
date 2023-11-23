@@ -123,7 +123,7 @@ const MypageModal: React.FC<MypageModalProps> = ({
       </div>
       <hr />
       <div className="hover:bg-purple/20 rounded-full mt-5 mb-5 p-1">
-        <Link href="/" className="ml-4" onClick={closeModal}>
+        <Link href="/edit" className="ml-4" onClick={closeModal}>
           {' '}
           <span className="text-slate-800 hover:text-slate-900">
             내 정보변경
