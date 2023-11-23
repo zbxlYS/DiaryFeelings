@@ -15,8 +15,8 @@ const NoResult = () => {
                     style={{ width: 400, height: 400 }}
                 />
                 <span className={`text-[26px] mt-[-30px] font-bold`}>작성한 일기가 없어요... 🥹</span>
-                <Link href='/wrote' className="mt-[10px]">
-                    <span className="text-lg text-white bg-[#b2a4d4] px-[30px] py-[7px] rounded-md">작성하러 가기</span>
+                <Link href='/write' className="mt-[20px]">
+                    <span className="text-lg text-white bg-[#b2a4d4] px-[30px] py-[7px] rounded-md shadow-lg">작성하러 가기</span>
                 </Link>
             </div>
         </div>

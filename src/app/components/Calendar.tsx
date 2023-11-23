@@ -73,6 +73,7 @@ const ModalCalendar = ({ isOpen, closeModal }: any) => {
     date: Date,
     view: 'month' | 'year' | 'decade' | 'century',
   ) => {
+    // "century" 값을 포함한 다른 view 값에 대한 처리를 제외합니다.
     if (view !== 'month') {
       return null
     }

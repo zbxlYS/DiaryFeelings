@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, forwardRef, useEffect } from 'react'
+import { useState, forwardRef, useEffect, useLayoutEffect } from 'react'
 import './diaryCSS.css'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
@@ -8,7 +8,7 @@ import { ko } from 'date-fns/esm/locale'
 import DiaryLayout from './_components/DiaryLayout'
 import { useRecoilState } from 'recoil'
 import { userInfo } from '@/app/lib/atoms/atom'
-import { useSearchParams } from 'next/navigation'
+import { notFound, useSearchParams } from 'next/navigation'
 import Pagination from './_components/Pagination'
 import { IDiary } from '@/app/types/type'
 import axios from 'axios'
@@ -29,6 +29,11 @@ const Diary = () => {
   const [view, setView] = useState<IDiary[]>([])
   const curPage = params.get('page') as string
 
+  useLayoutEffect(() => {
+    if(!curPage || isNaN(parseInt(curPage)) === true) {
+      notFound()
+    }
+  },[curPage])
   useEffect(() => {
     setPage((prev) => Number(curPage))
   }, [curPage])

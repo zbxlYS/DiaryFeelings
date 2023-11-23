@@ -32,6 +32,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const [searchBlur, setSearchBlur] = useState(false) // 검색창 선 색상 변경 용도
   const [userImg, setUserImg] = useState<any>('') // 유저 이미지
   const [snowTheme, setSnowTheme] = useState<boolean>(false)
+  const [searchBlur, setSearchBlur] = useState(false)
 
   const themeOnClick = () => {
     setSnowTheme(!snowTheme)
@@ -53,7 +54,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
     e.preventDefault()
     console.log('user', user.id, 'inputvalue', inputValue)
     router.push(`/search?keyword=${inputValue}&page=1`)
-    // 아이디는 숨겨서 보내는 게 좋겠음.
+    setInputValue('')
   }
   // 현진 : 사용자 이미지 150번줄
   // image 로직있고 userImg = useState 쓰는중
@@ -64,10 +65,12 @@ const Nav: React.FC<SearchComponentProps> = () => {
     if (!user.id) return
     const response = await axios.get(`/api/emotion?userId=${user.id}`)
     const data = response.data
-
+    console.log(data)
     if (response.status === 200) {
       // console.log(data.userImg)
-      const img = data.userimg[0].user_image
+      const img = data.userimg[0]?.user_image
+        ? data.userimg[0].user_image
+        : undefined
       setUserImg(img)
     }
   }
@@ -243,7 +246,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                         pathname === '/write' ? 'text-purple border-b' : ''
                       }`}
                     >
-                      <span className=" text-lg">일기쓰기</span>
+                      <span className=" text-lg">일기 작성</span>
                     </div>
                   </Link>
                 </div>
@@ -271,7 +274,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                   />
                 )}
                 <Link
-                  href="/diary"
+                  href="/diary?page=1"
                   className="absolute right-[22.3rem] top-[22px] "
                 >
                   <div
@@ -279,7 +282,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                       pathname === '/diary' ? 'text-purple border-b' : ''
                     }`}
                   >
-                    <span className="text-lg">일기기록</span>
+                    <span className="text-lg">일기 기록</span>
                   </div>
                 </Link>
 
@@ -306,7 +309,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                   <Image
                     src="/sun.svg"
                     alt="Sun Logo"
-                    className="w-[35px]  hover:opacity-60 transition duration-300 hover:bg-purple-500 rounded-full"
+                    className="w-[35px] hover:opacity-60 transition duration-300 hover:bg-purple-500 rounded-full"
                     width={40}
                     height={40}
                     priority
@@ -337,13 +340,13 @@ const Nav: React.FC<SearchComponentProps> = () => {
               />
               <input
                 type="text"
-                placeholder="일기검색 . . ."
+                placeholder="일기 검색 . . ."
                 value={inputValue}
                 onChange={getSearchData}
-                className="absolute w-[90%] max-w-[60%] h-full left-[3rem] border-none outline-none dark:bg-[#171717] "
+                className="absolute w-[90%] max-w-[60%] h-full left-[3rem] border-none outline-none dark:bg-[#171717]"
               ></input>
             </div>
-            <div className="left-[6rem] top-[19px] absolute text-black dark:text-white  ">
+            <div className="left-[6rem] top-[19px] absolute text-black dark:text-white">
               <h1 className="text-xl">감기</h1>
             </div>
           </nav>
