@@ -51,7 +51,8 @@ const ModalCalendar = () => {
     return matchingEmotion ? `/diary?date=${formattedDate}` : `/write?date=${formattedDate}`;
   };
 
-  const dayClick = (value: Date) => {
+  const dayClick = (value: Date, e) => {
+    e.stopPropagation();
     const formattedDate = moment(value).format('YYYY-MM-DD');
     const destinationUrl = getDestinationUrl(formattedDate);
     router.push(destinationUrl);
@@ -131,20 +132,31 @@ const ModalCalendar = () => {
   };
 
   return (
-    <div className={`absolute w-full h-full top-0 left-0 flex justify-center items-center`} ref={calendarRef}>
-      <div className='calendar-container'></div>
+    <div className={`absolute w-full h-full top-0 left-0 flex justify-center items-center`} ref={calendarRef}
+      onClick={(e) => {console.log('aaaa'); } }
+    >
+      <div className='calendar-container'
+        onClick={(e) => {e.stopPropagation(); console.log('bbb')}}
+      >
+      </div>
+        <Calendar
+          onChange={onChange}
+          value={value}
+          locale="ko"
+          calendarType="gregory"
+          formatDay={(locale, date) => moment(date).format('DD')}
+          onClickDay={(value, e) => dayClick(value, e)}
+          showNeighboringMonth={false}
+          tileContent={({ date, view }) => handleMarking(date, view)}
+          onClickDecade={(_,e) => e.stopPropagation()}
+          onClickMonth={(_,e) => e.stopPropagation()}
+          onClickWeekNumber={(_,__,e)=>e.stopPropagation()}
+          onClickYear={(_,e)=>e.stopPropagation()}
+        />
+
+<button className="close-button" onClick={closeCalendar}>X</button>
       
-      <Calendar
-        onChange={onChange}
-        value={value}
-        locale="ko"
-        calendarType="gregory"
-        formatDay={(locale, date) => moment(date).format('DD')}
-        onClickDay={(value) => dayClick(value)}
-        showNeighboringMonth={false}
-        tileContent={({ date, view }) => handleMarking(date, view)}
-      />
-              <button className="close-button" onClick={closeCalendar}>X</button>
+             
 
     </div>
   );
