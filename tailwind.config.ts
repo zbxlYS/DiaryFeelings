@@ -28,7 +28,7 @@ const config: Config = {
     },
     fontSize: {
       sm: ['14px', '20px'],
-      base: ['16px', '24px'],
+      base: ['18px', '24px'],
       lg: ['20px', '28px'],
       xl: ['24px', '32px'],
       xxl: ['28px', '36px'],
@@ -36,6 +36,9 @@ const config: Config = {
     },
     extend: {
       backgroundImage: {},
+      colors: {
+        purple: '#b2a4d4',
+      },
     },
     fontFamily: {
       pretendard: ['Pretendard-Regular'], // 프리텐다드
@@ -45,7 +48,7 @@ const config: Config = {
       ridi: ['RIDIBatang'], // 리디바탕
       ainmom: ['Ainmom'], // 아인맘
       kyobo: ['KyoboHand'], // 교보손
-      shin: ['ShinDongYupHandwriting-R'] // 신동
+      shin: ['ShinDongYupHandwriting-R'], // 신동
     },
   },
   darkMode: 'class',
@@ -71,6 +74,7 @@ const config: Config = {
           colors: {
             background: '#171717', // or DEFAULT
             foreground: '#ECEDEE', // or 50 to 900 DEFAULT
+            Text: '#171717',
             primary: {
               //... 50 to 900
               foreground: '#FFFFFF',

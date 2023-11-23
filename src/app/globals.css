@@ -65,7 +65,7 @@
 
 * {
   box-sizing: border-box;
-  /* border: 0px rgba(0, 0, 0, 0.265) solid; */
+  border: 0px rgba(0, 0, 0, 0.265) solid;
   font-family: 'Pretendard-Regular';
   font-size: 16px;
 }

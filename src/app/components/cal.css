@@ -13,13 +13,13 @@
 .react-calendar {
   width: 800px !important;
   border-radius: 20px;
-  border: 3px solid #AFA4CE !important;
+  border: 3px solid #afa4ce !important;
   display: flex;
   flex-direction: column;
   margin: auto; /* 가운데 정렬을 추가 */
   min-height: 570px !important; /* 원하는 높이로 수정 */
   margin-top: 13px;
-  z-index: 1000;
+  z-index: 9999px;
 }
 
 /* 모달창 스타일 */
@@ -29,9 +29,7 @@
   width: 80%; /* 모달창 너비 설정 */
   margin: auto; /* 가운데 정렬을 추가 */
   margin-top: 40px;
-  z-index: 1000;
-
-
+  z-index: 9999px;
 }
 
 /* 미디어 쿼리 반응형 */
@@ -54,14 +52,14 @@
   .react-calendar__navigation__prev-button {
     font-size: 40px; /* 데스크탑에서 버튼 글자 크기 조절 */
   }
-  
+
   /* 기타 데스크탑에서 필요한 스타일 조절 */
 }
 
 /* 달력 상단 */
 .react-calendar__navigation {
-  background-color: #E6E6FA;
-  border-bottom: 4px solid #AFA4CE;
+  background-color: #e6e6fa;
+  border-bottom: 4px solid #afa4ce;
   height: 100px; /* 높이 조절을 원하는 값으로 수정 */
   border-radius: 17px 17px 0 0;
 }
@@ -91,16 +89,14 @@
 }
 
 .react-calendar__month-view__days {
-  margin-top:10px;
-
+  margin-top: 10px;
 }
 
 .react-calendar__tile {
   width: 40px; /* 날짜별 칸의 너비를 조절합니다. */
   height: 40px; /* 날짜별 칸의 높이를 조절합니다. */
   font-size: 16px; /* 날짜의 글꼴 크기를 조절합니다. */
-  margin-top:10px;
-  
+  margin-top: 10px;
 }
 
 /* 날짜 색상 및 크기 */
@@ -110,8 +106,8 @@
   font-weight: 600;
 }
 
-.react-calendar__month-view__days__day{
-  margin-top:10px;
+.react-calendar__month-view__days__day {
+  margin-top: 10px;
 }
 
 /* 요일 색상 및 크기 */
@@ -128,17 +124,13 @@
   pointer-events: auto; /* 클릭 이벤트 활성화 */
 }
 
-.react-calendar__year-view__months abbr{
+.react-calendar__year-view__months abbr {
   pointer-events: auto; /* 클릭 이벤트 활성화 */
-
 }
-
 
 .react-calendar__month-view__days {
-  margin-top:10px;
-
+  margin-top: 10px;
 }
-
 
 /* 요일 색상 및 크기 */
 .react-calendar__month-view__weekdays__weekday:nth-child(1) abbr /* 일 */ {
@@ -174,7 +166,6 @@
   padding: 0;
   margin-top: 10px !important; /* 수정된 부분: 날짜 간의 간격을 조절합니다. */
 }
-
 
 /* 날짜 클릭했을 때 칸 색상 */
 .react-calendar__tile:enabled:hover,
@@ -249,9 +240,6 @@
   pointer-events: auto; /* 클릭 이벤트 활성화 */
 }
 
-
-
-
 /* 다크 모드 스타일 */
 @media (prefers-color-scheme: dark) {
   /* 달력 상단 네비게이션 글씨색 변경 */
@@ -276,10 +264,8 @@
   .ReactModal__Content .ReactModal__Content--after-open {
     background-color: black !important; /* 검정색 배경 */
     color: white; /* 텍스트 색상을 하얀색으로 변경 */
-    
   }
 }
-
 
 .dark-mode {
   background-color: #333; /* 어두운 배경색 */
@@ -296,4 +282,3 @@
 .dark-mode .ReactModal__Content {
   background-color: #222;
 }
-

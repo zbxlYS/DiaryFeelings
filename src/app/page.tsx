@@ -6,14 +6,13 @@ import React from 'react'
 import NotLoginMain from './components/NotLoginMain'
 
 const UsersPage = () => {
-  const { data: session, status} = useSession();
-  if(status === 'unauthenticated') {
+  const { data: session, status } = useSession()
+  if (status === 'unauthenticated') {
     return <NotLoginMain />
   }
   return (
     <div>
-      <main>
-      </main>
+      <main></main>
     </div>
   )
 }

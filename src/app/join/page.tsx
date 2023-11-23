@@ -144,7 +144,7 @@ const imgReset = () => {
 
 
   return (
-    <div className="flex w-screen h-full flex-col justify-center items-center">
+    <div className="flex w-screen mt-[20px] flex-col justify-center items-center">
       <div className="p-[20px] px-[100px] border shadow-lg rounded-md">
         <div>
           <form>
@@ -156,13 +156,13 @@ const imgReset = () => {
                 </div>
                   {
                      img ? (
-                      <div className="text-lg flex justify-center items-center w-[250px] cursor-pointer mt-3 mb-3 p-2 pr-4 pl-4 shadow-md rounded-lg bg-[tomato] text-white dark:border-[#d3d1d1] dark:bg-[#353434] dark:text-[#fff]"
+                      <div className="text-lg flex justify-center items-center w-[250px] cursor-pointer mb-3 p-2 pr-4 pl-4 shadow-md rounded-lg bg-[tomato] text-white dark:border-[#d3d1d1] dark:bg-[#353434] dark:text-[#fff]"
                         onClick={imgReset}
                       >
                           프로필 사진 지우기
                       </div>
                      ) : (
-                        <div className="text-lg flex justify-center items-center w-[250px] cursor-pointer mt-3 mb-3 p-2 pr-4 pl-4 bg-slate-200 shadow-md rounded-lg dark:border-[#d3d1d1] dark:bg-[#353434] dark:text-[#fff]"
+                        <div className="text-lg flex justify-center items-center w-[250px] cursor-pointer mb-3 p-2 pr-4 pl-4 bg-slate-200 shadow-md rounded-lg dark:border-[#d3d1d1] dark:bg-[#353434] dark:text-[#fff]"
                           onClick={() => {if(imgRef.current) imgRef.current.click()}}
                         >
                           프로필 사진 등록하기
@@ -184,18 +184,27 @@ const imgReset = () => {
 
               <div className="flex flex-col items-center">
                 <div className="flex flex-col items-center p-1 pt-5 w-[20rem]">
-                <Button size="md" radius="md" className="w-full bg-neutral-100 hover:bg-neutral-150 hover:shadow-lg shadow-md dark:text-[#171717]"  
-                onClick={confirmBtn}> 아이디 중복 확인 </Button>
+                  {
+                    msg
+                      ? (
+                        idChk
+                          ? (<span className='border border-[#4caf50] px-[18px] py-[7px] rounded-md bg-[#4caf50] bg-opacity-20 text-black'>{msg}</span>)
+                          : (<Button size="md" radius="md" className="w-full bg-neutral-100 hover:bg-neutral-150 hover:shadow-lg shadow-md dark:text-[#171717]"  
+                              onClick={confirmBtn}> 다시 확인하기 </Button>)
+                      )
+                      : (<Button size="md" radius="md" className="w-full bg-neutral-100 hover:bg-neutral-150 hover:shadow-lg shadow-md dark:text-[#171717]"  
+                          onClick={confirmBtn}> 아이디 중복 확인 </Button>)
+                  }
                 </div>
               </div>
 
-              {
+              {/* {
                 msg && (
                   idChk ? (<span className='border border-[#4caf50] px-[18px] py-[7px] rounded-md mt-[10px] bg-[#4caf50] bg-opacity-20 text-black'>{msg}</span>)
                         : (<span className='border border-[#ef5350] px-[18px] py-[7px] rounded-md mt-[10px] bg-[#ef5350] bg-opacity-20 text-black'>{msg}</span>)
 
                 )
-              }
+              } */}
 
               <div className="flex flex-col  p-2 pt-0 w-[20rem]">
                 <Input isRequired variant="underlined" name='pw' label="비밀번호" onChange={pwChange} ref={pwRef}

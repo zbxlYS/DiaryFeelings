@@ -6,45 +6,55 @@ import { signIn } from 'next-auth/react'
 import React from 'react'
 
 import { Input } from '@nextui-org/react'
+import { Button } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
-import styles from './_components/styles.module.css'
+import styles from './styles.module.css'
 
 const Login: NextPage = () => {
   // useRef로 아이디랑, 비밀번호 값 가져오기.
+  const idRef = useRef<HTMLInputElement>(null)
+  const pwRef = useRef<HTMLInputElement>(null)
   const [error, setError] = useState('')
-  const idRef = useRef<HTMLInputElement>(null);
-  const pwRef = useRef<HTMLInputElement>(null);
+
   const [id, setId] = useState('')
   const [password, setPassword] = useState('')
   const router = useRouter()
   // const router = useRouter();  // 추가된 부분: 페이지 이동을 위한 useRouter
+  // axios post 방식으로 전달해 주기 => 주소: http://localhost:3000/api/login , {username: id, password: password}
+
+  useEffect(() => {
+    // 컴포넌트가 마운트되었을 때 스크롤을 숨깁니다.
+    document.body.style.overflow = 'hidden'
+    // 컴포넌트가 언마운트되었을 때 스크롤을 다시 보여줍니다.
+    return () => {
+      document.body.style.overflow = 'visible'
+    }
+  }, []) // 빈 배열을 전달하여 한 번만 실행되도록 합니다.
 
   const handleLogin = async () => {
-    if (!id) {
+    if (idRef.current?.value.length === 0) {
       alert('아이디를 입력해주세요.')
       return
     }
-    if (!password) {
+    if (pwRef.current?.value.length === 0) {
       alert('패스워드를 입력해주세요.')
       return
     }
-
     const result = await signIn('credentials', {
-      username: id,
-      password: password,
-      redirect: false
+      username: idRef.current?.value,
+      password: pwRef.current?.value,
+      redirect: false,
+      callbackUrl: '/',
     })
-    console.log(result)
-    if (result?.error == 'wrong password') {
+
+    if (result?.error == '비밀번호가 일치하지 않습니다.') {
       // 비밀번호 일치하지 않았을 때 보여줄 것.
-      setError('pw')
-      pwRef.current?.focus()
-    } else if (result?.error == 'No user') {
+      setError('비밀번호가 일치하지 않습니다.')
+    } else if (result?.error == '아이디가 없습니다.') {
       // 사용자를 찾을 수 없는 경우
-      setError('user')
-      idRef.current?.focus()
+      setError('아이디가 없습니다.')
     } else {
-      router.push('/diary?page=1')
+      router.push('/')
     }
   }
   const handleJoin = () => {
@@ -65,7 +75,7 @@ const Login: NextPage = () => {
     try {
       const result = await signIn('kakao', {
         redirect: true,
-        callbackUrl: '/diary?page=1',
+        callbackUrl: '/',
       })
 
       // 성공적으로 소셜 로그인을 수행하면 result에 로그인 정보가 담깁니다.
@@ -80,7 +90,7 @@ const Login: NextPage = () => {
     try {
       const result = await signIn('google', {
         redirect: true,
-        callbackUrl: '/diary?page=1',
+        callbackUrl: '/',
       })
       console.log('Google Login Result:', result)
     } catch (error) {
@@ -90,52 +100,56 @@ const Login: NextPage = () => {
   const handleNaver = () => {
     // 네이버 로그인 처리 로직 추가
   }
-  const sumChk = async(e: React.KeyboardEvent<HTMLInputElement>) => {
-    if(e.key === 'Enter') {
-      await handleLogin()
-    }
-  }
+
+  // 로그인이 성공하면 알아서 홈으로 이동됨.
+
+  // id: test1 pw: 1234
+
   return (
     <div className="flex justify-center items-center h-[87vh]">
-      <div className="relative flex justify-center items-center p-[80px] px-[130px] border border-slate-300 rounded-2xl shadow-lg relative">
+      <div className="flex justify-center items-center w-[40rem] h-[45rem] border border-slate-300 rounded-2xl shadow-lg relative">
         <div className=" mx-auto flex flex-col items-center justify-center ">
+          <div className="flex w-[270px] flex-col items-center p-2 pt-0">
             <div className="mb-2 text-[3.2rem]">감기 </div>
             <span className="opacity-70 mb-10">
-              로그인해서 감정을 기록해 봐요✏️
+              로그인을 하여 일기를 작성해보세요.
             </span>
-          <div className="relative flex w-[270px] py-[7px] flex-col items-center p-2 pt-0">
+
             <Input
+              isRequired
               type="text"
               label="아이디"
-              className={`w-full rounded-md my-[20px] ${error === 'user' ? 'border border-[#ff7961]' : ''}`}
-              value={id}
+              defaultValue="junior@nextui.org"
+              className="w-full max-w-md py-2"
               ref={idRef}
-              onChange={(e) => {setId(e.target.value)}}
-              onKeyDown={(e) => sumChk(e)}
+              value={id}
+              onChange={(e) => setId(e.target.value)}
             />
-            <div className={`${error ? 'block' : 'hidden'} absolute top-[-30px] border border-[#ff7961] px-[30px] py-[7px] rounded-md z-[11] bg-[#ff7961] bg-opacity-[0.8] text-[16px] text-white`}>
-              {error && error === 'user' ? '없는 아이디예요... 😣' : '비밀번호가 틀렸어요... 🥹'}
-            </div>
           </div>
-          <div className="flex w-[270px] py-[7px] flex-col  p-2 pt-0">
+          <div className="flex w-[270px] flex-col  p-2 pt-0">
             <Input
+              isRequired
               type="password"
               label="패스워드"
-              className={`w-full rounded-md mb-[20px] ${error === 'pw' ? 'border border-[#ff7961]' : ''}`}
-              value={password}
+              defaultValue="junior@nextui.org"
+              className="w-full max-w-md py-2"
               ref={pwRef}
-              onChange={(e) => {setPassword(e.target.value)}}
-              onKeyDown={(e) => sumChk(e)}
-            />
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            ></Input>
           </div>
           <div className=" mt-3 mb-3  flex items-center   justify-center ">
             <button
               onClick={handleLogin}
-              className="h-10 w-64 rounded-md bg-black bg-opacity-[.8] text-lg font-medium text-white transition-colors duration-300 ease-in-out hover:bg-opacity-[1]"
+              className="h-10 w-64 rounded-xl bg-gray-300 text-lg font-medium text-white transition-colors duration-300 ease-in-out hover:bg-gray-400"
             >
               로그인
             </button>
           </div>
+          {error && (
+            <div className="text-red-500 mt-2 text-center">{error}</div>
+          )}
+
           <div className="flex justify-center">
             <hr className="w-[7rem] text-[#888] mt-3 mr-2" />
             <span className="text-[#888]">or</span>
@@ -144,35 +158,37 @@ const Login: NextPage = () => {
           <div className="mt-3">
             <button
               onClick={handleJoin}
-              className="h-10 w-64 rounded-md bg-[#b2a4d4] bg-opacity-[.8] text-lg font-medium text-white transition-colors duration-300 ease-in-out hover:bg-opacity-[1]"
+              className="h-10 w-64 rounded-xl bg-gray-300 text-lg font-medium text-white transition-colors duration-300 ease-in-out hover:bg-gray-400"
             >
               회원가입
             </button>
           </div>
           <div className="mt-5 flex flex-col items-center justify-center">
-            <span className="text-[16px] flex gap-[15px]">
-              <button onClick={handleFindId} className="text-gray-400 hover:text-[#b2a4d4]">
+            <span className="text-lg"></span>
+            <span className="text-lg">
+              <button onClick={handleFindId} className="text-blue-500">
                 아이디 찾기
               </button>
-              <button onClick={handleFindPassword} className="text-gray-400 hover:text-[#b2a4d4]">
+              &nbsp;&nbsp;
+              <button onClick={handleFindPassword} className="text-blue-500">
                 비밀번호 찾기
               </button>
             </span>
           </div>
 
-          <div className="mt-[50px] flex flex-row items-center justify-between">
+          <div className="mt-6 flex flex-row items-center justify-between">
             <button
               onClick={handleKakao}
               className={` ${styles['login-button']}`}
             >
-              <img src="/sign/kakao.png" alt="카카오 로그인 이미지" className='opacity-80 hover:opacity-100'/>
+              <img src="/sign/kakao.png" alt="카카오 로그인 이미지" />
             </button>
             <div className="w-4"></div>
             <button
               onClick={handleNaver}
               className={`${styles['login-button']}`}
             >
-              <img src="/sign/naver.png" alt="네이버 로그인 이미지" className='opacity-80 hover:opacity-100'/>
+              <img src="/sign/naver.png" alt="네이버 로그인 이미지" />
             </button>
 
             <div className="w-4"></div>
@@ -180,7 +196,7 @@ const Login: NextPage = () => {
               onClick={handleGoogle}
               className={`${styles['login-button']}`}
             >
-              <img src="/sign/google.png" alt="구글 로그인 이미지" className='opacity-80 hover:opacity-100'/>
+              <img src="/sign/google.png" alt="구글 로그인 이미지" />
             </button>
           </div>
         </div>

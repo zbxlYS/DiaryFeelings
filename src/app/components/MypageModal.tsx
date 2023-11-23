@@ -4,15 +4,27 @@ import { signIn, signOut, useSession } from 'next-auth/react'
 import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import Snow from '../emotion/_components/Snow'
 interface MypageModalProps {
   closeModal: () => void
   user: any
+  userImg?: string
+  themeOnClick: () => void
+  snowTheme?: boolean
 }
 
-const MypageModal: React.FC<MypageModalProps> = ({ closeModal, user }) => {
+const MypageModal: React.FC<MypageModalProps> = ({
+  closeModal,
+  user,
+  userImg,
+  themeOnClick,
+  snowTheme,
+}) => {
   const idRef = useRef<HTMLInputElement>(null)
   const pwRef = useRef<HTMLInputElement>(null)
   const { data: session } = useSession()
+  const pathname = usePathname()
 
   const handleSubmit = async () => {
     if (!idRef.current && !pwRef.current) return null
@@ -87,25 +99,30 @@ const MypageModal: React.FC<MypageModalProps> = ({ closeModal, user }) => {
         </button>
       </div>{' '}
       <div className="flex ">
-        <div className="w-10 h-10 border rounded-full mb-3">
+        <div className="felx justify-center items-center  border rounded-full mb-3 p-1">
           <Image
-            src="/mypage.svg"
+            src={
+              userImg === 'no image' || userImg === undefined || userImg === ''
+                ? '/3_love.png' // Fallback image path
+                : userImg
+            }
             alt="Mypage Logo"
-            className="ml-1 mt-1"
-            width={30}
-            height={30}
+            className=""
+            width={45}
+            height={45}
+            quality={75}
             priority
           />
         </div>
 
-        <h1 className="mt-[9px] ml-3 text-lg">{user.id} 님</h1>
+        <h1 className="mt-4 ml-3 text-lg dark:text-black">{user.id} 님</h1>
       </div>
       <div className="ml-3 mb-5">
         {/* 조언텍스트가 들어갈 곳? */}
         <p className="text-slate-500">조언 텍스트 오늘 하루도 많이 먹었어:)</p>
       </div>
       <hr />
-      <div className="hover:bg-slate-100 rounded-full mt-5 mb-5 p-1">
+      <div className="hover:bg-purple/20 rounded-full mt-5 mb-5 p-1">
         <Link href="/" className="ml-4" onClick={closeModal}>
           {' '}
           <span className="text-slate-800 hover:text-slate-900">
@@ -113,7 +130,11 @@ const MypageModal: React.FC<MypageModalProps> = ({ closeModal, user }) => {
           </span>
         </Link>
       </div>
-      <div className="hover:bg-slate-100 rounded-full p-1">
+      <div
+        className={`hover:bg-purple/20 rounded-full p-1 ${
+          pathname === `/emotion?userId=${user.id}` ? 'bg-purple' : ''
+        }`}
+      >
         <Link
           href={`/emotion?userId=${user.id}`}
           className="ml-4"
@@ -124,14 +145,22 @@ const MypageModal: React.FC<MypageModalProps> = ({ closeModal, user }) => {
           </span>
         </Link>
       </div>
-      <div className="hover:bg-slate-100 rounded-full mt-5 mb-5 p-1">
-        <Link href="/" className="ml-4" onClick={closeModal}>
+      <div
+        className="hover:bg-purple/20 rounded-full mt-5 mb-5 p-1 ml4"
+        onClick={themeOnClick}
+      >
+        <div className="ml-4">
           <span className="text-slate-800 hover:text-slate-900">
-            폰트 / 테마 변경
+            {snowTheme ? '테마 끄기' : '테마 켜기'}
           </span>
-        </Link>
+          <span
+            className={`ml-4 text-sm border rounded-md pl-2 pr-2 pt-1 pb-1 bg-purple text-white`}
+          >
+            {snowTheme ? 'on' : 'off'}
+          </span>
+        </div>
       </div>
-      <div className="hover:bg-slate-100 rounded-full p-1">
+      <div className="hover:bg-purple/20 rounded-full p-1">
         <Link href="/" className="ml-4" onClick={closeModal}>
           <button onClick={async () => signOut()}>
             <span className="text-slate-800 hover:text-slate-900">

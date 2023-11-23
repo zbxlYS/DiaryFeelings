@@ -79,7 +79,10 @@ const ModalCalendar = ({ isOpen, closeModal }: ModalProps) => {
     closeModal()
   }
 
-  const handleMarking = (date: Date, view: View) => {
+  const handleMarking = (
+    date: Date,
+    view: 'month' | 'year' | 'decade' | 'century',
+  ) => {
     // "century" 값을 포함한 다른 view 값에 대한 처리를 제외합니다.
     if (view !== 'month') {
       return null
@@ -196,4 +199,4 @@ const Page: React.FC = () => {
   )
 }
 
-export default ModalCalendar;
+export default ModalCalendar
