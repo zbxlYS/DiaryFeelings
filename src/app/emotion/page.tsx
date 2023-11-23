@@ -192,9 +192,9 @@ const page = () => {
           {/* 최근 일기목록  */}
           <div className={'h-[23rem] flex flex-row justify-center mt-5 '}>
             {imgView.length > 3 && (
-              <div className="flex flex-row mt-5 opacity-60 hover:opacity-100">
+              <div className="flex flex-col justify-center mt-5 opacity-60 hover:opacity-100">
                 <button
-                  className="border rounded-full  dark:border-white/80"
+                  className="rounded-full  dark:border-white/80"
                   onClick={handlePrevButtonClick}
                 >
                   {currentTheme === 'light' ? (
@@ -303,7 +303,7 @@ const page = () => {
             {imgView.length > 3 && (
               <div className="flex flex-row mt-5 opacity-60 hover:opacity-100 rounded-full">
                 <button
-                  className="border rounded-full  dark:border-white/80"
+                  className=" rounded-full  dark:border-white/80"
                   onClick={handleNextButtonClick}
                 >
                   <Image
@@ -357,7 +357,7 @@ const page = () => {
                 <span className="ml-5 opacity-70  dark:text-black">
                   {user.id}
                 </span>
-                <div className="mt-3  dark:text-black">
+                <div className="pr-5 pl-5 mt-3  dark:text-black resize-none">
                   <Textarea
                     label="Description"
                     variant="bordered"
@@ -366,11 +366,11 @@ const page = () => {
                     disableAutosize
                     classNames={{
                       base: 'max-w-xs',
-                      input: 'resize-y min-h-[13rem]',
+                      input: 'resize-none min-h-[13rem]',
                     }}
                   />
                 </div>
-                <div className="flex justify-end">
+                <div className="flex justify-end pr-5 pt-3">
                   <Button
                     color="secondary"
                     variant="flat"
