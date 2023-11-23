@@ -228,7 +228,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                       isCalendarOpen ? 'border-b text-purple' : ''
                     }`}
                   >
-                    <span className=" text-lg">달력</span>
+                    <span className="text-lg ">달력</span>
                   </button>
                 </div>
 

@@ -19,6 +19,7 @@ import { useMediaQuery } from 'react-responsive'
 import axios from 'axios'
 import { DoughnuChart } from './_components/DoughnuChart'
 import { usePathname } from 'next/navigation'
+import { useTheme } from 'next-themes'
 // img 상태의 타입을 정의하는 인터페이스
 
 interface IImg {
@@ -40,17 +41,33 @@ type EmotionImg = {
     src?: string | any | undefined | null
     text?: string
     emo?: string
+    mean?: string
   }
 }
 
 // 사용자 감정 모음
 const emotionImg: EmotionImg = {
-  happy: { src: '/3_love.png', text: '늘 행복해 :)', emo: '행복' },
-  suprise: { src: '/normal.png', text: '엄마야!', emo: '놀람' },
-  angry: { src: '/angry.png', text: '너무 화가난다아', emo: '분노' },
-  sad: { src: '/sad.png', text: '너무 슬퍼 :(', emo: '슬픔' },
-  depress: { src: '/depress.png', text: '너무 불안불안..', emo: '불안' },
-  normal: { src: '/nothinking.png', text: '나는 아무생각이없어', emo: '중립' },
+  happy: {
+    src: '/3_love.png',
+    text: '늘 행복해 :)',
+    emo: '행복',
+    mean: '',
+  },
+  suprise: { src: '/normal.png', text: '엄마야!', emo: '놀람', mean: '' },
+  angry: { src: '/angry.png', text: '너무 화가난다아', emo: '분노', mean: '' },
+  sad: { src: '/sad.png', text: '너무 슬퍼 :(', emo: '슬픔', mean: '' },
+  depress: {
+    src: '/depress.png',
+    text: '너무 불안불안..',
+    emo: '불안',
+    mean: '',
+  },
+  normal: {
+    src: '/nothinking.png',
+    text: '나는 아무생각이없어',
+    emo: '중립',
+    mean: '',
+  },
 }
 
 // 사용자 날씨 정보
@@ -71,7 +88,10 @@ const page = () => {
   const [view, setView] = useState<IDiary[]>([])
   const [imgView, setImgView] = useState<IImg[]>([]) // 일기 이미지주소
   const [datePart, setDatePart] = useState<string>() //시간
-  const pathname = usePathname()
+  const { systemTheme, theme, setTheme } = useTheme() // 다크모드테마 설정
+  const currentTheme = theme === 'system' ? systemTheme : theme
+
+  console.log(currentTheme)
   // console.log(emotionImg.놀람)
   console.log('view', view[0]?.user_image)
   // console.log(user)
@@ -160,25 +180,34 @@ const page = () => {
 
   return (
     <>
-      <div className="h-[160vh] ">
+      <div className="h-[200vh] ">
         {/* 일기목록 */}
         <div className="flex flex-col items-center ">
           <h1 className="w-auto flex items-start justify-start mt-20 mb-9 text-xxxl">
             ✏️ 최근 일기목록
           </h1>
           <span className="opacity-70">
-            최근 5일동안 작성한 일기를 볼수 있어요
+            최근 10일동안 작성한 일기를 볼수 있어요 !!
           </span>
           {/* 최근 일기목록  */}
           <div className={'h-[23rem] flex flex-row justify-center mt-5 '}>
-            <div className="flex flex-row mt-5 opacity-60 hover:opacity-100">
-              <button
-                className="border rounded-full  dark:border-white/80"
-                onClick={handlePrevButtonClick}
-              >
-                <Image src="/arrow-left.png" className="w-7"></Image>
-              </button>
-            </div>
+            {imgView.length > 3 && (
+              <div className="flex flex-row mt-5 opacity-60 hover:opacity-100">
+                <button
+                  className="border rounded-full  dark:border-white/80"
+                  onClick={handlePrevButtonClick}
+                >
+                  {currentTheme === 'light' ? (
+                    <Image src="/arrow-left.png" className="w-7"></Image>
+                  ) : (
+                    <Image
+                      src="/arrow-left-line-symbol.png"
+                      className="w-7 bg-black"
+                    ></Image>
+                  )}
+                </button>
+              </div>
+            )}
 
             {/* =============================
               
@@ -192,15 +221,31 @@ const page = () => {
 
               =============================
           */}
-
-            {imgView.slice(currentIndex, currentIndex + showCount).map(
-              (src, index) =>
-                // 보여줄 이미지 개수만큼만 렌더링하기
-                index < showCount && (
+            {/* 일기작성된게 없으면  */}
+            {imgView.slice(currentIndex, currentIndex + showCount).length ===
+            0 ? (
+              <div className="flex flex-col justify-center items-center mt-10">
+                <Image src="/cat.png"></Image>
+                <span className="text-base opacity-70">
+                  최근 작성한 일기가 없어요... 일기를 작성해 보세요{' '}
+                </span>
+                <Link href="/write">
+                  <button className="p-3 pl-10 pr-10 mt-5 mb-5 border rounded-md bg-purple text-white">
+                    일기작성하기
+                  </button>
+                </Link>
+              </div>
+            ) : (
+              // 일기 작성된게 하나라도 있다면?
+              imgView
+                .slice(currentIndex, currentIndex + showCount)
+                .map((src, index) => (
+                  // Your existing mapping logic here
                   <div
                     key={src.diary_number}
-                    className="relative w-[20rem] h-[21rem] bg-white mb-10 rounded-2xl ml-4 mr-5  mt-5 shadow-lg border border-neutral-200  hover:scale-105 transition-transform duration-400 cursor-grab  dark:text-black"
+                    className="relative w-[20rem] h-[21rem] bg-white mb-10 rounded-2xl ml-4 mr-5 mt-5 shadow-lg border border-neutral-200 hover:scale-105 transition-transform duration-400 cursor-grab dark:text-black"
                   >
+                    {' '}
                     <div className="absolute right-3 top-[8.3rem] flex items-center justify-center  w-14 h-14 border border-neutral-100 rounded-full z-20 bg-white">
                       <Image
                         // 추가할곳
@@ -220,12 +265,12 @@ const page = () => {
                       className="w-[20rem] h-[10rem] rounded-t-xl"
                     />
                     {/* 사용자 이모지  */}
-
                     <div className="mt-4 ml-4 mr-4">
                       <h1 className="text-lg mb-5">
                         {src.diary_title.length > 10
-                          ? src.diary_title.slice(0, 10) + ' ...'
+                          ? src.diary_title.slice(0, 11) + ' ...'
                           : src.diary_title}
+                        {/* {src.diary_title} */}
                       </h1>
                       <span className="opacity-70 overflow-x-auto ">
                         {src.diary_content.length > maxLength
@@ -251,21 +296,23 @@ const page = () => {
                         </div>
                       </div>
                     </div>
+                    {/* Your existing content here */}
                   </div>
-                ),
+                ))
             )}
-            <div className="flex flex-row mt-5 opacity-60 hover:opacity-100 rounded-full">
-              <button
-                className="border rounded-full  dark:border-white/80"
-                onClick={handleNextButtonClick}
-              >
-                <Image
-                  src="/arrow-right.png"
-                  className="w-7 opacity-50 ml"
-                ></Image>
-              </button>
-            </div>
-
+            {imgView.length > 3 && (
+              <div className="flex flex-row mt-5 opacity-60 hover:opacity-100 rounded-full">
+                <button
+                  className="border rounded-full  dark:border-white/80"
+                  onClick={handleNextButtonClick}
+                >
+                  <Image
+                    src="/arrow-right.png"
+                    className="w-7 opacity-50 ml"
+                  ></Image>
+                </button>
+              </div>
+            )}
             {/* 일기 내용 끝  */}
           </div>
           {/* 버튼을 눌렀을 때 다음 일기로 넘어가기 */}
@@ -277,7 +324,7 @@ const page = () => {
               ===========================*/}
         </div>
         <div className="flex justify-center items-center flex-col mt-16 mb-10">
-          <h1 className="text-xxl">{user.name}님 감정정보 </h1>
+          <h1 className="text-xxl">{user.name}님 감정기록 </h1>
           <span className="max-w-[30rem] mt-7 opacity-70">
             아래는 최근 한 달 동안의 감정을 기록하는 내용입니다: 한 달 동안의
             다양한 경험과 감정을 기록해보세요. :)
@@ -324,7 +371,12 @@ const page = () => {
                   />
                 </div>
                 <div className="flex justify-end">
-                  <Button color="primary" variant="flat" radius="sm" size="sm">
+                  <Button
+                    color="secondary"
+                    variant="flat"
+                    radius="sm"
+                    size="sm"
+                  >
                     변경
                   </Button>
                 </div>
@@ -334,7 +386,7 @@ const page = () => {
                     variant="faded"
                     className="flex justify-end items-center "
                   >
-                    <Link href="#" color="foreground" showAnchorIcon>
+                    <Link href="/edit" color="foreground" showAnchorIcon>
                       정보 수정하기
                     </Link>
                   </Button>
@@ -432,6 +484,25 @@ const page = () => {
             </div>
           </div>
         </div>
+
+        {/* 캐릭터 컬러에 대한 설명  */}
+        {/* <div className=" flex justify-center mt-20">
+          <div className="w-3/6 h-[30rem]  border flex flex-col justify-between mr-10">
+            {Object.values(emotionImg).map((emotion, index) => (
+              <div key={index} className="mt-2">
+                <div className="ml-7 flex">
+                  <Image
+                    src={emotion.src}
+                    alt={emotion.text}
+                    width={70}
+                    height={70}
+                  ></Image>
+                  <span className="mt-2">{emotion.emo}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div> */}
       </div>
     </>
   )

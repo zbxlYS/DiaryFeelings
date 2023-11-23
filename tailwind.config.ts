@@ -74,7 +74,7 @@ const config: Config = {
           colors: {
             background: '#171717', // or DEFAULT
             foreground: '#ECEDEE', // or 50 to 900 DEFAULT
-            Text: '#171717',
+
             primary: {
               //... 50 to 900
               foreground: '#FFFFFF',

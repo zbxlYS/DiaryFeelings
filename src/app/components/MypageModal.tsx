@@ -146,7 +146,7 @@ const MypageModal: React.FC<MypageModalProps> = ({
         </Link>
       </div>
       <div
-        className="hover:bg-purple/20 rounded-full mt-5 mb-5 p-1 ml4"
+        className="hover:bg-purple/20 rounded-full mt-5 mb-5 p-1 cursor-grab"
         onClick={themeOnClick}
       >
         <div className="ml-4">

@@ -51,6 +51,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     SELECT d.*, i.*
     FROM tb_diary d
     JOIN tb_image i ON d.diary_number = i.diary_number
+    WHERE user_id = ? 
     ORDER BY d.created_at DESC, d.diary_number DESC
     LIMIT ?;
  `
@@ -59,7 +60,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     let imgResult = await queryPromise(userImg, [userId])
     // 쿼리를 실행하고 결과를 가져오기
     const rows = await queryPromise(sql, [userId]) // Specify the type for rows
-    const imgrows = await queryPromise(imgsql, ['10'])
+    const imgrows = await queryPromise(imgsql, [userId, '10'])
     return NextResponse.json({
       result: rows,
       imgrows: imgrows,

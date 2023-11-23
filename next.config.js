@@ -11,6 +11,11 @@ const nextConfig = {
   experimental: {
     reactRoot: true,
   },
-}
 
+  head: {
+    meta: {
+      charset: 'UTF-8',
+    },
+  },
+}
 module.exports = nextConfig
