@@ -106,20 +106,16 @@ const ModalCalendar = () => {
   // 달력 외부 클릭 시 달력을 닫도록 처리하는 함수
   const handleOutsideClick = (event: MouseEvent) => {
     if (calendarRef.current && !calendarRef.current.contains(event.target as Node) && value) {
+      console.log("달력 외부 클릭됨");
       onChange(null);
     }
   };
-
 
   useEffect(() => {
     fetchDataFromDatabase();
   }, []);
 
-  useEffect(() => {
-    console.log(calendarRef.current);
-  }, []);
-  
-
+ 
   useEffect(() => {
     if (value) {
       document.addEventListener('mousedown', handleOutsideClick as EventListener);
