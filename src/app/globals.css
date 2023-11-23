@@ -1,12 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Roboto:wght@100&display=swap');
+
 /* 폰트들 */
 @font-face {
   font-family: 'Pretendard-Regular';
-  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff')
-    format('woff');
+  src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
   font-weight: 400;
   font-style: normal;
 }
+
 /* 폰트들 끝 */
 
 @tailwind base;
@@ -22,41 +23,39 @@
 
 @font-face {
   font-family: 'omyu_pretty';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2')
-    format('woff2');
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-01@1.0/omyu_pretty.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'RIDIBatang';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff')
-    format('woff');
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Ainmom';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_01@1.0/Ainmom.woff')
-    format('woff');
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_01@1.0/Ainmom.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'KyoboHand';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/KyoboHand.woff')
-    format('woff');
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/KyoboHand.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
+
 @font-face {
   font-family: 'ShinDongYupHandwriting-R';
-  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/ShinDongYupHandwriting-R.woff2')
-    format('woff2');
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_231029@1.1/ShinDongYupHandwriting-R.woff2') format('woff2');
   font-weight: 400;
   font-style: normal;
 }
+
 /* 폰트들 끝 */
 
 @tailwind base;
@@ -85,13 +84,15 @@ html {
 .animate-slidein {
   animation-name: slidein;
   animation-duration: 0.45s;
-  animation-fill-mode: both; /* Keeps the element in the final state after animation */
+  animation-fill-mode: both;
+  /* Keeps the element in the final state after animation */
 }
 
 @keyframes slidein {
   from {
     transform: translateX(100%);
   }
+
   to {
     transform: translateX(0);
   }
