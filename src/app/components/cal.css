@@ -1,68 +1,123 @@
-/* test.css */
+/* 기본 설정 */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-.react-calendar__month-view__days {
-  margin: 0px; /* 날짜별로 왼쪽에서 margin 조절 */
-}
-
 /* 달력 몸통 */
 .react-calendar {
-  width: 800px !important;
+  min-width: 550px; /* 달력의 너비 - 모바일 화면에 적합하게 조정 */
   border-radius: 20px;
-  border: 3px solid #AFA4CE !important;
+  border: 3px solid #AFA4CE;
   display: flex;
   flex-direction: column;
-  margin: auto; /* 가운데 정렬을 추가 */
-  min-height: 570px !important; /* 원하는 높이로 수정 */
-  margin-top: 13px;
-  z-index: 1000;
+  margin: auto; /* 수평 중앙 정렬 */
+  margin-top: 75px; /* 상단에서의 마진 */
+  /*max-height: 700px; /* 부모 요소의 높이를 따르도록 설정 */
+  height:760px;
+  overflow-y: auto !important;
+  position: relative; /* 추가: 상대 위치 설정 */
+ 
 }
 
-/* 모달창 스타일 */
-.ReactModal__Content {
-  margin-top: 40px; /* 모달창을 아래로 내리는 부분 추가 */
-  max-width: 1000px; /* 모달창 최대 너비 설정 */
-  width: 80%; /* 모달창 너비 설정 */
-  margin: auto; /* 가운데 정렬을 추가 */
-  margin-top: 40px;
-  z-index: 1000;
-
-
+/* 달력 내부 스타일 */
+.react-calendar__month-view {
+  min-height: 420px !important; /* 내부 높이를 자동으로 조절 */
+  display: flex;
+  flex-direction: column;
+  margin: auto; /* 수평 중앙 정렬 */
+  margin-top: px; /* 상단에서의 마진 */
+  max-height: 620px; /* 부모 요소의 높이를 따르도록 설정 */
+  overflow-y: auto !important; /* 내용이 넘칠 경우 스크롤 표시 */
+  position: relative; /* 추가: 상대 위치 설정 */
 }
+
+/* 달력 내부 스타일 */
+.react-calendar__month-view__days {
+  margin-top: 10px;
+  overflow-y: auto; /* 내용이 넘칠 경우 스크롤 표시 */
+}
+
+/* 오버레이 스타일 */
+.react-calendar::before {
+  content: "";
+  position: fixed; /* 변경: 오버레이를 화면에 고정합니다. */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3); /* 검정색 오버레이 색상 및 투명도 조절 */
+  z-index: -1; /* 달력 아래로 배치 */
+  
+}
+
+.calendar-container {
+  position: relative;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
 
 /* 미디어 쿼리 반응형 */
 @media screen and (min-width: 768px) {
   .react-calendar {
-    min-width: 62%;
-    max-width: 900px;
-    /* 데스크탑에 적합한 스타일 */
+    min-width: 62%; /* 중간 크기 화면에 적합한 너비 */
+    max-width: 900px; /* 최대 너비 */
   }
-
   .react-calendar__navigation {
-    height: 120px; /* 데스크탑에서 높이 조절 */
+    background-color: #E6E6FA;
+    border-bottom: 4px solid #AFA4CE;
+    height: 100px !important; /* 크기를 고정합니다. */
+    border-radius: 17px 17px 0 0;
+    overflow: hidden;
+    
+
   }
 
   .react-calendar__navigation span {
-    font-size: 32px; /* 데스크탑에서 글자 크기 조절 */
+    font-size: 32px;
   }
 
   .react-calendar__navigation__next-button,
   .react-calendar__navigation__prev-button {
-    font-size: 40px; /* 데스크탑에서 버튼 글자 크기 조절 */
+    font-size: 40px;
   }
-  
-  /* 기타 데스크탑에서 필요한 스타일 조절 */
 }
+
+/* 더 큰 화면을 위한 미디어 쿼리 */
+@media screen and (min-width: 1024px) {
+  .react-calendar {
+    min-width: 50%; /* 더 큰 화면에 적합한 너비 */
+  }
+}
+
+/* 다크 모드 스타일 */
+@media (prefers-color-scheme: dark) {
+  .react-calendar {
+    background-color: #333; /* 어두운 배경색 */
+    color: white; /* 흰색 글자 */
+  }
+}
+
+/* 기타 스타일 설정 */
+/* ... (나머지 스타일 설정은 동일하게 유지) */
+
 
 /* 달력 상단 */
 .react-calendar__navigation {
   background-color: #E6E6FA;
   border-bottom: 4px solid #AFA4CE;
-  height: 100px; /* 높이 조절을 원하는 값으로 수정 */
+  height: 80px; /* 높이 조절을 원하는 값으로 수정 */
   border-radius: 17px 17px 0 0;
 }
 
@@ -92,12 +147,15 @@
 
 .react-calendar__month-view__days {
   margin-top:10px;
+  height:450;
+  
 
 }
 
+
 .react-calendar__tile {
   width: 40px; /* 날짜별 칸의 너비를 조절합니다. */
-  height: 40px; /* 날짜별 칸의 높이를 조절합니다. */
+  height: 105px !important; /* 날짜별 칸의 높이를 조절합니다. */
   font-size: 16px; /* 날짜의 글꼴 크기를 조절합니다. */
   margin-top:10px;
   
@@ -112,6 +170,7 @@
 
 .react-calendar__month-view__days__day{
   margin-top:10px;
+  
 }
 
 /* 요일 색상 및 크기 */
@@ -251,49 +310,8 @@
 
 
 
-
-/* 다크 모드 스타일 */
-@media (prefers-color-scheme: dark) {
-  /* 달력 상단 네비게이션 글씨색 변경 */
-  .react-calendar__navigation {
-    color: white !important;
-  }
-
-  /* 요일 글씨색 변경 */
-  .react-calendar__month-view__weekdays abbr {
-    color: white !important;
-  }
-
-  /* 날짜 글씨색 변경 */
-  .react-calendar__tile {
-    color: white !important;
-  }
-
-  .react-calendar__year-view__months__month abbr {
-    color: white !important;
-  }
-
-  .ReactModal__Content .ReactModal__Content--after-open {
-    background-color: black !important; /* 검정색 배경 */
-    color: white; /* 텍스트 색상을 하얀색으로 변경 */
-    
-  }
+.calendar-container {
+  position: relative; /* 컨테이너 위치 설정 */
+  display: inline-block; /* 달력의 크기에 맞춰 컨테이너 크기를 조정 */
+  /* 필요에 따라 여기에 추가 스타일을 적용할 수 있습니다. */
 }
-
-
-.dark-mode {
-  background-color: #333; /* 어두운 배경색 */
-  color: white; /* 흰색 글자 */
-}
-
-/* 다크 모드에서 달력 스타일 변경 */
-.dark-mode .react-calendar {
-  background-color: #333;
-  border-color: #444;
-}
-
-/* 다크 모드에서 모달창 스타일 변경 */
-.dark-mode .ReactModal__Content {
-  background-color: #222;
-}
-

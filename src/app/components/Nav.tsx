@@ -178,7 +178,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
 
               {/* 달력 버튼 */}
 
-              <div className="absolute right-[9.8rem] top-[22px]">
+              <div className="absolute right-[9.8rem] top-[22px] z-50">
                 <button onClick={toggleCalendar}>달력</button>
               </div>
 
