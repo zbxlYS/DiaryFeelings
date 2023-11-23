@@ -1,12 +1,15 @@
 "use client"
 
-import React, {useEffect, useRef, useState} from 'react'
-import { Button, Avatar, Input, divider} from '@nextui-org/react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
+import { Button, Avatar, Input} from '@nextui-org/react'
 import {EyeFilledIcon} from "./_components/EyeFilledIcon";
 import {EyeSlashFilledIcon} from "./_components/EyeSlashFilledIcon";
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation';
+import Dropout from './_components/Dropout';
+
+
 
 
 const page = () => {
@@ -16,6 +19,7 @@ const page = () => {
   const [pwdata,setpwData] = useState('')
   const [pwdata2,setpwData2] = useState('')
   const [user,setUser] = useState<any>({})
+  const [isOpen,setIsopen] = useState<boolean>(false)
   const [isVisible, setIsVisible] = React.useState(false);
   const [isVisible2, setIsVisible2] = React.useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -118,6 +122,17 @@ const editSubmit = async(e:any)=>{
     }
 }
 
+//회원탈퇴 클릭 시 모달창 여닫기
+
+const dropoutBtn = ()=>{
+  setIsopen(true)
+}
+const closeModal = ()=>{
+  setIsopen(false)
+}
+
+
+
 
   return (
       <div className="flex h-full  w-screen flex-col items-center justify-center overflow-hidden">
@@ -206,7 +221,8 @@ const editSubmit = async(e:any)=>{
               <div className="flex flex-col items-center p-2 pt-0 w-[20rem]">
                 <Button size="md" radius="md" 
                 className='w-full mt-q bg-black text-white  hover:shadow-lg shadow-md dark:text-[#171717]'
-                > 탈퇴 하기</Button>
+                onClick={dropoutBtn}> 탈퇴 하기</Button>
+                <Dropout isOpen={isOpen} closeModal = {closeModal}/>
               </div>
             </div>
           </form>
