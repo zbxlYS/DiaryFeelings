@@ -279,6 +279,7 @@ const page = () => {
                       </span>
                       {/* 일기 날씨  추가할곳*/}{' '}
                       <div className="absolute right-4 mb-10 w-12 h-12 ">
+                        {}
                         <Image
                           src={
                             src.diary_weather
