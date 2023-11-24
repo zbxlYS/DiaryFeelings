@@ -2,10 +2,8 @@
 
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import UpLoading from '@/app/wrote/_components/UpLoading'
-import { notFound } from 'next/navigation'
+import { notFound, useRouter } from 'next/navigation'
 import { IDiary } from '@/app/types/type'
-import DatePicker from 'react-datepicker'
 import Image from 'next/image'
 import moment from 'moment'
 import {
@@ -18,6 +16,12 @@ import {
   pretendard,
 } from '@/app/components/fonts/fonts'
 import { useSession } from 'next-auth/react'
+import LottieCat from '@/app/components/LottieCat'
+import Sunny from '@/app/components/weathers/Sunny'
+import Snowy from '@/app/components/weathers/Snowy'
+import Windy from '@/app/components/weathers/Windy'
+import Rainy from '@/app/components/weathers/Rainy'
+import Cloudy from '@/app/components/weathers/Cloudy'
 interface Props {
   id: any
 }
@@ -27,17 +31,9 @@ const DiaryDetail = ({ params }: { params: Props }) => {
   const userObj = session?.user?.id as string
   const [view, setView] = useState<IDiary>()
   const [font, setFont] = useState(0)
-  const [upLoading, setUpLoading] = useState(false)
-  const [value, setValue] = useState('')
   const num = parseInt(params.id)
-  const emotionList = [
-    ['happy', '오늘은 행복한 날이에요!'],
-    ['sad', '오늘은 슬픈 날이에요...'],
-    ['angry', '오늘은 뿔나는 날이에요!!'],
-    ['depress', '오늘은 풀죽은 날이에요...'],
-    ['normal', '오늘은 무난한 날이에요.'],
-  ]
-
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
   const fontList = [
     ['프리텐다드', pretendard.className],
     ['바른히피', bareun.className],
@@ -54,10 +50,12 @@ const DiaryDetail = ({ params }: { params: Props }) => {
   }
 
   const getDiary = async () => {
+    setLoading(true)
     const result = await axios.get(`/api/diary/${num}`)
     const data = result.data
     setView((prev) => data.result)
     setFont(() => data.result.diary_font)
+    setLoading(false)
     console.log('view', data)
 
     if (result.data.msg === 'success') {
@@ -84,7 +82,7 @@ const DiaryDetail = ({ params }: { params: Props }) => {
 
       if (response.data.msg === 'success') {
         alert('삭제 완료~')
-        window.location.href = '/diary'
+        router.push('/diary?page=1')
       } else {
         alert('삭제 실패~')
       }
@@ -100,19 +98,20 @@ const DiaryDetail = ({ params }: { params: Props }) => {
   }
 
   return (
+    loading ? (
+      <LottieCat text={'읽어오고 있어요'}/>
+    ) : (
     <div className="w-full flex justify-center items-center p-[7px]">
       <div className="relative w-[1280px] flex flex-col items-end p-[30px]  border rounded-md shadow-lg mt-[40px]">
-        {upLoading && <UpLoading />}
         <div className="border shadow-lg absolute p-[10px] rounded-md my-[20px] flex flex-col justify-center items-center top-[-20px] right-[-150px]">
           {/* weather */}
           <div className="relative flex flex-col justify-center items-center">
             <span>오늘의 날씨</span>
-            <Image
-              src={`/${view?.diary_weather}.png`}
-              width={100}
-              height={100}
-              alt="weather"
-            />
+            { view?.diary_weather === 'sunny' && <Sunny /> }
+            { view?.diary_weather === 'rainy' && <Rainy /> }
+            { view?.diary_weather === 'cloudy' && <Cloudy /> }
+            { view?.diary_weather === 'snowy' && <Snowy /> }
+            { view?.diary_weather === 'windy' && <Windy /> }
           </div>
           <div>{moment(view?.diary_userDate).format('YYYY-MM-DD')}</div>
         </div>
@@ -163,7 +162,7 @@ const DiaryDetail = ({ params }: { params: Props }) => {
             <div className="w-full flex flex-col">
               {/* diary content */}
               <div
-                className={`border resize-none  max-w-4xl h-full outline-none rounded-md p-[25px] text-lg bg-[transparent] ${fontList[font][1]} leading-9`}
+                className={`border max-w-4xl h-[350px] overflow-y-scroll outline-none rounded-md p-[25px] text-lg bg-[transparent] ${fontList[font][1]} leading-9`}
               >
                 {view?.diary_content}
               </div>
@@ -184,6 +183,8 @@ const DiaryDetail = ({ params }: { params: Props }) => {
         </div>
       </div>
     </div>
+
+    )
   )
 }
 

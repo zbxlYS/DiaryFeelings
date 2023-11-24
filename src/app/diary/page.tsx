@@ -25,6 +25,7 @@ const Diary = () => {
   const [user, setUser] = useRecoilState(userInfo)
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(6)
+  const [userImg, setUserImg] = useState('')
   const [loading, setLoading] = useState(false)
   const [view, setView] = useState<IDiary[]>([])
   const curPage = params.get('page') as string
@@ -47,6 +48,7 @@ const Diary = () => {
     const data = result.data
     setTotal((prev) => data.total)
     setView((prev) => data.result)
+    setUserImg((prev) => data.userImage)
     setLoading(false)
   }
   useEffect(() => {
@@ -85,7 +87,7 @@ const Diary = () => {
           <div className="w-full mt-[100px] flex flex-col justify-center items-center">
             <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
               {view.map((data: IDiary, index: number) => (
-                <DiaryLayout key={data.diary_number} data={data} />
+                <DiaryLayout key={data.diary_number} data={data} userImg={userImg}/>
               ))}
             </div>
             <div className="border h-[50px] rounded-md flex justify-around items-center mb-[50px]">

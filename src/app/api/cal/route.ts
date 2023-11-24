@@ -1,29 +1,51 @@
 //cal/route.ts
-import { NextApiRequest, NextApiResponse } from 'next'
+import { NextRequest, NextResponse } from 'next/server'
 import queryPromise from '@/app/lib/db'
-import { NextResponse } from 'next/server'
 
 interface DiaryRow {
   date: string
   diary_emotion: string
 }
 
-export async function GET(req: NextApiRequest, res: NextApiResponse) {
+interface reqBody {
+  date: string,
+  userId: string,
+  page: string
+}
+export async function GET(req: NextRequest, res: NextResponse) {
   try {
-    //  SQL 쿼리
-    const userIDs = ['test1', 'test2', 'test3'] // 원하는 여러 개의 user_id 값을 배열화
-    const sql =
-      'SELECT user_id, diary_userDate, diary_emotion FROM tb_diary WHERE user_id IN (?, ?, ?)'
+    const year = req.nextUrl.searchParams.get('year') as string
+    const month = req.nextUrl.searchParams.get('month') as string
+    const user = req.nextUrl.searchParams.get('userId') as string
 
-    // 쿼리를 실행하고 결과를 가져오기
-    const rows = await queryPromise(sql, userIDs)
-    // 중간에 로그 추가
-    // JSON 형태의 문자열을 파싱하고 첫 번째 값을 숫자로 가져오기
-
-    // 결과를 JSON으로 응답
-    return NextResponse.json({ result: rows })
+    let sql = `SELECT diary_number, diary_userEmo, created_at FROM tb_diary WHERE MONTH(created_at) = ? AND YEAR(created_at) = ? AND user_id = ? `
+    let result = await queryPromise(sql, [month, year, user]);
+    
+    return NextResponse.json({ result })
   } catch (error) {
     console.error('에러 발생:', error)
     return NextResponse.json({ result: 'error' })
   }
+}
+
+export const POST = async(req: Request, res: NextResponse) => {
+  const body: reqBody = await req.json()
+  const date = body.date
+  const user = body.userId
+  const curPage = body.page
+
+  const offset = isNaN((parseInt(curPage) - 1) * 6)
+    ? 0
+    : (parseInt(curPage) - 1) * 6
+  const getNum = 6
+
+  let sql = 'SELECT count(*) FROM tb_diary WHERE user_id = ? '
+  sql += 'and DATE(created_at) = ?'
+  let result = await queryPromise(sql, [user, date])
+  const total = result[0]['count(*)']
+  sql = `SELECT A.*, B.image_src FROM tb_diary as A LEFT JOIN tb_image as B ON A.diary_number = B.diary_number WHERE A.user_id = ? and DATE(A.created_at) = ? LIMIT ${getNum} OFFSET ${offset}`
+  result = await queryPromise(sql, [user, date])
+  sql = 'SELECT user_image FROM tb_user WHERE user_id = ?';
+  const image = await queryPromise(sql, [user])
+  return NextResponse.json({result: result, total: total, user_image: image[0]})
 }

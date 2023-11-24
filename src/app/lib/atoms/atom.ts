@@ -11,6 +11,11 @@ export const textState = atom({
     default: 'test test test', // default value (aka initial value)
   });
 
+export const calState = atom({
+  key: 'calendar open',
+  default: false
+})
+
 export const userInfo = atom<User>({
   key: 'userinfo',
   default: {

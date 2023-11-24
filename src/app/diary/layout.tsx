@@ -2,14 +2,16 @@
 
 import { useSession } from "next-auth/react";
 import Denined from "../components/Deniend";
-import { useEffect, useState } from "react";
-import LottieCat from '@/app/components/LottieCat'
+
 interface Props {
     id: string;
 }
 
 const Layout = ({children, params}: {children: React.ReactNode, params: Props}) => {
     const { data: session, status } = useSession();
+    if(status === 'loading') {
+        return <></>
+    }
     if(status === 'unauthenticated') {
         return <Denined />
     }

@@ -39,7 +39,7 @@ const Write = () => {
     const contentRef = useRef<HTMLTextAreaElement>(null);
     const router = useRouter()
     const emotionList = [
-        ["happy", "오늘은 행복한 날이에요!"],
+        ["love", "오늘은 행복한 날이에요!"],
         ["sad", "오늘은 슬픈 날이에요..."],
         ["angry", "오늘은 뿔나는 날이에요!!"],
         ["depress", "오늘은 풀죽은 날이에요..."],
@@ -97,6 +97,8 @@ const Write = () => {
             alert('내용을 입력해 주세요.')
             return;
         }
+        const convertToEnter = contentRef.current.value.replaceAll('\\n', '<br/>')
+        console.log(convertToEnter)
         const formData = new FormData();
         formData.append('title', titleRef.current.value)
         formData.append('content', contentRef.current.value)

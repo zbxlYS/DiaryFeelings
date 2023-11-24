@@ -1,7 +1,6 @@
 'use client'
 
-import type { NextPage } from 'next'
-import { useRef, useState, useEffect } from 'react'
+import { useRef, useState } from 'react'
 import { signIn } from 'next-auth/react'
 import React from 'react'
 
@@ -9,7 +8,7 @@ import { Input } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import styles from './_components/styles.module.css'
 
-const Login: NextPage = () => {
+const Login = () => {
   // useRef로 아이디랑, 비밀번호 값 가져오기.
   const [error, setError] = useState('')
   const idRef = useRef<HTMLInputElement>(null);
@@ -17,7 +16,6 @@ const Login: NextPage = () => {
   const [id, setId] = useState('')
   const [password, setPassword] = useState('')
   const router = useRouter()
-  // const router = useRouter();  // 추가된 부분: 페이지 이동을 위한 useRouter
 
   const handleLogin = async () => {
     if (!id) {
@@ -90,6 +88,8 @@ const Login: NextPage = () => {
   const handleNaver = () => {
     // 네이버 로그인 처리 로직 추가
   }
+
+  // 엔터 누르면 로그인 실행.
   const sumChk = async(e: React.KeyboardEvent<HTMLInputElement>) => {
     if(e.key === 'Enter') {
       await handleLogin()
@@ -113,7 +113,7 @@ const Login: NextPage = () => {
               onChange={(e) => {setId(e.target.value)}}
               onKeyDown={(e) => sumChk(e)}
             />
-            <div className={`${error ? 'block' : 'hidden'} absolute top-[-30px] border border-[#ff7961] px-[30px] py-[7px] rounded-md z-[11] bg-[#ff7961] bg-opacity-[0.8] text-[16px] text-white`}>
+            <div className={`${error ? 'block' : 'hidden'} absolute top-[-30px] border border-[#ff7961] px-[30px] py-[7px] rounded-md z-[11] bg-[#ff7961] bg-opacity-[0.6] text-[16px] text-[#b21807]`}>
               {error && error === 'user' ? '없는 아이디예요... 😣' : '비밀번호가 틀렸어요... 🥹'}
             </div>
           </div>
@@ -168,12 +168,6 @@ const Login: NextPage = () => {
               <img src="/sign/kakao.png" alt="카카오 로그인 이미지" className='opacity-80 hover:opacity-100'/>
             </button>
             <div className="w-4"></div>
-            <button
-              onClick={handleNaver}
-              className={`${styles['login-button']}`}
-            >
-              <img src="/sign/naver.png" alt="네이버 로그인 이미지" className='opacity-80 hover:opacity-100'/>
-            </button>
 
             <div className="w-4"></div>
             <button

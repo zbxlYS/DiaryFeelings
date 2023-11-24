@@ -22,9 +22,12 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     const total = result[0]['count(*)']
     sql = `SELECT A.*, B.image_src FROM tb_diary as A LEFT JOIN tb_image as B ON A.diary_number = B.diary_number WHERE A.user_id = ? AND A.diary_content LIKE ? ORDER BY A.diary_userDate DESC LIMIT ${getNum} OFFSET ${offset}`
     result = await queryPromise(sql, values)
+    sql = 'SELECT user_image FROM tb_user WHERE user_id = ?';
+    const image = await queryPromise(sql, [userId])
     return NextResponse.json({
       result: result,
       total: total,
+      userImage: image[0],
       msg: 'success',
     })
   } catch (error) {

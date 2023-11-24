@@ -9,7 +9,7 @@ import MypageModal from './MypageModal'
 import ModalCalendar from './Calendar'
 import { useRouter, usePathname } from 'next/navigation'
 import { useRecoilState } from 'recoil'
-import { userInfo } from '../lib/atoms/atom'
+import { userInfo, calState } from '../lib/atoms/atom'
 import axios from 'axios'
 import Snow from '../emotion/_components/Snow'
 
@@ -28,11 +28,9 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const currentTheme = theme === 'system' ? systemTheme : theme
   const [inputValue, setInputValue] = useState<string>('') // 일기검색
   const [user, setUser] = useRecoilState(userInfo)
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false) //달력모달
-  const [searchBlur, setSearchBlur] = useState(false) // 검색창 선 색상 변경 용도
+  const [isCalendarOpen, setIsCalendarOpen] = useRecoilState(calState) //달력모달
   const [userImg, setUserImg] = useState<any>('') // 유저 이미지
   const [snowTheme, setSnowTheme] = useState<boolean>(false)
-  const [searchBlur, setSearchBlur] = useState(false)
 
   const themeOnClick = () => {
     setSnowTheme(!snowTheme)
@@ -80,9 +78,6 @@ const Nav: React.FC<SearchComponentProps> = () => {
     setIsCalendarOpen(!isCalendarOpen)
   }
 
-  const handleBlur = () => {
-    setSearchBlur(!searchBlur)
-  }
   useEffect(() => {
     // 초기 렌더링 시 테마를 라이트 모드로 설정
     if (currentTheme !== 'light') {
@@ -122,22 +117,14 @@ const Nav: React.FC<SearchComponentProps> = () => {
               priority
               onClick={onClickSearch}
             />
-            <input
-              type="text"
-              className={`w-[400px] h-[40px] outline-none border-b-[2px] ${
-                searchBlur ? 'border-[#b2a4d4]' : 'border-gray'
-              } bg-[transparent] p-[7px] pl-[30px]`}
-              onFocus={() => setSearchBlur(true)}
-              onBlur={() => setSearchBlur(false)}
-            />
           </div>
         </div>
         <div>
           <Link href="/signin">
-            <span className="mr-[30px]">로그인</span>
+            <span className="mr-[30px] hover:text-[#b2a4d4]">로그인</span>
           </Link>
           <Link href="/join">
-            <span className="border px-[10px] py-[7px] rounded-md mr-[60px] text-white bg-[#b2a4d4]">
+            <span className="px-[10px] py-[7px] rounded-md mr-[60px] text-white bg-[#b2a4d4]">
               감정을 기록하기
             </span>
           </Link>
@@ -271,6 +258,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                   <ModalCalendar
                     isOpen={isCalendarOpen}
                     closeModal={toggleCalendar}
+                    setIsCalendarOpen={setIsCalendarOpen}
                   />
                 )}
                 <Link

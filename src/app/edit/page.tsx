@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState, useLayoutEffect } from 'react'
 import { Button, Avatar, Input } from '@nextui-org/react'
 import { EyeFilledIcon } from './_components/EyeFilledIcon'
 import { EyeSlashFilledIcon } from './_components/EyeSlashFilledIcon'
@@ -39,7 +39,7 @@ const page = () => {
 
   //session이 변동 될 때마다 session에 저장 되어 있는 user 정보 가져오기
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     getData()
   }, [session])
 
@@ -50,8 +50,10 @@ const page = () => {
       const result = await axios.patch('/api/edit', {
         user_id: id,
       })
+      const userImg = result.data.result[0].user_image === 'no image' ? '/joy.png' : result.data.result[0].user_image
+      console.log(userImg)
       setUser(result.data.result[0].user_id)
-      setImg(result.data.result[0].user_image)
+      setImg(userImg)
       setNick(result.data.result[0].user_name)
     }
   }
@@ -102,8 +104,7 @@ const page = () => {
             'Content-Type': 'multipart/form-data',
           },
         })
-
-        router.push('/emotion')
+        window.location.href='/emotion'
       } else {
         alert('비밀번호가 일치하지 않습니다🥹')
       }

@@ -1,9 +1,10 @@
 import { IDiary } from '@/app/types/type'
 import moment from 'moment'
-import Image from 'next/image'
+import { Image } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 interface Props {
   data: IDiary
+  userImg: any
 }
 const emotionImg: { [key: string]: string } = {
   normal: '/normal.png',
@@ -13,9 +14,9 @@ const emotionImg: { [key: string]: string } = {
   happy: '/3_love.png',
   depress: '/depress.png',
 }
-const DiaryLayout = ({ data }: Props) => {
+const DiaryLayout = ({ data, userImg }: Props) => {
   const router = useRouter()
-
+  const userProfile = userImg ? userImg.user_image : '/joy.png';
   return (
     <div
       className="border border-[#A2A2A2] relative w-[350px] h-[500px] rounded-[20px] flex flex-col justify-between overflow-hidden pb-[10px] shadow-lg mx-[35px] mb-[140px] hover:shadow-xl hover:scale-[1.02] ease-in duration-200 cursor-pointer"
@@ -47,7 +48,9 @@ const DiaryLayout = ({ data }: Props) => {
       <div className="flex flex-col w-full p-[20px] justify-around">
         <div className="flex flex-col w-full">
           <span className="text-[18px] font-pretendard">
-            {data.diary_title}
+          {data.diary_title.length >= 26
+              ? `${data.diary_title.replaceAll('\n', ' ').slice(0, 26)}...`
+              : data.diary_title.replaceAll('\n', ' ')}
           </span>
           <pre className="text-sm mt-[20px] text-gray-400 whitespace-pre-wrap font-pretendard">
             {data.diary_content.length >= 68
@@ -57,8 +60,8 @@ const DiaryLayout = ({ data }: Props) => {
         </div>
       </div>
       <div className="flex items-center mb-[20px] ml-[20px]">
-        <div className="w-[40px] h-[40px] rounded-[50%] bg-white shadow-lg overflow-hidden object-contain">
-          <img src="./yuumi.jpg" alt="" className="w-full h-full" />
+        <div className="w-[40px] h-[40px] rounded-full bg-white shadow-lg overflow-hidden object-contain">
+        <Image src={userProfile} alt="" className="w-full h-full rounded-full" />
         </div>
         <div className="flex flex-col ml-[15px] justify-center">
           <span className="text-gray-600 text-[14px]">{data.user_name}</span>

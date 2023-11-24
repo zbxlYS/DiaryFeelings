@@ -16,6 +16,7 @@ const Search = () => {
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(6)
   const [view, setView] = useState<IDiary[]>([])
+  const [userImg, setUserImg] = useState('')
   const [search, setSearch] = useState(false)
   const [loading, setLoading] = useState(true)
   const curPage = params.get('page') as string
@@ -35,7 +36,7 @@ const Search = () => {
       const data = result.data
       setTotal((prev) => data.total)
       setView((prev) => data.result)
-  
+      setUserImg((prev) => data.userImage)
       data.result.length != 0 ? setSearch(true) : setSearch(false)
       setLoading(false)
     }
@@ -58,7 +59,7 @@ const Search = () => {
         </div>
         <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
             {view.map((data: IDiary, index: number) => (
-              <DiaryLayout key={data.diary_number} data={data} />
+              <DiaryLayout key={data.diary_number} data={data} userImg={userImg} />
             ))}
         </div>
         <Pagination total={total} limit={6} page={page} keyword={keyword}/>

@@ -37,10 +37,6 @@ const page = () => {
     URL.revokeObjectURL(img)
     setImg((prev) => '')
   }
-  const imgReset = () => {
-    URL.revokeObjectURL(img)
-    setImg((prev) => '')
-  }
 
   //이메일 사용 가능 여부 확인
 
