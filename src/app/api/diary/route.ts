@@ -47,14 +47,16 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
   const getNum = 6
 
   let sql = 'SELECT count(*) FROM tb_diary WHERE user_id = ? '
-  sql += `and DATE(diary_userDate) BETWEEN '${start}' and '${end}' ORDER BY diary_userDate DESC`
+  sql += `and DATE(created_at) BETWEEN '${start}' and '${end}' ORDER BY created_at DESC`
   let result = await queryPromise(sql, [userId])
   const total = result[0]['count(*)']
   console.log(total)
-  sql = `SELECT A.*, B.image_src FROM tb_diary as A LEFT JOIN tb_image as B ON A.diary_number = B.diary_number WHERE A.user_id = ? and DATE(A.diary_userDate) BETWEEN '${start}' and '${end}' ORDER BY A.created_at DESC LIMIT ${getNum} OFFSET ${offset} `
+  sql = `SELECT A.*, B.image_src FROM tb_diary as A LEFT JOIN tb_image as B ON A.diary_number = B.diary_number WHERE A.user_id = ? and DATE(A.created_at) BETWEEN '${start}' and '${end}' ORDER BY A.created_at DESC LIMIT ${getNum} OFFSET ${offset} `
   let values = [userId]
   result = await queryPromise(sql, values)
-  return NextResponse.json({ result: result, total: total })
+  sql = 'SELECT user_image FROM tb_user WHERE user_id = ?';
+  const image = await queryPromise(sql, [userId])
+  return NextResponse.json({ result: result, total: total, userImage: image[0] })
 }
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -64,6 +66,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     ?.split('mlru ')[1] as string
   const title = data.get('title') as string
   const content = data.get('content') as string
+  console.log(content)
   const weather = data.get('weather') as string
   const emotion = data.get('emotion') as string
   const fonts = data.get('fonts') as string

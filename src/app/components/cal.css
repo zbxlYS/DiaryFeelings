@@ -16,7 +16,7 @@
   margin-top: 75px; /* 상단에서의 마진 */
   /*max-height: 700px; /* 부모 요소의 높이를 따르도록 설정 */
   height: 760px;
-  overflow-y: auto !important;
+  overflow-y: hidden !important;
   position: relative; /* 추가: 상대 위치 설정 */
 }
 
@@ -28,7 +28,7 @@
   margin: auto; /* 수평 중앙 정렬 */
   margin-top: px; /* 상단에서의 마진 */
   max-height: 620px; /* 부모 요소의 높이를 따르도록 설정 */
-  overflow-y: auto !important; /* 내용이 넘칠 경우 스크롤 표시 */
+  overflow-y: hidden !important; /* 내용이 넘칠 경우 스크롤 표시 */
   position: relative; /* 추가: 상대 위치 설정 */
 }
 
