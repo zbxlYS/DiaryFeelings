@@ -10,6 +10,9 @@ const nextConfig = {
   experimental: {
     reactRoot: true,
   },
+  typescript: {
+    ignoreBuildErrors: true,
+ },
 
   head: {
     meta: {

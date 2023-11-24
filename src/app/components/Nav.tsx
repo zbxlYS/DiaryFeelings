@@ -100,7 +100,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
   if (status === 'unauthenticated') {
     // 인증 안 됨(로그인 안 돼있을 때 보여줄 Nav)
     return (
-      <div className="flex w-full h-[67px] border justify-between items-center z-10 flex-[none]">
+      <div className="flex w-full h-[60px] border justify-between items-center z-10 flex-[none]">
         <div className="flex justify-center items-center">
           <Link href="/" className="ml-[60px]">
             <span className="px-[14px] py-[7px] rounded-md border mr-[60px]">
@@ -121,8 +121,9 @@ const Nav: React.FC<SearchComponentProps> = () => {
         </div>
         <div>
           <Link href="/signin">
-            <span className="mr-[30px] hover:text-[#b2a4d4]">로그인</span>
+            <span className="hover:text-[#b2a4d4]">로그인</span>
           </Link>
+            <span className='mx-[20px]'>|</span>
           <Link href="/join">
             <span className="px-[10px] py-[7px] rounded-md mr-[60px] text-white bg-[#b2a4d4]">
               감정을 기록하기

@@ -3,7 +3,7 @@ import axios from 'axios'
 import moment from 'moment'
 import queryPromise from '@/app/lib/db'
 export const api = {
-  bodyParse: false,
+  bodyParse: false
 }
 
 // GET 가져오기
