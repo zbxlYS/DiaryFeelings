@@ -32,7 +32,6 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const [searchBlur, setSearchBlur] = useState(false) // 검색창 선 색상 변경 용도
   const [userImg, setUserImg] = useState<any>('') // 유저 이미지
   const [snowTheme, setSnowTheme] = useState<boolean>(false)
-  const [searchBlur, setSearchBlur] = useState(false)
 
   const themeOnClick = () => {
     setSnowTheme(!snowTheme)

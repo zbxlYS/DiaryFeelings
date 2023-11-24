@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import UpLoading from '@/app/wrote/_components/UpLoading'
+import UpLoading from '@/app/write/_components/UpLoading'
 import { notFound } from 'next/navigation'
 import { IDiary } from '@/app/types/type'
 import DatePicker from 'react-datepicker'
