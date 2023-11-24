@@ -107,7 +107,7 @@ const MypageModal: React.FC<MypageModalProps> = ({
                 : userImg
             }
             alt="Mypage Logo"
-            className=""
+            className="rounded-full"
             width={45}
             height={45}
             quality={75}
