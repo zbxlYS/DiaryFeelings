@@ -27,7 +27,6 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
     result = await queryPromise(sql, values)
     return NextResponse.json({ msg: 'success' })
   } catch (err) {
-    console.log(err)
     return NextResponse.json({ result: 'error' })
   }
 }

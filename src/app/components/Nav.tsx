@@ -1,7 +1,7 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
@@ -43,18 +43,26 @@ const Nav: React.FC<SearchComponentProps> = () => {
     // console.log('isModalOpen', isModalOpen)
   }
   // console.log(userImg)
+
   /* Get Search Data from input tag */
-  const getSearchData = (e: ChangeEvent<HTMLInputElement>) => {
+  const getSearchData = (e: any) => {
     setInputValue(e.target.value.toLowerCase())
   }
 
   /* Search Function */
   const onClickSearch = async (e: any) => {
-    e.preventDefault()
     console.log('user', user.id, 'inputvalue', inputValue)
     router.push(`/search?keyword=${inputValue}&page=1`)
     setInputValue('')
   }
+
+  /* Search Function */
+  const onEnterPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onClickSearch(e.currentTarget.value)
+    }
+  }
+
   // 현진 : 사용자 이미지 150번줄
   // image 로직있고 userImg = useState 쓰는중
   useEffect(() => {
@@ -335,6 +343,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 placeholder="일기 검색 . . ."
                 value={inputValue}
                 onChange={getSearchData}
+                onKeyDown={onEnterPress}
                 className="absolute w-[90%] max-w-[60%] h-full left-[3rem] border-none outline-none dark:bg-[#171717]"
               ></input>
             </div>
