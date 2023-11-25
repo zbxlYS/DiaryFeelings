@@ -76,6 +76,7 @@
 }
 
 html {
+  min-height: 145vh;
   height: 100%;
 }
 

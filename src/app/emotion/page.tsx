@@ -201,9 +201,9 @@ const page = () => {
 
   return (
     <>
-      <div className="overflow-auto">
+      <div className="">
         {/* 일기목록 */}
-        <div className="flex flex-col items-center mt-20">
+        <div className="flex flex-col items-center mt-10">
           <h1 className="w-auto flex items-start justify-start mt-20 mb-9 text-xxxl">
             ✏️ 최근 일기목록
           </h1>

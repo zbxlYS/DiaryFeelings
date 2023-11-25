@@ -106,8 +106,8 @@ const Login: NextPage = () => {
   // id: test1 pw: 1234
 
   return (
-    <div className="flex justify-center items-center h-[87vh]">
-      <div className="flex justify-center items-center w-[40rem] h-[45rem] border border-slate-300 rounded-2xl shadow-lg relative">
+    <div className="flex justify-center items-center ">
+      <div className="flex justify-center items-center w-[40rem] h-[45rem] border border-purple rounded-2xl shadow-lg relative">
         <div className=" mx-auto flex flex-col items-center justify-center ">
           <div className="flex w-[270px] flex-col items-center p-2 pt-0">
             <div className="mb-2 text-[3.2rem]">감기 </div>

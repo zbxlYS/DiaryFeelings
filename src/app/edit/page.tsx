@@ -1,6 +1,12 @@
 'use client'
 
-import React, { useCallback, useEffect, useRef, useState, useLayoutEffect } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useLayoutEffect,
+} from 'react'
 import { Button, Avatar, Input } from '@nextui-org/react'
 import { EyeFilledIcon } from './_components/EyeFilledIcon'
 import { EyeSlashFilledIcon } from './_components/EyeSlashFilledIcon'
@@ -50,7 +56,10 @@ const page = () => {
       const result = await axios.patch('/api/edit', {
         user_id: id,
       })
-      const userImg = result.data.result[0].user_image === 'no image' ? '/joy.png' : result.data.result[0].user_image
+      const userImg =
+        result.data.result[0].user_image === 'no image'
+          ? '/joy.png'
+          : result.data.result[0].user_image
       console.log(userImg)
       setUser(result.data.result[0].user_id)
       setImg(userImg)
@@ -104,7 +113,7 @@ const page = () => {
             'Content-Type': 'multipart/form-data',
           },
         })
-        window.location.href='/emotion'
+        window.location.href = '/emotion'
       } else {
         alert('비밀번호가 일치하지 않습니다🥹')
       }

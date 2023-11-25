@@ -146,8 +146,8 @@ const page = () => {
   }
 
   return (
-    <div className="flex w-screen mt-[20px] flex-col justify-center items-center">
-      <div className="p-[20px] px-[100px] border shadow-lg rounded-md">
+    <div className="flex w-screen mt-[4rem] flex-col justify-center items-center overflow-visible">
+      <div className="p-[20px] px-[100px] border border-purple/40 rounded-2xl shadow-lg">
         <div>
           <form>
             <p className="text-xl font-bold text-center mb-4 ">회원가입</p>
@@ -319,11 +319,7 @@ const page = () => {
                 <Button
                   size="md"
                   radius="md"
-                  className={`w-full ${
-                    idChk && pwRef.current?.value && pwRef2.current?.value
-                      ? 'bg-black text-white'
-                      : 'bg-neutral-200 hover:shadow-lg'
-                  } shadow-md dark:text-[#171717]`}
+                  className={`h-10 w-[19rem] rounded-md bg-[#b2a4d4] bg-opacity-[.8] text-lg font-medium text-white transition-colors duration-300 ease-in-out hover:bg-opacity-[1]`}
                   onClick={joinsubmit}
                 >
                   {' '}

@@ -149,16 +149,9 @@ const BarChart: React.FC<BarChartProps> = ({ view }) => {
           plugins: {
             example: { option1: 'value1', option2: 'value2' }, // 플러그인 옵션
             labels: {},
-            tooltip: {
-              title: {
-                font: {
-                  size: 20, // 툴팁 제목 텍스트 크기 조절
-                },
-              },
-              body: {
-                font: {
-                  size: 20, // 툴팁 내용 텍스트 크기 조절
-                },
+            title: {
+              font: {
+                size: 30,
               },
             },
           },
@@ -167,6 +160,11 @@ const BarChart: React.FC<BarChartProps> = ({ view }) => {
             x: {
               grid: {
                 display: false, // Set display to false to hide grid lines
+              },
+              ticks: {
+                font: {
+                  size: 20,
+                },
               },
             },
             y: {
