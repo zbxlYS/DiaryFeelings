@@ -41,12 +41,13 @@ export async function GET(req: NextRequest, res: NextResponse) {
     tb_diary.diary_emotion,
     tb_diary.created_at,
     tb_diary.updated_at,
-    tb_user.user_image
+    tb_user.user_image,
+    tb_user.user_desc
     FROM tb_diary
     JOIN tb_user ON tb_diary.user_id = tb_user.user_id
     WHERE tb_diary.user_id = ?
     ORDER BY tb_diary.created_at DESC`
-    // SELECT * FROM tb_diary 
+    // SELECT * FROM tb_diary
     // 'SELECT diary_number,diary_emotion,created_at,updated_at FROM tb_diary WHERE user_id = ? ORDER BY created_at DESC  '
     const imgsql = `
     SELECT d.*, i.*

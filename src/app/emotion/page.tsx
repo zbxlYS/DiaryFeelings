@@ -18,9 +18,13 @@ import { IDiary } from '@/app/types/type'
 import { useMediaQuery } from 'react-responsive'
 import axios from 'axios'
 import { DoughnuChart } from './_components/DoughnuChart'
-import { usePathname } from 'next/navigation'
 import { useTheme } from 'next-themes'
 // img 상태의 타입을 정의하는 인터페이스
+import Sunny from '@/app/components/weathers/Sunny'
+import Snowy from '@/app/components/weathers/Snowy'
+import Windy from '@/app/components/weathers/Windy'
+import Rainy from '@/app/components/weathers/Rainy'
+import Cloudy from '@/app/components/weathers/Cloudy'
 
 interface IImg {
   diary_weather: any
@@ -34,6 +38,7 @@ interface IImg {
   user_id: string // 이 부분을 추가
   src: string
   user_image: string
+  user_desc: string
   // 추가적인 필요한 속성들을 여기에 추가
 }
 type EmotionImg = {
@@ -47,12 +52,7 @@ type EmotionImg = {
 
 // 사용자 감정 모음
 const emotionImg: EmotionImg = {
-  happy: {
-    src: '/3_love.png',
-    text: '늘 행복해 :)',
-    emo: '행복',
-    mean: '',
-  },
+  happy: { src: '/3_love.png', text: '늘 행복해 :)', emo: '행복', mean: '' },
   suprise: { src: '/normal.png', text: '엄마야!', emo: '놀람', mean: '' },
   angry: { src: '/angry.png', text: '너무 화가난다아', emo: '분노', mean: '' },
   sad: { src: '/sad.png', text: '너무 슬퍼 :(', emo: '슬픔', mean: '' },
@@ -72,11 +72,11 @@ const emotionImg: EmotionImg = {
 
 // 사용자 날씨 정보
 const weather: EmotionImg = {
-  sunny: { src: '/sunny.png', emo: '맑음' },
-  cloudy: { src: '/cloudy.png', emo: '흐림' },
-  snow: { src: '/cloudy.png', emo: '눈' },
-  rainy: { src: '/rainy.png', emo: '비' },
-  바람: { src: '/cloudy.png', emo: '바람' },
+  sunny: { src: <Sunny />, emo: '맑음' },
+  cloudy: { src: <Cloudy />, emo: '흐림' },
+  snowwy: { src: <Snowy />, emo: '눈' },
+  rainy: { src: <Rainy />, emo: '비' },
+  windy: { src: <Windy />, emo: '바람' },
 }
 
 function formatDateString(dateString: string): string {
@@ -90,10 +90,14 @@ const page = () => {
   const [datePart, setDatePart] = useState<string>() //시간
   const { systemTheme, theme, setTheme } = useTheme() // 다크모드테마 설정
   const currentTheme = theme === 'system' ? systemTheme : theme
-
-  console.log(currentTheme)
+  const userDesc = useRef<HTMLTextAreaElement>(null)
+  const [textareaValue, setTextareaValue] = useState<string | undefined>(
+    undefined,
+  )
+  // console.log('123', textareaValue)
+  // console.log(currentTheme)
   // console.log(emotionImg.놀람)
-  console.log('view', view[0]?.user_image)
+  // console.log('view', view[0]?.user_desc)
   // console.log(user)
 
   // API 주소를 env 파일에서 가져오기
@@ -126,6 +130,7 @@ const page = () => {
         setView(data.result)
         // const imgViewtest = data.imgrows.slice(0, 6).map((img) => img.image_src)
         setImgView(data.imgrows)
+        setTextareaValue(data.result[0].user_desc)
       } else {
         // Handle API error
         console.error('API error:', data)
@@ -134,6 +139,22 @@ const page = () => {
       // Handle network or other errors
       console.error('Network error:', error)
     }
+  }
+
+  // 유저 목표,다짐 텍스트 보내기
+  const userDescPost = async (e: any) => {
+    e.preventDefault()
+    const formData = new FormData()
+    if (userDesc.current) {
+      console.log(userDesc.current.value)
+      formData.append('userDesc', userDesc.current.value)
+      formData.append('userId', user.id)
+    }
+    const result = await axios.post('/api/edit', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
   }
 
   // 이미지 개수
@@ -180,7 +201,7 @@ const page = () => {
 
   return (
     <>
-      <div className="">
+      <div className="overflow-auto">
         {/* 일기목록 */}
         <div className="flex flex-col items-center mt-20">
           <h1 className="w-auto flex items-start justify-start mt-20 mb-9 text-xxxl">
@@ -278,15 +299,10 @@ const page = () => {
                           : src.diary_content}
                       </span>
                       {/* 일기 날씨  추가할곳*/}{' '}
-                      <div className="absolute right-4 mb-10 w-12 h-12 ">
-                        {}
-                        <Image
-                          src={
-                            src.diary_weather
-                              ? weather[src.diary_weather]?.src
-                              : ''
-                          }
-                        ></Image>{' '}
+                      <div className="absolute right-8 bottom-7 w-10 h-10 ">
+                        {src.diary_weather
+                          ? weather[src.diary_weather]?.src
+                          : ''}
                       </div>
                       <div className="flex flex-row mt-5">
                         <div className="flex flex-row ">
@@ -332,8 +348,8 @@ const page = () => {
           </span>
         </div>
         {/* 사용자 컨테이너*/}
-        <div className="flex justify-center flex-row">
-          <div className="flex flex-row justify-center w-5/6">
+        <div className="flex justify-center flex-row ">
+          <div className="flex flex-row justify-center w-4/6">
             {/* 사용자 정보  */}
 
             <div className="flex flex-col justify-center ">
@@ -358,9 +374,10 @@ const page = () => {
                 <span className="ml-5 opacity-70  dark:text-black">
                   {user.id}
                 </span>
-                <div className="pr-5 pl-5 mt-3  dark:text-black resize-none">
+                <div className="pr-5 pl-5 mt-3  dark:text-black resize-none opacity-70">
                   <Textarea
                     label="Description"
+                    ref={userDesc}
                     variant="bordered"
                     placeholder="다짐과 목표를 적어보세요"
                     disableAnimation
@@ -369,6 +386,8 @@ const page = () => {
                       base: 'max-w-xs',
                       input: 'resize-none min-h-[13rem]',
                     }}
+                    value={textareaValue}
+                    onChange={(e) => setTextareaValue(e.target.value)}
                   />
                 </div>
                 <div className="flex justify-end pr-5 pt-3">
@@ -377,6 +396,7 @@ const page = () => {
                     variant="flat"
                     radius="sm"
                     size="sm"
+                    onClick={userDescPost}
                   >
                     변경
                   </Button>
@@ -397,7 +417,7 @@ const page = () => {
             {/* 막대그래프 차트 */}
 
             <div
-              className={`w-8/12 max-w-[65rem] min-w-[40rem] flex items-center justify-center bg-white opacity-90 rounded-xl shadow-xl relative  border border-neutral-200 ${
+              className={`w-8/12 max-w-[65rem] min-w-[60rem] flex items-center justify-center bg-white opacity-90 rounded-xl shadow-xl relative  border border-neutral-200 ${
                 graph ? '' : ''
               }`}
             >
@@ -416,7 +436,7 @@ const page = () => {
                 className={`absolute w-full ${
                   graph
                     ? 'top-[5rem]  dark:text-black'
-                    : 'top-12 h-[35rem] flex flex-col justify-center items-center mt-10 ml-10 mr-10  dark:text-black'
+                    : 'top-[5rem] h-[35rem] flex flex-col justify-center items-center mt-10 ml-10 mr-10  dark:text-black'
                 } `}
               >
                 {graph ? (
@@ -460,12 +480,14 @@ const page = () => {
                           },
                         }}
                       >
-                        <Image
-                          src={typeof value === 'string' ? value : value.src}
-                          className="w-full mt-1 "
-                          width={70}
-                          height={70}
-                        ></Image>
+                        <div className={graph ? 'mr-[1rem]' : 'mr-1'}>
+                          <Image
+                            src={typeof value === 'string' ? value : value.src}
+                            className="w-full mt-4 "
+                            width={70}
+                            height={70}
+                          ></Image>
+                        </div>
                       </Tooltip>
                       {graph ? (
                         ''
@@ -487,23 +509,7 @@ const page = () => {
         </div>
 
         {/* 캐릭터 컬러에 대한 설명  */}
-        <div className=" flex justify-center mt-20 h-20">
-          {/* <div className="w-3/6 h-[30rem]  border flex flex-col justify-between mr-10">
-            {Object.values(emotionImg).map((emotion, index) => (
-              <div key={index} className="mt-2">
-                <div className="ml-7 flex">
-                  <Image
-                    src={emotion.src}
-                    alt={emotion.text}
-                    width={70}
-                    height={70}
-                  ></Image>
-                  <span className="mt-2">{emotion.emo}</span>
-                </div>
-              </div>
-            ))}
-          </div> */}
-        </div>
+        <div className=" flex justify-center mt-20 h-20"></div>
       </div>
     </>
   )
