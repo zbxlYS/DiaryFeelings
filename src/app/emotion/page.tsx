@@ -90,14 +90,14 @@ const page = () => {
   const [datePart, setDatePart] = useState<string>() //시간
   const { systemTheme, theme, setTheme } = useTheme() // 다크모드테마 설정
   const currentTheme = theme === 'system' ? systemTheme : theme
-  const userDesc = useRef<HTMLTextAreaElement>(null)
+  const userDesc = useRef<HTMLTextAreaElement | null>(null)
   const [textareaValue, setTextareaValue] = useState<string | undefined>(
     undefined,
   )
   // console.log('123', textareaValue)
   // console.log(currentTheme)
   // console.log(emotionImg.놀람)
-  // console.log('view', view[0]?.user_desc)
+  console.log('view', view)
   // console.log(user)
 
   // API 주소를 env 파일에서 가져오기
@@ -266,7 +266,6 @@ const page = () => {
                     key={src.diary_number}
                     className="relative w-[20rem] h-[21rem] bg-white mb-10 rounded-2xl ml-4 mr-5 mt-5 shadow-lg border border-neutral-200 hover:scale-105 transition-transform duration-400 cursor-grab dark:text-black"
                   >
-                    {' '}
                     <div className="absolute right-3 top-[8.3rem] flex items-center justify-center  w-14 h-14 border border-neutral-100 rounded-full z-20 bg-white">
                       <Image
                         // 추가할곳
@@ -279,40 +278,43 @@ const page = () => {
                         className="w-10 h-10"
                       ></Image>
                     </div>
-                    <Image
-                      isZoomed
-                      radius="none"
-                      src={src.image_src}
-                      className="w-[20rem] h-[10rem] rounded-t-xl"
-                    />
-                    {/* 사용자 이모지  */}
-                    <div className="mt-4 ml-4 mr-4">
-                      <h1 className="text-lg mb-5">
-                        {src.diary_title.length > 10
-                          ? src.diary_title.slice(0, 11) + ' ...'
-                          : src.diary_title}
-                        {/* {src.diary_title} */}
-                      </h1>
-                      <span className="opacity-70 overflow-x-auto ">
-                        {src.diary_content.length > maxLength
-                          ? src.diary_content.slice(0, maxLength) + ' ...'
-                          : src.diary_content}
-                      </span>
-                      {/* 일기 날씨  추가할곳*/}{' '}
-                      <div className="absolute right-8 bottom-7 w-10 h-10 ">
-                        {src.diary_weather
-                          ? weather[src.diary_weather]?.src
-                          : ''}
-                      </div>
-                      <div className="flex flex-row mt-5">
-                        <div className="flex flex-row ">
-                          {/* 일기 날짜 */}
-                          <span className="opacity-70 mb-3">
-                            {formatDateString(src.updated_at)}
-                          </span>
+                    <a href={`/diary/${src.diary_number}`}>
+                      <Image
+                        isZoomed
+                        radius="none"
+                        src={src.image_src}
+                        className="w-[20rem] h-[10rem] rounded-t-xl"
+                      />
+                      {/* 사용자 이모지  */}
+
+                      <div className="mt-4 ml-4 mr-4">
+                        <h1 className="text-lg mb-5">
+                          {src.diary_title.length > 10
+                            ? src.diary_title.slice(0, 11) + ' ...'
+                            : src.diary_title}
+                          {/* {src.diary_title} */}
+                        </h1>
+                        <span className="opacity-70 overflow-x-auto ">
+                          {src.diary_content.length > maxLength
+                            ? src.diary_content.slice(0, maxLength) + ' ...'
+                            : src.diary_content}
+                        </span>
+                        {/* 일기 날씨  추가할곳*/}{' '}
+                        <div className="absolute right-8 bottom-7 w-10 h-10 ">
+                          {src.diary_weather
+                            ? weather[src.diary_weather]?.src
+                            : ''}
+                        </div>
+                        <div className="flex flex-row mt-5">
+                          <div className="flex flex-row ">
+                            {/* 일기 날짜 */}
+                            <span className="opacity-70 mb-3">
+                              {formatDateString(src.updated_at)}
+                            </span>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </a>
                     {/* Your existing content here */}
                   </div>
                 ))
