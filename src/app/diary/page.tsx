@@ -72,7 +72,7 @@ const Diary = () => {
       <span>{value}</span>
       <img
         src="./calendar-regular.svg"
-        className="w-[20px] h-[20px] ml-[20px] cursor-pointer "
+        className="w-[20px] h-[20px] ml-[20px] cursor-pointer"
         onClick={onClick}
         ref={ref}
       />
@@ -90,7 +90,7 @@ const Diary = () => {
                 <DiaryLayout key={data.diary_number} data={data} userImg={userImg}/>
               ))}
             </div>
-            <div className="border h-[50px] rounded-md flex justify-around items-center mb-[50px]">
+            <div className="border h-[50px] rounded-md flex justify-around items-center mb-[50px] dark:bg-[#474747]">
               <div className="flex items-center px-[60px]">
                 <DatePicker
                   selected={startDate}

@@ -144,17 +144,16 @@ const page = () => {
   // 유저 목표,다짐 텍스트 보내기
   const userDescPost = async (e: any) => {
     e.preventDefault()
-    const formData = new FormData()
-    if (userDesc.current) {
-      console.log(userDesc.current.value)
-      formData.append('userDesc', userDesc.current.value)
-      formData.append('userId', user.id)
-    }
-    const result = await axios.post('/api/edit', formData, {
+    if (!userDesc.current) return
+    const result = await axios.post('/api/edit', {
+      userDesc: userDesc.current.value,
+      userId: user.id
+    }, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
     })
+    console.log(result)
   }
 
   // 이미지 개수

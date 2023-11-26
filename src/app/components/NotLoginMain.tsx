@@ -1,119 +1,116 @@
-import { useState } from "react";
+'use client'
+
+import { Image } from "@nextui-org/react";
+import { useState } from "react"
+import MainWrite from '@/app/components/main/MainWrite'
+import MainView from '@/app/components/main/MainView'
+import MainCalendar from '@/app/components/main/MainCalendar'
+import MainChart from "./main/MainChart";
+import MainDesc from "./main/MainDesc";
+import Link from "next/link";
 
 const NotLoginMain = () => {
-    const [hover, setHover] = useState<string | null>(null);
-    const [lastHoveredImage, setLastHoveredImage] = useState<string | null>(null);
+    
+    // 마우스 올리면 값에 따라 보여주는 내용 변경.
+    const [hover, setHover] = useState('first');
 
-    const handleMouseOver = (image: string) => {
-        setHover(image);
-        setLastHoveredImage(image); // 마지막으로 호버된 이미지 업데이트
-    };
-
-    const handleMouseOut = () => {
-       
-    };
-
-    const renderImage = (imageSource: string) => {
-        return (
-            <div className="w-[1400px] h-[300px] border border-[tomato] mt-[50px]">
-                <img src={imageSource} alt="Descriptive Text of Image" className="w-full h-auto object-contain" />
-            </div>
-        );
-    };
-
-    // 이미지 렌더링 조건을 수정하여 호버된 이미지 또는 마지막으로 호버된 이미지를 표시
-    const shouldRenderImage = (image: string) => {
-        return hover === image || lastHoveredImage === image;
-    };
-
+    // 값에 따라 컴포넌트 리턴.
+    const showPages = () => {
+        if(hover === 'first') {
+            return <MainWrite />
+        }
+        if(hover === 'second') {
+            return <MainView />
+        }
+        if(hover === 'third') {
+            return <MainCalendar />
+        }
+        if(hover === 'fourth') {
+            return <MainChart />
+        }
+    }
     return (
-        <div className="w-full flex flex-col justify-center items-center pt-[150px] pb-[150px]">
+        <div className="w-full flex flex-col justify-center items-center py-[200px]">
+
             <div className="flex flex-col justify-center items-center">
                 <span className="text-[60px] font-bold">
-                    하루를 기록하는 일기
+                    감정을 기록하는 일기
                 </span>
                 <span className="text-lg">
                     당신의 감정을 기록하고, 되돌아 보세요.
                 </span>
-                <span className="mt-[50px] text-[30px] px-[24px] py-[12px] border rounded-md text-white bg-[#b2a4d4] cursor-pointer">
-                    내 감정을 기록하기
-                </span>
-            </div>
-
-            <div className="flex flex-col w-full justify-center items-center mt-[100px]">
-                <div className="border w-[1200px] h-[300px] overflow-hidden">
-                    <img src="/ddiary.png" alt="Descriptive Text of Image" className="w-full h-auto object-cover object-center" />
-                </div>
-
-                <div className="flex justify-center items-center w-full">
-                    {/* 일기 작성하기 Section */}
-                    <div className="flex items-center p-[60px]">
-                        <div className={`flex flex-col justify-center items-start p-[20px] rounded-md border cursor-pointer duration-200 ${hover === 'first' ? 'bg-white shadow-2xl' : 'bg-gray-100 shadow-lg'}`}
-                            onMouseOver={() => handleMouseOver('first')}
-                            onMouseOut={() => handleMouseOut()}
-                        >
-                            <div className="flex justify-center items-center mb-[15px]">
-                                <div className="w-[25px] h-[25px] border rounded-md bg-[#b2a4d4]"></div>
-                                <span className="text-[20px] ml-[10px] font-bold">일기 작성하기</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* 나에게 한 마디 Section */}
-                    <div className="flex items-center p-[60px]">
-                        <div className={`flex flex-col justify-center items-start p-[20px] rounded-md border cursor-pointer duration-200 ${hover === 'second' ? 'bg-white shadow-2xl' : 'bg-gray-100 shadow-lg'}`}
-                            onMouseOver={() => handleMouseOver('second')}
-                            onMouseOut={() => handleMouseOut()}
-                        >
-                            <div className="flex justify-center items-center mb-[15px]">
-                                <div className="w-[25px] h-[25px] border rounded-md bg-[#b2a4d4]"></div>
-                                <span className="text-[20px] ml-[10px] font-bold">나에게 한 마디</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* 달력 보기 Section */}
-                    <div className="flex items-center p-[60px]">
-                        <div className={`flex flex-col justify-center items-start p-[20px] rounded-md border cursor-pointer duration-200 ${hover === 'third' ? 'bg-white shadow-2xl' : 'bg-gray-100 shadow-lg'}`}
-                            onMouseOver={() => handleMouseOver('third')}
-                            onMouseOut={() => handleMouseOut()}
-                        >
-                            <div className="flex justify-center items-center mb-[15px]">
-                                <div className="w-[25px] h-[25px] border rounded-md bg-[#b2a4d4]"></div>
-                                <span className="text-[20px] ml-[10px] font-bold">달력 보기</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* 감정 그래프 Section */}
-                    <div className="flex items-center p-[60px]">
-                        <div className={`flex flex-col justify-center items-start p-[20px] rounded-md border cursor-pointer duration-200 ${hover === 'fourth' ? 'bg-white shadow-2xl' : 'bg-gray-100 shadow-lg'}`}
-                            onMouseOver={() => handleMouseOver('fourth')}
-                            onMouseOut={() => handleMouseOut()}
-                        >
-                            <div className="flex justify-center items-center mb-[15px]">
-                                <div className="w-[25px] h-[25px] border rounded-md bg-[#b2a4d4]"></div>
-                                <span className="text-[20px] ml-[10px] font-bold">감정 그래프</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* 페이지 이용 방법 이미지 Section */}
-                {shouldRenderImage('first') && renderImage("/cat.jpg")}
-                {shouldRenderImage('second') && renderImage("/catcatcat.png")}
-                {shouldRenderImage('third') && renderImage("/달력.png")}
-                {shouldRenderImage('fourth') && renderImage("/cat1.png")}
-
-                {/* 나머지 컴포넌트 부분 */}
-                <div className="w-full flex justify-center items-center mt-[800px]">
-                    <span className="mt-[50px] text-[30px] px-[24px] py-[12px] border rounded-md text-white bg-[#b2a4d4] cursor-pointer" style={{ marginTop: '100px' }}>
-                        감정을 기록하러 가볼까요?
+                <Link href='/signin'
+                    className="mt-[50px]"
+                >
+                    <span className="shadow-xl text-[30px] px-[24px] py-[12px] rounded-md text-white bg-[#b2a4d4] cursor-pointer">
+                        내 감정을 기록하기
                     </span>
+                </Link>
+            </div>
+            <div className="relative flex flex-col w-full justify-center items-center mt-[100px]">
+                <div className="w-full h-[450px] flex justify-center overflow-hidden main-light">
+                    <Image
+                        src="/main/diary_modify.png"
+                        className="w-full h-full"
+                    />
+                </div>
+                <div className="w-full h-[450px] flex justify-center overflow-hidden main-dark">
+                    <Image
+                        src="/main/diary_modify_dark.png"
+                        className="w-full h-full"
+                    />
+                </div>
+                <div className="flex justify-center items-center w-full mt-[-10px] ">
+                    <MainDesc
+                        hover={hover}
+                        btn='first'
+                        setHover={setHover}
+                        pic='✏️'
+                        title='일기 작성하기'
+                        content='오늘 하루 있었던 일을 기록해 보세요.'
+                    />
+                    <MainDesc
+                        hover={hover}
+                        btn='second'
+                        setHover={setHover}
+                        pic='✨'
+                        title='나에게 한 마디'
+                        content='AI가 해주는 한 마디, 위로가 될지도요.'
+                    />
+                    <MainDesc
+                        hover={hover}
+                        btn='third'
+                        setHover={setHover}
+                        pic='🗓️'
+                        title='달력 보기'
+                        content='그동안 써왔던 일기를 달력으로 한눈에 볼 수 있어요.'
+                    />
+                    <MainDesc
+                        hover={hover}
+                        btn='fourth'
+                        setHover={setHover}
+                        pic='📊'
+                        title='감정 그래프'
+                        content='내 감정 변화를 확인해 볼 수도 있죠.'
+                    />
+                </div>
+                <div className="max-w-[1600px] h-[550px] mt-[20px] flex justify-center items-center rounded-md shadow-xl">
+                    {
+                        showPages()
+                    }
+                </div>
+                <div className="w-full flex justify-center items-center mt-[200px]">
+                    <Link href='/signin'
+                        className="mt-[50px]"
+                    >
+                        <span className="text-[30px] px-[24px] py-[12px] border rounded-md text-white bg-[#b2a4d4] cursor-pointer">
+                            감정을 기록하러 가볼까요?
+                        </span>
+                    </Link>
                 </div>
             </div>
         </div>
-    );
+    )
 }
 
-export default NotLoginMain;
+export default NotLoginMain

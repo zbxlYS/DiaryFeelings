@@ -120,6 +120,39 @@ const Nav: React.FC<SearchComponentProps> = () => {
           </div>
         </div>
         <div>
+        <button
+              type="button"
+              className={
+                !isLogin
+                  ? `w-10 h-10 right-[11.5rem] top-[15px] absolute `
+                  : `w-10 h-10 right-[8.3rem] top-[18px] absolute `
+              }
+              onClick={() => {
+                setTheme(currentTheme === 'dark' ? 'light' : 'dark')
+              }}
+            >
+              {currentTheme === 'dark' ? (
+                <>
+                  <Image
+                    src="/sun.svg"
+                    alt="Sun Logo"
+                    className="w-[35px] hover:opacity-60 transition duration-300 hover:bg-purple-500 rounded-full"
+                    width={40}
+                    height={40}
+                    priority
+                  />
+                </>
+              ) : (
+                <Image
+                  src="/dark.svg"
+                  alt="Dark Logo"
+                  className="w-[35px] pl-[3px] pt-1 pb-1  opacity-70 hover:opacity-50 transition duration-300 hover:bg-purple/50 rounded-full"
+                  width={50}
+                  height={50}
+                  priority
+                />
+              )}
+            </button>
           <Link href="/signin">
             <span className="mr-[30px] hover:text-[#b2a4d4]">로그인</span>
           </Link>

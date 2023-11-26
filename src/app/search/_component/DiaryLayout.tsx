@@ -19,7 +19,7 @@ const DiaryLayout = ({ data, userImg }: Props) => {
   const userProfile = userImg ? userImg.user_image : '/joy.png';
   return (
     <div
-      className="border border-[#A2A2A2] relative w-[350px] h-[500px] rounded-[20px] flex flex-col justify-between overflow-hidden pb-[10px] shadow-lg mx-[35px] mb-[140px] hover:shadow-xl hover:scale-[1.02] ease-in duration-200 cursor-pointer"
+      className="border border-[#A2A2A2] dark:bg-[#474747] dark:border-[#555] relative w-[350px] h-[500px] rounded-[20px] flex flex-col justify-between overflow-hidden pb-[10px] shadow-lg mx-[35px] mb-[140px] hover:shadow-xl hover:scale-[1.02] ease-in duration-200 cursor-pointer"
       onClick={() => router.push(`/diary/${data.diary_number}`)}
     >
       <div className="relative w-full h-[250px] bg-gray-200 object-cover">
@@ -33,7 +33,7 @@ const DiaryLayout = ({ data, userImg }: Props) => {
             />
           )}
         </div>
-        <div className="absolute p-[7px] w-[60px] h-[60px] rounded-[50%] bg-white shadow-lg bottom-[-30px] right-[30px] object-cover overflow-hidden z-10">
+        <div className="absolute p-[7px] w-[60px] h-[60px] rounded-[50%] bg-white shadow-lg bottom-[-30px] right-[30px] object-cover overflow-hidden z-10 dark:bg-[#666]">
           <img
             src={
               data.diary_userEmo
@@ -47,12 +47,12 @@ const DiaryLayout = ({ data, userImg }: Props) => {
       </div>
       <div className="flex flex-col w-full p-[20px] justify-around">
         <div className="flex flex-col w-full">
-          <span className="text-[18px] font-pretendard">
+          <span className="text-[18px] font-pretendard dark:text-[white]">
           {data.diary_title.length >= 26
               ? `${data.diary_title.replaceAll('\n', ' ').slice(0, 26)}...`
               : data.diary_title.replaceAll('\n', ' ')}
           </span>
-          <pre className="text-sm mt-[20px] text-gray-400 whitespace-pre-wrap font-pretendard">
+          <pre className="text-sm mt-[20px] text-gray-400 whitespace-pre-wrap font-pretendard dark:text-[#bbb]">
             {data.diary_content.length >= 68
               ? `${data.diary_content.replaceAll('\n', ' ').slice(0, 68)}...`
               : data.diary_content.replaceAll('\n', ' ')}
@@ -64,8 +64,8 @@ const DiaryLayout = ({ data, userImg }: Props) => {
         <Image src={userProfile} alt="" className="w-full h-full rounded-full" />
         </div>
         <div className="flex flex-col ml-[15px] justify-center">
-          <span className="text-gray-600 text-[14px]">{data.user_name}</span>
-          <span className="text-gray-400 text-[12px]">
+          <span className="text-gray-600 text-[14px] dark:text-[white]">{data.user_name}</span>
+          <span className="text-gray-400 text-[12px] dark:text-[#eee]">
             {moment(data.diary_userDate).format('YYYY-MM-DD-HH:MM')}
           </span>
         </div>
