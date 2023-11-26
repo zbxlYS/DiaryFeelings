@@ -107,6 +107,9 @@ export const DELETE = async (req: Request) => {
     }
     const salt = chk[0].user_salt
     const db_pw = chk[0].user_password
+    // 여기서 sha512 해시 함수를 사용하고 있지만, 좀 더 강력한 해싱 알고리즘을 사용하는 것이 좋음
+    //.SHA - 512는 강력한 알고리즘이지만, 더 나은 보안을 위해서는 bcrypt나 Argon2와 같은 알고리즘을 고려하는 것이 좋음
+    // 이건 고려해봐야함
     const hashPassword = crypto
       .createHash('sha512')
       .update(body.password + salt)
