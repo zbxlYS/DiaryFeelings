@@ -413,21 +413,23 @@ const Nav: React.FC<SearchComponentProps> = () => {
               ></input>
             </div>
             <div className="left-[4rem] top-[19px] absolute text-black dark:text-white">
-              {currentTheme === 'dark' ? (
-                <Image
-                  src="/GamgiDark.svg"
-                  alt="nav-logo"
-                  width={90}
-                  height={90}
-                ></Image>
-              ) : (
-                <Image
-                  src="/Gamgi.svg"
-                  alt="nav-logo"
-                  width={90}
-                  height={90}
-                ></Image>
-              )}
+              <Link href="/diary?page=1">
+                {currentTheme === 'dark' ? (
+                  <Image
+                    src="/GamgiDark.svg"
+                    alt="nav-logo"
+                    width={90}
+                    height={90}
+                  ></Image>
+                ) : (
+                  <Image
+                    src="/Gamgi.svg"
+                    alt="nav-logo"
+                    width={90}
+                    height={90}
+                  ></Image>
+                )}
+              </Link>
             </div>
           </nav>
         </div>
