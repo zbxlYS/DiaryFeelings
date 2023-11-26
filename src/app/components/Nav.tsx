@@ -12,12 +12,18 @@ import { useRecoilState } from 'recoil'
 import { userInfo, calState } from '../lib/atoms/atom'
 import axios from 'axios'
 import Snow from '../emotion/_components/Snow'
-
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+} from '@nextui-org/react'
 interface SearchComponentProps {
   className?: string
   src?: string
 }
-
+type KeyType = '기록선택' | '달력' | '일기기록' | '일기작성'
 const Nav: React.FC<SearchComponentProps> = () => {
   const router = useRouter()
   const pathname = usePathname()
@@ -31,6 +37,14 @@ const Nav: React.FC<SearchComponentProps> = () => {
   const [isCalendarOpen, setIsCalendarOpen] = useRecoilState(calState) //달력모달
   const [userImg, setUserImg] = useState<any>('') // 유저 이미지
   const [snowTheme, setSnowTheme] = useState<boolean>(false)
+  const [selectedKeys, setSelectedKeys] = React.useState<
+    void | any | undefined
+  >(new Set<KeyType>(['기록선택']))
+
+  const selectedValue = React.useMemo(
+    () => Array.from(selectedKeys).join(', ').replaceAll('_', ' '),
+    [selectedKeys],
+  )
 
   const themeOnClick = () => {
     setSnowTheme(!snowTheme)
@@ -226,28 +240,31 @@ const Nav: React.FC<SearchComponentProps> = () => {
             {isLogin ? (
               <>
                 {/* 일기쓰기 링크 */}
-                <div className="absolute right-[15rem] top-[22px] ">
+                <div className="lg:hidden absolute right-[15rem] top-[25px] ">
                   <Link href="/write">
                     <div
                       className={`active:border-b hover:border-b  hover:text-purple active:text-purple ${
-                        pathname === '/write' ? 'text-purple border-b' : ''
+                        pathname === '/write' ? 'text-purple ' : ''
                       }`}
                     >
-                      <span className=" text-lg">일기 작성</span>
+                      <span className=" text-base">일기 작성</span>
                     </div>
                   </Link>
                 </div>
 
                 {/* 달력 버튼 */}
 
-                <div className="absolute right-[29.5rem] top-[22px]">
+                <div className="absolute right-[29.2rem] top-[25px]">
                   <button
                     onClick={toggleCalendar}
                     className={`active:border-b hover:border-b  hover:text-purple active:text-purple ${
-                      isCalendarOpen ? 'border-b text-purple' : ''
+                      isCalendarOpen ? ' text-purple' : ''
                     }`}
                   >
-                    <span className="text-lg " onClick={toggleCalendar}>
+                    <span
+                      className="lg:hidden text-base "
+                      onClick={toggleCalendar}
+                    >
                       달력
                     </span>
                   </button>
@@ -263,18 +280,80 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 )}
                 <Link
                   href="/diary?page=1"
-                  className="absolute right-[22.3rem] top-[22px] "
+                  className="absolute right-[22rem] top-[25px] lg:hidden"
                 >
                   <div
                     className={` active:border-b hover:border-b mb-4 hover:text-purple active:text-purple ${
-                      pathname === '/diary' ? 'text-purple border-b' : ''
+                      pathname === '/diary' ? 'text-purple ' : ''
                     }`}
                   >
-                    <span className="text-lg">일기 기록</span>
+                    <span className="text-base">일기 기록</span>
                   </div>
                 </Link>
 
-                <div className="absolute right-[12.5rem] top-6 h-7 border-black border-r dark:border-slate-300"></div>
+                <div
+                  className={`lg:hidden absolute right-[12.5rem] top-6 h-7 border-black border-r dark:border-slate-300`}
+                ></div>
+                <Dropdown className="">
+                  <DropdownTrigger>
+                    <Button
+                      variant="bordered"
+                      className="capitalize hidden lg:block absolute right-[12rem] top-[1.1rem]"
+                    >
+                      {selectedValue}
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu
+                    aria-label="Single selection example"
+                    variant="flat"
+                    disallowEmptySelection
+                    selectionMode="single"
+                    selectedKeys={selectedKeys}
+                    // Update the onSelectionChange handler to use Set<KeyType>
+                    onSelectionChange={(keys) => setSelectedKeys(keys)}
+                    void={undefined}
+                  >
+                    <DropdownItem key="기록선택">기록 선택</DropdownItem>
+                    <DropdownItem key="달력">
+                      {' '}
+                      <div className="">
+                        <button
+                          onClick={toggleCalendar}
+                          className={`active:border-b hover:border-b  hover:text-purple active:text-purple ${
+                            isCalendarOpen ? ' text-purple' : ''
+                          }`}
+                        >
+                          <span className="text-sm" onClick={toggleCalendar}>
+                            달력
+                          </span>
+                        </button>
+                      </div>
+                    </DropdownItem>
+                    <DropdownItem key="일기기록">
+                      {' '}
+                      <Link href="/diary?page=1" className="">
+                        <div
+                          className={` active:border-b hover:border-b hover:text-purple active:text-purple ${
+                            pathname === '/diary' ? 'text-purple ' : ''
+                          }`}
+                        >
+                          <span className="text-sm">일기 기록</span>
+                        </div>
+                      </Link>
+                    </DropdownItem>
+                    <DropdownItem key="일기작성">
+                      <Link href="/write">
+                        <div
+                          className={`active:border-b hover:border-b  hover:text-purple active:text-purple ${
+                            pathname === '/write' ? 'text-purple ' : ''
+                          }`}
+                        >
+                          <span className=" text-sm">일기 작성</span>
+                        </div>
+                      </Link>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
               </>
             ) : (
               ''
