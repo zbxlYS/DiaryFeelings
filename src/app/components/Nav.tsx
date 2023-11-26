@@ -117,9 +117,14 @@ const Nav: React.FC<SearchComponentProps> = () => {
       <div className="flex w-full h-[67px] border justify-between items-center z-10 flex-[none]">
         <div className="flex justify-center items-center">
           <Link href="/" className="ml-[60px]">
-            <span className="px-[14px] py-[7px] rounded-md border mr-[60px]">
-              감기
-            </span>
+            <div className="left-[4rem] top-[19px] absolute text-black dark:text-white">
+              <Image
+                src="/Gamgi.svg"
+                alt="nav-logo"
+                width={90}
+                height={90}
+              ></Image>
+            </div>
           </Link>
           <div className="relative flex justify-center items-center bg-none">
             <Image
