@@ -330,7 +330,6 @@ const Nav: React.FC<SearchComponentProps> = () => {
                       </div>
                     </DropdownItem>
                     <DropdownItem key="일기기록">
-                      {' '}
                       <Link href="/diary?page=1" className="">
                         <div
                           className={` active:border-b hover:border-b hover:text-purple active:text-purple ${
@@ -413,8 +412,22 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 className="absolute w-[90%] max-w-[60%] h-full left-[3rem] border-none outline-none dark:bg-[#171717]"
               ></input>
             </div>
-            <div className="left-[6rem] top-[19px] absolute text-black dark:text-white">
-              <h1 className="text-xl">감기</h1>
+            <div className="left-[4rem] top-[19px] absolute text-black dark:text-white">
+              {currentTheme === 'dark' ? (
+                <Image
+                  src="/GamgiDark.svg"
+                  alt="nav-logo"
+                  width={90}
+                  height={90}
+                ></Image>
+              ) : (
+                <Image
+                  src="/Gamgi.svg"
+                  alt="nav-logo"
+                  width={90}
+                  height={90}
+                ></Image>
+              )}
             </div>
           </nav>
         </div>
