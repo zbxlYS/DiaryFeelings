@@ -99,7 +99,7 @@ const MypageModal: React.FC<MypageModalProps> = ({
         </button>
       </div>{' '}
       <div className="flex ">
-        <div className="felx justify-center items-center  border rounded-full mb-3 p-1">
+        <div className="felx justify-center items-center  border rounded-full mb-3 ">
           <Image
             src={
               userImg === 'no image' || userImg === undefined || userImg === ''

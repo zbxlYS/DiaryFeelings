@@ -187,6 +187,7 @@ const page = () => {
                 ref={nickRef}
                 value={nick}
                 label="닉네임"
+                className=" dark:text-black"
               />
             </div>
           </div>
@@ -287,7 +288,7 @@ const page = () => {
               <Button
                 size="md"
                 radius="md"
-                className="w-full mt-q bg-black text-white  hover:shadow-lg shadow-md dark:text-[#171717]"
+                className="w-full mt-q bg-black text-white  hover:shadow-lg shadow-md dark:text-[#e7e1e1]"
                 onClick={dropoutBtn}
               >
                 {' '}

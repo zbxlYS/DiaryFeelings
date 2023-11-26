@@ -300,7 +300,7 @@ const page = () => {
                             : src.diary_content}
                         </span>
                         {/* 일기 날씨  추가할곳*/}{' '}
-                        <div className="absolute right-8 bottom-7 w-10 h-10 ">
+                        <div className="absolute right-3 bottom-2 w-12 h-12 ">
                           {src.diary_weather
                             ? weather[src.diary_weather]?.src
                             : ''}

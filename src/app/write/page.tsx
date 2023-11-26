@@ -149,11 +149,13 @@ const Write = () => {
           onMouseLeave={() => setSelWeather(false)}
         >
           <span>날씨</span>
-          {weather === 'sunny' && <Sunny />}
-          {weather === 'rainy' && <Rainy />}
-          {weather === 'cloudy' && <Cloudy />}
-          {weather === 'snowy' && <Snowy />}
-          {weather === 'windy' && <Windy />}
+          <div className="w-24 h-24">
+            {weather === 'sunny' && <Sunny />}
+            {weather === 'rainy' && <Rainy />}
+            {weather === 'cloudy' && <Cloudy />}
+            {weather === 'snowy' && <Snowy />}
+            {weather === 'windy' && <Windy />}
+          </div>
           {selWeather ? (
             <div className="absolute left-[50%] translate-x-[-50%] p-[3px] px-[10px] flex justify-center items-center bottom-[0px] bg-white border gap-[10px] whitespace-nowrap rounded-md shadow-lg">
               <span

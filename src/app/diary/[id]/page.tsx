@@ -104,7 +104,7 @@ const DiaryDetail = ({ params }: { params: Props }) => {
       <div className="relative w-[1280px] flex flex-col items-end p-[30px]  border rounded-md shadow-lg mt-[40px]">
         <div className="border shadow-lg absolute p-[10px] rounded-md my-[20px] flex flex-col justify-center items-center top-[-20px] right-[-150px]">
           {/* weather */}
-          <div className="relative flex flex-col justify-center items-center">
+          <div className="relative flex flex-col justify-center items-center w-24 h-24">
             <span>오늘의 날씨</span>
             {view?.diary_weather === 'sunny' && <Sunny />}
             {view?.diary_weather === 'rainy' && <Rainy />}
