@@ -1,12 +1,35 @@
-import React from 'react'
+'use client'
+import React,{useRef} from 'react'
+import axios from 'axios'
 import {Input} from "@nextui-org/react";
+import {signOut} from 'next-auth/react'
+
 interface Props {
   isOpen: boolean
   closeModal : any
+  user : string
 }
 
 
-const Dropout = ({isOpen,closeModal}:Props) => {
+const Dropout = ({isOpen,closeModal,user }:Props) => {
+  const pwRef = useRef<HTMLInputElement>(null)
+  const dropBtn = async(e:any)=>{
+    e.preventDefault()
+    const result = await axios.delete('/api/edit',{
+      headers: {
+        'Content-Type' : 'application/json'
+      },
+      data : {user_id : user, password :pwRef.current!.value }
+    })
+    const msg = result.data.result
+    if(msg === 'true'){
+     await signOut()
+      window.location.href = "/"
+
+    }else if(msg === 'false'){
+      alert("비밀번호를 다시 입력해 주세요")
+    }
+  }
   return (
     <div
     style={{
@@ -23,14 +46,14 @@ const Dropout = ({isOpen,closeModal}:Props) => {
         <div className='w-5/6 text-center text-large mt-4'>해당 계정은 삭제되며 복구되지 않습니다</div>
         <div className='mt-8'>
         <Input key={"outside-left"} type="password" label="비밀번호 입력" labelPlacement={"outside-left"} 
-        radius='md'variant= "faded"
+        radius='md'variant= "faded" ref={pwRef}
          />
 
         </div>
         
         
           <div className='flex  justify-items-center space-x-8  w-3/5 mt-4 '>
-            <div className=' bg-stone-950 w-1/2 text-center h-8 text-white flex justify-center rounded-md'> <button>확인</button></div>
+            <div className=' bg-stone-950 w-1/2 text-center h-8 text-white flex justify-center rounded-md'> <button onClick={dropBtn}>확인</button></div>
             <div className=' bg-red-600 w-1/2 text-center h-8 text-white flex justify-center rounded-md'> <button onClick={closeModal}>취소</button> </div>
           </div>
         
