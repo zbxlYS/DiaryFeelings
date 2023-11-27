@@ -97,20 +97,18 @@ const Login = () => {
   }
   return (
     <>
-      <div className="flex justify-center items-center mt-[4rem] ">
-        <div className="relative h-full flex justify-center items-center p-[80px] px-[130px] border border-purple/40 rounded-2xl shadow-lg">
+      <div className="flex justify-center items-center mt-[4rem]">
+        <div className="relative h-full flex justify-center items-center p-[80px] px-[130px] border border-purple/40 rounded-2xl shadow-lg dark:bg-[#474747] dark:border-[#666]">
           <div className=" mx-auto flex flex-col items-center justify-center ">
-            <div className="mb-2 text-[3.2rem]">감기 </div>
-            <span className="opacity-70 mb-10">
+            <div className="mb-2 text-[3.2rem] dark:text-[white]">감기 </div>
+            <span className="opacity-70 mb-10 dark:text-[#eee]">
               로그인해서 감정을 기록해 봐요✏️
             </span>
             <div className="relative flex w-[270px] py-[7px] flex-col items-center p-2 pt-0">
               <Input
                 type="text"
                 label="아이디"
-                className={`w-full rounded-md my-[20px] ${
-                  error === 'user' ? 'border border-[#ff7961]' : ''
-                }`}
+                className={`w-full rounded-md my-[20px] ${error === 'user' ? 'border border-[#ff7961]' : ''}`}
                 value={id}
                 ref={idRef}
                 onChange={(e) => {
@@ -121,7 +119,7 @@ const Login = () => {
               <div
                 className={`${
                   error ? 'block' : 'hidden'
-                } absolute top-[-30px] border border-[#ff7961] px-[30px] py-[7px] rounded-md z-[11] bg-[#ff7961] bg-opacity-[0.6] text-[16px] text-[#b21807]`}
+                } absolute top-[-30px] border border-[#ff7961] px-[30px] py-[7px] rounded-md z-[11] bg-[#ff7961] bg-opacity-[0.6] text-[16px] text-[#b21807] dark:text-[white]`}
               >
                 {error && error === 'user'
                   ? '없는 아이디예요... 😣'

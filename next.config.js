@@ -12,7 +12,8 @@ const nextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true,
-  },
+ },
+
   head: {
     meta: {
       charset: 'UTF-8',

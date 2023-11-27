@@ -72,17 +72,16 @@ export const PUT = async (req: Request) => {
 // 현진 감정페이지 목표,다짐 텍스트
 export async function POST(req: NextRequest, res: NextResponse) {
   try {
-    const data = await req.formData()
-    const userDesc = data.get('userDesc') as string
-    const userId = data.get('userId') as string
+    const data = await req.json()
     const sql = `UPDATE tb_user
     SET user_desc = ?
-    WHERE user_id = ?;`
+    WHERE user_id = ?`
 
-    const value = [userDesc, userId]
+    const value = [data.userDesc, data.userId]
     const result = await queryPromise(sql, value)
     return NextResponse.json({ result: result }) // NextResponse 객체를 반환하는 방법
   } catch (error) {
+    console.log(error)
     return NextResponse.json({ result: 'error' })
   }
 }

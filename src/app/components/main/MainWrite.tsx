@@ -1,14 +1,12 @@
 'use client'
 
 import { useEffect, useRef, useState, forwardRef } from 'react'
-import RadioGroup from './_components/RadioGroup'
+import RadioGroup from '@/app/write/_components/RadioGroup'
 import Image from 'next/image'
 import DatePicker from 'react-datepicker'
 import { ko } from 'date-fns/esm/locale'
 import 'react-datepicker/dist/react-datepicker.css'
-import RadioEmo from './_components/RadioEmo'
-import { useSession } from 'next-auth/react'
-import axios from 'axios'
+import RadioEmo from '@/app/write/_components/RadioEmo'
 import {
   ainmom,
   bareun,
@@ -18,20 +16,13 @@ import {
   shin,
   pretendard,
 } from '@/app/components/fonts/fonts'
-import UpLoading from './_components/UpLoading'
-import { useRouter } from 'next/navigation'
 import Sunny from '@/app/components/weathers/Sunny'
 import Snowy from '@/app/components/weathers/Snowy'
 import Windy from '@/app/components/weathers/Windy'
 import Rainy from '@/app/components/weathers/Rainy'
 import Cloudy from '@/app/components/weathers/Cloudy'
 
-// 감정 선택
-// 사진 넣을 곳 추가
-// 날씨 선택
-// 글 수정, 삭제, 작성 기능
 const Write = () => {
-  const { data: session } = useSession()
   const [value, setValue] = useState('happy')
   const [view, setView] = useState('')
   const [date, setDate] = useState<Date>(new Date())
@@ -41,11 +32,9 @@ const Write = () => {
   const [curFont, setCurFont] = useState(0)
   const imgRef = useRef<HTMLInputElement>(null)
   const [imgUrl, setImgUrl] = useState('')
-  const [upLoading, setUpLoading] = useState(false)
 
   const titleRef = useRef<HTMLInputElement>(null)
   const contentRef = useRef<HTMLTextAreaElement>(null)
-  const router = useRouter()
   const emotionList = [
     ['happy', '오늘은 행복한 날이에요!'],
     ['sad', '오늘은 슬픈 날이에요...'],
@@ -63,19 +52,13 @@ const Write = () => {
     ['신동엽 손글씨', shin.className],
   ]
 
-  const [icons, setIcons] = useState<any[]>([])
-
-  // [{
-  //     icon: 'heart',
-  //     posFunc: {[pos, setPos] = useState({x: 0, y: 0})}
-  // }]
   const CalendarInput = forwardRef(({ value, onClick }: any, ref: any) => (
     // any 안 쓰고 싶은데 몰루겠다...
     <div className="flex">
       <span
         onClick={onClick}
         ref={ref}
-        className="cursor-pointer hover:text-[#b2a4d4]"
+        className="cursor-pointer text-black hover:text-[#b2a4d4] dark:text-[white]"
       >
         {value}
       </span>
@@ -96,98 +79,55 @@ const Write = () => {
       setImgUrl((prev) => '')
     }
   }
-  const send = async () => {
-    if (!session) return
-    setUpLoading((prev) => true)
-    if (!titleRef.current) {
-      alert('제목을 입력해 주세요.')
-      return
-    }
-    if (!contentRef.current) {
-      alert('내용을 입력해 주세요.')
-      return
-    }
-    const convertToEnter = contentRef.current.value.replaceAll('\\n', '<br/>')
-    console.log(convertToEnter)
-    const formData = new FormData()
-    formData.append('title', titleRef.current.value)
-    formData.append('content', contentRef.current.value)
-    formData.append('id', session?.user?.id as string)
-    formData.append('name', session?.user?.name as string)
-    formData.append('weather', weather)
-    formData.append('emotion', value)
-    formData.append('datetime', date.toString())
-    formData.append('fonts', curFont.toString())
-    if (
-      imgRef.current &&
-      imgRef.current.files &&
-      imgRef.current.files.length > 0
-    ) {
-      formData.append('img', imgRef.current.files[0])
-    }
-    const result = await axios.post('/api/diary', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `mlru ${session?.accessToken}`,
-      },
-    })
-    console.log(result.data)
-    imgReset()
-    setUpLoading((prev) => false)
-    router.push(`/diary/${result.data.result.insertId}`)
+  const send = () => {
+    alert('로그인 해서 하루를 기록해 보세요!😊')
   }
-  useEffect(() => {
-    console.log('바뀌어라~', icons)
-  }, [icons])
   return (
-    <div className="relative w-[1280px] flex flex-col items-end p-[30px] relative rounded-md shadow-xl mt-[40px] dark:bg-[#474747]">
-      {upLoading && <UpLoading />}
+    <div className="relative w-[1280px] h-full flex flex-col items-end p-[30px] rounded-md fade-div dark:bg-[#474747]">
       <div className="bg-white border shadow-lg absolute p-[10px] shadow-xl rounded-md my-[20px] flex flex-col justify-center items-center top-[-20px] right-[-150px] dark:bg-[#474747]">
         <div
           className="relative flex flex-col justify-center items-center"
           onMouseOver={() => setSelWeather(true)}
           onMouseLeave={() => setSelWeather(false)}
         >
-          <span className=''>날씨</span>
-          <div className="w-24 h-24">
-            {weather === 'sunny' && <Sunny />}
-            {weather === 'rainy' && <Rainy />}
-            {weather === 'cloudy' && <Cloudy />}
-            {weather === 'snowy' && <Snowy />}
-            {weather === 'windy' && <Windy />}
-          </div>
+          <span className='dark:text-[white]'>날씨</span>
+          {weather === 'sunny' && <div className='w-[100px] h-[100px]'><Sunny /></div>}
+          {weather === 'rainy' && <div className='w-[100px] h-[100px]'><Rainy /></div>}
+          {weather === 'cloudy' && <div className='w-[100px] h-[100px]'><Cloudy /></div>}
+          {weather === 'snowy' && <div className='w-[100px] h-[100px]'><Snowy /></div>}
+          {weather === 'windy' && <div className='w-[100px] h-[100px]'><Windy /></div>}
           {selWeather ? (
-            <div className="absolute left-[50%] translate-x-[-50%] p-[3px] px-[10px] flex justify-center items-center bottom-[0px] bg-white border gap-[10px] whitespace-nowrap rounded-md shadow-lg dark:bg-[#555] dark:border-[#666]">
+            <div className="absolute left-[50%] translate-x-[-50%] p-[3px] px-[10px] flex justify-center items-center bottom-[0px] bg-white border gap-[10px] whitespace-nowrap rounded-md shadow-lg dark:bg-[#474747] dark:border-[#555]">
               <span
-                className="cursor-pointer hover:text-[#b2a4d4]"
+                className="cursor-pointer hover:text-[#b2a4d4] dark:text-[white] dark:hover:text-[#b2a4d4]"
                 onClick={() => setWeather('sunny')}
               >
                 맑음
               </span>
               <span> | </span>
               <span
-                className="cursor-pointer hover:text-[#b2a4d4]"
+                className="cursor-pointer hover:text-[#b2a4d4] dark:text-[white] dark:hover:text-[#b2a4d4]"
                 onClick={() => setWeather('cloudy')}
               >
                 흐림
               </span>
               <span> | </span>
               <span
-                className="cursor-pointer hover:text-[#b2a4d4]"
+                className="cursor-pointer hover:text-[#b2a4d4] dark:text-[white] dark:hover:text-[#b2a4d4]"
                 onClick={() => setWeather('rainy')}
               >
                 비
               </span>
               <span> | </span>
               <span
-                className="cursor-pointer hover:text-[#b2a4d4]"
+                className="cursor-pointer hover:text-[#b2a4d4] dark:text-[white] dark:hover:text-[#b2a4d4]"
                 onClick={() => setWeather('windy')}
               >
                 바람
               </span>
               <span> | </span>
               <span
-                className="cursor-pointer hover:text-[#b2a4d4]"
+                className="cursor-pointer hover:text-[#b2a4d4] dark:text-[white] dark:hover:text-[#b2a4d4]"
                 onClick={() => setWeather('snowy')}
               >
                 눈
@@ -207,10 +147,10 @@ const Write = () => {
       <input
         type="text"
         ref={titleRef}
-        className={`w-full h-[50px] px-[10px] py-[30px] text-[30px] mt-[30px] border-b-[2px] outline-0 bg-[transparent] ${fontList[curFont][1]}`}
+        className={`w-full h-[50px] px-[10px] py-[30px] text-[30px] mt-[10px] border-b-[2px] dark:border-[#888] outline-0 bg-[transparent] text-black dark:text-[#eee] ${fontList[curFont][1]}`}
         placeholder="오늘은 무슨 일이 있었나요?"
       />
-      <div className="w-full py-[10px] mt-[10px] flex items-center flex flex-col justify-center items-center">
+      <div className="w-full h-full py-[10px] mt-[10px] flex items-center flex flex-col justify-center items-center">
         <RadioGroup label="emotion" value={value} onChange={setValue}>
           {emotionList.map((data, index) => (
             <RadioEmo
@@ -223,11 +163,11 @@ const Write = () => {
             />
           ))}
         </RadioGroup>
-        <div className="mt-[60px] w-full flex">
+        <div className="mt-[30px] w-full flex">
           <div className="mr-[30px]">
-            <div className="w-[300px] h-[300px] rounded-md bg-gray-200 dark:bg-[#333] object-contain flex justify-center items-center overflow-hidden">
+            <div className="w-[200px] h-[150px] rounded-md bg-gray-200 object-contain flex justify-center items-center overflow-hidden dark:bg-[#333]">
               {imgUrl && (
-                <Image src={imgUrl} alt="preview" width={300} height={300} />
+                <Image src={imgUrl} alt="preview" width={200} height={150} />
               )}
             </div>
             {!imgUrl ? (
@@ -262,16 +202,16 @@ const Write = () => {
                 onMouseOver={() => setSelFont(true)}
                 onMouseLeave={() => setSelFont(false)}
               >
-                <span className={`relatvie ${fontList[curFont][1]} p-2 border rounded-md w-[50px] ${selFont ? 'bg-gray-100 dark:bg-[#555]' : 'bg-white dark:bg-[#666]'}`}
+                <span className={`relatvie ${fontList[curFont][1]} p-2 border rounded-md w-[50px] text-black dark:text-[#eee] ${selFont ? 'bg-gray-100 dark:bg-[#555]' : 'bg-white dark:bg-[#676767]'}`}
                 >
                   폰트 바꾸기
                 </span>
                 {selFont ? (
-                  <div className="absolute top-[30px] w-[105px] p-[2px] flex flex-col justify-center items-center border bg-white rounded-md cursor-pointer dark:bg-[#666]">
+                  <div className="absolute top-[30px] w-[105px] p-[2px] flex flex-col justify-center items-center border bg-white rounded-md cursor-pointer dark:bg-[#676767]">
                     {fontList.map((data, index) => (
                       <span
                         key={index}
-                        className={`my-[2px] ${data[1]} hover:text-[#b2a4d4]`}
+                        className={`my-[2px] ${data[1]} text-black dark:text-[#eee] hover:text-[#b2a4d4] dark:hover:text-[#b2a4d4]`}
                         onClick={() => setCurFont(index)}
                       >
                         {data[0]}
@@ -281,22 +221,19 @@ const Write = () => {
                 ) : null}
               </div>
             </div>
-            <div className="relative w-full h-full shadow-lg border rounded-md dark:border-[#444]">
+            <div className="relative w-full h-full shadow-lg border rounded-md">
               <textarea
                 ref={contentRef}
                 name="content"
                 id="content"
-                className={`icontext resize-none w-full h-full outline-none rounded-md p-[10px] text-lg bg-[transparent] dark:bg-[#666] ${fontList[curFont][1]}`}
+                className={`icontext resize-none w-full h-full outline-none rounded-md p-[10px] text-black text-lg bg-[transparent] dark:bg-[#555] dark:text-[white] ${fontList[curFont][1]}`}
                 placeholder="당신의 하루를 들려주세요"
               />
-              {icons.map((data, index) => (
-                <>{data.comp}</>
-              ))}
             </div>
           </div>
         </div>
       </div>
-      <div className="bg-[#b2a4d4] text-white px-[14px] py-[7px] rounded-md cursor-pointer opacity-[0.8] hover:opacity-[1]">
+      <div className="bg-[#b2a4d4] text-white px-[8px] py-[2px] rounded-md cursor-pointer opacity-[0.8] hover:opacity-[1]">
         <span className="text-lg" onClick={send}>
           작성 완료
         </span>

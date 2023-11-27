@@ -12,6 +12,7 @@ import { useRecoilState } from 'recoil'
 import { userInfo, calState } from '../lib/atoms/atom'
 import axios from 'axios'
 import Snow from '../emotion/_components/Snow'
+import NotLoginNav from './nav/NotLoginNav'
 import {
   Dropdown,
   DropdownTrigger,
@@ -114,41 +115,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
   if (status === 'unauthenticated') {
     // 인증 안 됨(로그인 안 돼있을 때 보여줄 Nav)
     return (
-      <div className="flex w-full h-[67px] border justify-between items-center z-10 flex-[none]">
-        <div className="flex justify-center items-center">
-          <Link href="/" className="ml-[60px]">
-            <div className="left-[4rem] top-[19px] absolute text-black dark:text-white">
-              <Image
-                src="/Gamgi.svg"
-                alt="nav-logo"
-                width={90}
-                height={90}
-              ></Image>
-            </div>
-          </Link>
-          <div className="relative flex justify-center items-center bg-none">
-            <Image
-              src="/search.svg"
-              alt="Search Logo"
-              className="left-0 absolute stroke-slate-600 cursor-pointer searh-icon"
-              width={23}
-              height={23}
-              priority
-              onClick={onClickSearch}
-            />
-          </div>
-        </div>
-        <div>
-          <Link href="/signin">
-            <span className="mr-[30px] hover:text-[#b2a4d4]">로그인</span>
-          </Link>
-          <Link href="/join">
-            <span className="px-[10px] py-[7px] rounded-md mr-[60px] text-white bg-[#b2a4d4]">
-              감정을 기록하기
-            </span>
-          </Link>
-        </div>
-      </div>
+      <NotLoginNav isLogin={isLogin}/>
     )
   }
 
