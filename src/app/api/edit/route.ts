@@ -85,3 +85,41 @@ export async function POST(req: NextRequest, res: NextResponse) {
     return NextResponse.json({ result: 'error' })
   }
 }
+
+// 회원탈퇴
+export const DELETE = async (req: Request) => {
+  const body: reqBody = await req.json()
+
+  // 아이디는 이미 로그인 한 상태니까
+  // 비밀번호만 검증 후
+  // 맞으면 탈퇴, 아니면 리턴.
+  try {
+    let sql = 'SELECT user_password, user_salt from tb_user WHERE user_id = ?'
+    const chk = await queryPromise(sql, [body.user_id])
+    if (chk.length < 1) {
+      // 아이디에 맞는 비밀번호를 못 찾음.
+      return NextResponse.json({ result: '정보 없음' })
+    }
+    const salt = chk[0].user_salt
+    const db_pw = chk[0].user_password
+    // 여기서 sha512 해시 함수를 사용하고 있지만, 좀 더 강력한 해싱 알고리즘을 사용하는 것이 좋음
+    //.SHA - 512는 강력한 알고리즘이지만, 더 나은 보안을 위해서는 bcrypt나 Argon2와 같은 알고리즘을 고려하는 것이 좋음
+    // 이건 고려해봐야함
+    const hashPassword = crypto
+      .createHash('sha512')
+      .update(body.password + salt)
+      .digest('hex')
+    const result = db_pw === hashPassword
+    if (result) {
+      // 비밀번호 일치.
+      sql = 'DELETE FROM tb_user WHERE user_id = ?'
+      await queryPromise(sql, [body.user_id])
+      return NextResponse.json({ result: 'true' })
+    } else {
+      return NextResponse.json({ result: 'false' })
+    }
+  } catch (err: any) {
+    console.log(err)
+    return NextResponse.json({ result: 'err' })
+  }
+}

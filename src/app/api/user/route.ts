@@ -54,7 +54,7 @@ export const PUT = async (req: Request) => {
     imgSrc = result.data.data.link
   }
   try {
-    let sql = 'INSERT INTO tb_user VALUES(?,?,?,?,?,?,?,?,?)'
+    let sql = 'INSERT INTO tb_user VALUES(?,?,?,?,?,?,?,?,?,?)'
     const salt = crypto.randomBytes(64).toString('base64')
     // salt 생성.
 
@@ -74,6 +74,7 @@ export const PUT = async (req: Request) => {
       new Date(),
       new Date(),
       imgSrc,
+      ''
     ]
     const rst = await queryPromise(sql, values)
     return new Response(JSON.stringify({ result: 'done' }))

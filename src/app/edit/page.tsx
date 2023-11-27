@@ -1,8 +1,6 @@
 'use client'
 
 import React, {
-  useCallback,
-  useEffect,
   useRef,
   useState,
   useLayoutEffect,
@@ -12,7 +10,6 @@ import { EyeFilledIcon } from './_components/EyeFilledIcon'
 import { EyeSlashFilledIcon } from './_components/EyeSlashFilledIcon'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 import Dropout from './_components/Dropout'
 
 const page = () => {
@@ -32,7 +29,6 @@ const page = () => {
   const pwRef = useRef<HTMLInputElement>(null)
   const pwRef2 = useRef<HTMLInputElement>(null)
   const imgRef = useRef<HTMLInputElement>(null)
-  const router = useRouter()
 
   //비밀번호 확인
 
@@ -294,7 +290,7 @@ const page = () => {
                 {' '}
                 탈퇴 하기
               </Button>
-              <Dropout isOpen={isOpen} closeModal={closeModal} />
+              <Dropout isOpen={isOpen} closeModal={closeModal} user={user} />
             </div>
           </div>
         </form>
