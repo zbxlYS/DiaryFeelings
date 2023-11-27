@@ -6,13 +6,17 @@ import MainWrite from '@/app/components/main/MainWrite'
 import MainView from '@/app/components/main/MainView'
 import MainCalendar from '@/app/components/main/MainCalendar'
 import MainChart from "./main/MainChart";
+import MainChartDark from "./main/MainChartDark";
 import MainDesc from "./main/MainDesc";
 import Link from "next/link";
+import { useTheme } from 'next-themes'
 
 const NotLoginMain = () => {
     
     // 마우스 올리면 값에 따라 보여주는 내용 변경.
     const [hover, setHover] = useState('first');
+    const { systemTheme, theme, setTheme } = useTheme() // 다크모드테마 설정
+    const currentTheme = theme === 'system' ? systemTheme : theme
 
     // 값에 따라 컴포넌트 리턴.
     const showPages = () => {
@@ -26,7 +30,7 @@ const NotLoginMain = () => {
             return <MainCalendar />
         }
         if(hover === 'fourth') {
-            return <MainChart />
+            return currentTheme === 'light' ? <MainChart /> : <MainChartDark />
         }
     }
     return (

@@ -48,7 +48,7 @@ const emotionImg: { [key: string]: string | { src: string; text?: string } } = {
   중립: { src: '/nothinking.png', text: '나는 아무생각이없어' },
 }
 
-const BarChart: React.FC<BarChartProps> = ({ view }) => {
+const BarChartDark: React.FC<BarChartProps> = ({ view }) => {
   const chartRef = useRef<HTMLCanvasElement>(null) // ref 타입 명시
   let chartInstance: Chart | null = null // chartInstance 타입 명시
 
@@ -93,7 +93,7 @@ const BarChart: React.FC<BarChartProps> = ({ view }) => {
 
     const createChart = () => {
       Chart.register(...registerables)
-      Chart.defaults.color = 'black'
+      Chart.defaults.color = 'white'
       chartInstance = new Chart(ctx as CanvasRenderingContext2D, {
         // ctx 타입 단언
         type: 'bar',
@@ -120,16 +120,16 @@ const BarChart: React.FC<BarChartProps> = ({ view }) => {
                 result.중립,
               ],
               backgroundColor: [
-                'rgba(240, 207, 211, 0.4)',
-                'rgba(255, 206, 86, 0.4)',
+                'rgba(240, 207, 211, 0.8)',
+                'rgba(255, 206, 86, 0.8)',
 
                 // 'rgba(239, 203, 207, 0.2)', // 사랑
-                'rgba(255, 99, 132, 0.4)',
-                'rgba(75, 192, 192, 0.4)',
+                'rgba(255, 99, 132, 0.8)',
+                'rgba(75, 192, 192, 0.8)',
 
                 // 'rgba(174, 221, 251, 0.2)', // 우울
-                'rgba(181, 224, 251, 0.4)',
-                'rgba(171, 171, 171, 0.4)', // 생각없음
+                'rgba(181, 224, 251, 0.8)',
+                'rgba(171, 171, 171, 0.8)', // 생각없음
               ],
               borderColor: [
                 'rgba(240, 207, 211, 1)',
@@ -211,4 +211,4 @@ const BarChart: React.FC<BarChartProps> = ({ view }) => {
   return <canvas ref={chartRef} className="" />
 }
 
-export default BarChart
+export default BarChartDark

@@ -256,8 +256,8 @@
 
 /* 스티커 크기 */
 .dot {
-  width: 65px;
-  height: 65px;
+  width: 45px;
+  height: 45px;
   display: flex;
   justify-content: center;
   align-items: center;

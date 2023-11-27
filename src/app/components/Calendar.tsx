@@ -95,7 +95,6 @@ const ModalCalendar = ({ isOpen, closeModal, setIsCalendarOpen }: any) => {
       value
     ) {
       console.log('달력 외부 클릭됨')
-      onChange(null)
     }
   }
 

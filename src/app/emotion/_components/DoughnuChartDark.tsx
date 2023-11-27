@@ -4,7 +4,7 @@ import { Pie } from 'react-chartjs-2' // 원하는 차트 종류를 가져오세
 import type { ChartData, ChartOptions } from 'chart.js' // 타입을 임포트하세요.
 
 ChartJS.register(ArcElement, Tooltip, Legend)
-ChartJS.defaults.color = 'black'
+ChartJS.defaults.color = 'white'
 
 type BarChartProps = {
   view?: any // Adjust the type according to your needs
@@ -26,7 +26,7 @@ export const options: ChartOptions<'pie'> = {
   // 차트 옵션을 설정하세요.
 }
 
-export const DoughnuChart: React.FC<BarChartProps> = ({ view }) => {
+export const DoughnuChartDark: React.FC<BarChartProps> = ({ view }) => {
   const emotion = () => {
     // 전역 변수로 선언하여 반복문 밖에서 사용할 수 있도록 함
     const totalEmotionRatios: EmotionCounts = {}
@@ -73,14 +73,14 @@ export const DoughnuChart: React.FC<BarChartProps> = ({ view }) => {
           result.중립,
         ],
         backgroundColor: [
-          'rgba(240, 207, 211, 0.2)',
-          'rgba(249, 207, 157, 0.2)',
+          'rgba(240, 207, 211, 0.6)',
+          'rgba(249, 207, 157, 0.6)',
 
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(75, 192, 192, 0.2)',
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(75, 192, 192, 0.6)',
 
-          'rgba(181, 224, 251, 0.2)',
-          'rgba(171, 171, 171, 0.2)', // 생각없음
+          'rgba(181, 224, 251, 0.6)',
+          'rgba(171, 171, 171, 0.6)', // 생각없음
         ],
         borderColor: [
           'rgba(240, 207, 211, 0.5)',

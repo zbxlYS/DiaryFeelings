@@ -54,6 +54,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
   // 로그인후 사용자 아이콘 클릭시 모달생성
   const handleButtonClick = () => {
     setIsModalOpen(!isModalOpen)
+    setIsCalendarOpen(prev => false)
     // console.log('isModalOpen', isModalOpen)
   }
   // console.log(userImg)
@@ -219,7 +220,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                         pathname === '/write' ? 'text-purple ' : ''
                       }`}
                     >
-                      <span className=" text-base">일기 작성</span>
+                      <span className=" text-base" onClick={() => setIsCalendarOpen(prev => false)}>일기 작성</span>
                     </div>
                   </Link>
                 </div>
@@ -259,7 +260,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                       pathname === '/diary' ? 'text-purple ' : ''
                     }`}
                   >
-                    <span className="text-base">일기 기록</span>
+                    <span className="text-base" onClick={() => setIsCalendarOpen(prev => false)}>일기 기록</span>
                   </div>
                 </Link>
 
@@ -308,7 +309,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                             pathname === '/diary' ? 'text-purple ' : ''
                           }`}
                         >
-                          <span className="text-sm">일기 기록</span>
+                          <span className="text-sm" onClick={() => setIsCalendarOpen(prev => false)}>일기 기록</span>
                         </div>
                       </Link>
                     </DropdownItem>
@@ -319,7 +320,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                             pathname === '/write' ? 'text-purple ' : ''
                           }`}
                         >
-                          <span className=" text-sm">일기 작성</span>
+                          <span className=" text-sm" onClick={() => setIsCalendarOpen(prev => false)}>일기 작성</span>
                         </div>
                       </Link>
                     </DropdownItem>

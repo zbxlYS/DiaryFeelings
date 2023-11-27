@@ -7,6 +7,7 @@ import {
     Tooltip,
 } from '@nextui-org/react'
 import { useTheme } from 'next-themes'
+
 type Dataset = {
     label: string
     data: any[]
@@ -62,7 +63,7 @@ const emotionImg: EmotionImg = {
     },
 }
 
-const MainChart = () => {
+const MainChartDark = () => {
     const { systemTheme, theme, setTheme } = useTheme() // 다크모드테마 설정
     const currentTheme = theme === 'system' ? systemTheme : theme
     const chartRef = useRef<HTMLCanvasElement>(null)
@@ -77,7 +78,7 @@ const MainChart = () => {
             const ctx = chartRef.current.getContext('2d') as CanvasRenderingContext2D
 
             Chart.register(...registerables)
-            Chart.defaults.color = 'black'
+            Chart.defaults.color = '#eee'
             chartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -126,8 +127,11 @@ const MainChart = () => {
                                 display: false, // Set display to false to hide grid lines
                             },
                         }
+                    },
+                    plugins: {
+
                     }
-                }
+                },
             })
         }
     }
@@ -193,4 +197,4 @@ const MainChart = () => {
     )
 }
 
-export default MainChart
+export default MainChartDark
