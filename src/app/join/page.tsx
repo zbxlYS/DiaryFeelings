@@ -142,8 +142,8 @@ const page = () => {
   }
 
   return (
-    <div className="flex w-screen mt-[4rem] flex-col justify-center items-center overflow-visible">
-      <div className="p-[20px] px-[100px] border border-purple/40 rounded-2xl shadow-lg dark:border-[#777] dark:bg-[#474747]">
+    <div className="flex w-screen mt-[25px] flex-col justify-center items-center overflow-visible">
+      <div className="p-[20px] px-[100px] border border-purple/40 rounded-2xl shadow-xl dark:border-[#777] dark:bg-[#474747]">
         <div>
           <form>
             <p className="text-xl font-bold text-center mb-4 ">회원가입</p>

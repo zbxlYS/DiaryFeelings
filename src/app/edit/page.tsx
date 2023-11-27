@@ -128,8 +128,8 @@ const page = () => {
   }
 
   return (
-    <div className="flex h-full  w-screen flex-col items-center justify-center overflow-hidden">
-      <div className="w-[500px] pt-10 pb-10 rounded-md bg-neutral-50  shadow-md dark:text-[#171717]">
+    <div className="flex h-full w-screen flex-col items-center justify-center mt-[-10px]">
+      <div className="w-[500px] rounded-md bg-neutral-50 p-[15px] shadow-xl border border-[#eee] dark:text-[#171717]">
         <form>
           <p className="text-xl font-bold text-center mb-4 ">프로필 변경하기</p>
           <div className="flex flex-col items-center">

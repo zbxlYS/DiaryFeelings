@@ -124,7 +124,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
     <>
       {snowTheme ? <Snow className="-z-50"></Snow> : ''}
 
-      <div className="w-full h-[67px] ">
+      <div className="w-full h-[67px]">
         <div className="fixed w-full z-50">
           <nav
             className={` relative h-[65px]

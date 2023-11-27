@@ -107,7 +107,7 @@ const DiaryDetail = ({ params }: { params: Props }) => {
   return loading ? (
     <LottieCat text={'읽어오고 있어요'} />
   ) : (
-    <div className="w-full flex justify-center items-center p-[7px]">
+    <div className="w-full flex justify-center items-center p-[7px] mt-[-20px]">
       <div className="relative w-[1280px] flex flex-col items-end p-[30px]  border rounded-md shadow-lg mt-[40px] dark:bg-[#474747]">
         <div className="border shadow-lg absolute p-[10px] rounded-md my-[20px] flex flex-col justify-center items-center top-[-20px] right-[-150px] dark:bg-[#474747]">
           {/* weather */}

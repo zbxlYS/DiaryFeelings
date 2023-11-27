@@ -97,8 +97,8 @@ const Login = () => {
   }
   return (
     <>
-      <div className="flex justify-center items-center mt-[4rem]">
-        <div className="relative h-full flex justify-center items-center p-[80px] px-[130px] border border-purple/40 rounded-2xl shadow-lg dark:bg-[#474747] dark:border-[#666]">
+      <div className="flex justify-center items-center h-full mt-[15px]">
+        <div className="relative h-full flex justify-center items-center p-[60px] px-[130px] border border-purple/40 rounded-2xl shadow-lg dark:bg-[#474747] dark:border-[#666]">
           <div className=" mx-auto flex flex-col items-center justify-center ">
             <div className="mb-2 text-[3.2rem] dark:text-[white] main-light">
               <img src='/Gamgi.svg' alt='logo' />
