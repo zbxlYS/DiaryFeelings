@@ -83,8 +83,8 @@ const Write = () => {
     alert('로그인 해서 하루를 기록해 보세요!😊')
   }
   return (
-    <div className="relative w-[1280px] h-full flex flex-col items-end p-[30px] rounded-md fade-div dark:bg-[#474747]">
-      <div className="bg-white border shadow-lg absolute p-[10px] shadow-xl rounded-md my-[20px] flex flex-col justify-center items-center top-[-20px] right-[-150px] dark:bg-[#474747]">
+    <div className="relative w-[1280px] h-full flex flex-col items-end p-[30px] rounded-md fade-div dark:bg-[#474747] border border-[#eee] dark:border-[#555]">
+      <div className="bg-white border shadow-lg absolute p-[10px] shadow-xl rounded-md my-[20px] flex flex-col justify-center items-center top-[-20px] right-[-150px] dark:bg-[#474747] border border-[#eee] dark:border-[#555]">
         <div
           className="relative flex flex-col justify-center items-center"
           onMouseOver={() => setSelWeather(true)}
@@ -202,7 +202,7 @@ const Write = () => {
                 onMouseOver={() => setSelFont(true)}
                 onMouseLeave={() => setSelFont(false)}
               >
-                <span className={`relatvie ${fontList[curFont][1]} p-2 border rounded-md w-[50px] text-black dark:text-[#eee] ${selFont ? 'bg-gray-100 dark:bg-[#555]' : 'bg-white dark:bg-[#676767]'}`}
+                <span className={`relatvie ${fontList[curFont][1]} p-2 border border-[#eee] dark:border-[#555] rounded-md w-[50px] text-black dark:text-[#eee] ${selFont ? 'bg-gray-100 dark:bg-[#555]' : 'bg-white dark:bg-[#676767]'}`}
                 >
                   폰트 바꾸기
                 </span>
@@ -221,7 +221,7 @@ const Write = () => {
                 ) : null}
               </div>
             </div>
-            <div className="relative w-full h-full shadow-lg border rounded-md">
+            <div className="relative w-full h-full shadow-lg border border-[#eee] rounded-md dark:border-[#666]">
               <textarea
                 ref={contentRef}
                 name="content"

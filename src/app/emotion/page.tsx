@@ -212,7 +212,7 @@ const page = () => {
           {/* 최근 일기목록  */}
           <div className={'h-[23rem] flex flex-row justify-center mt-5 '}>
             {imgView.length > 3 && (
-              <div className="flex flex-col justify-center mt-5 opacity-60 hover:opacity-100">
+              <div className="flex flex-col justify-center mt-5 opacity-60 hover:opacity-100 overflow-hidden">
                 <button
                   className="rounded-full  dark:border-white/80"
                   onClick={handlePrevButtonClick}
@@ -263,9 +263,9 @@ const page = () => {
                   // Your existing mapping logic here
                   <div
                     key={src.diary_number}
-                    className="relative w-[20rem] h-[21rem] bg-white mb-10 rounded-2xl ml-4 mr-5 mt-5 shadow-lg border border-neutral-200 hover:scale-105 transition-transform duration-400 cursor-grab dark:text-black"
+                    className="relative w-[20rem] h-[21rem] bg-white dark:bg-[#474747] mb-10 rounded-2xl ml-4 mr-5 mt-5 shadow-lg border border-neutral-200 dark:border-[#666] hover:scale-105 transition-transform duration-400 cursor-grab dark:text-[#eee]"
                   >
-                    <div className="absolute right-3 top-[8.3rem] flex items-center justify-center  w-14 h-14 border border-neutral-100 rounded-full z-20 bg-white">
+                    <div className="absolute right-3 top-[8.3rem] flex items-center justify-center  w-14 h-14 border border-neutral-100 rounded-full z-20 bg-white overflow-hidden">
                       <Image
                         // 추가할곳
                         src={
@@ -280,7 +280,7 @@ const page = () => {
                     <a href={`/diary/${src.diary_number}`}>
                       <Image
                         isZoomed
-                        radius="none"
+                        radius="md"
                         src={src.image_src}
                         className="w-[20rem] h-[10rem] rounded-t-xl"
                       />

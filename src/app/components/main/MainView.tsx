@@ -26,7 +26,7 @@ const DiaryDetail = () => {
         </div>
         {/* diary title */}
         <div
-          className={`w-full px-[10px] text-[30px] border-b-[2px] outline-0 bg-[transparent] text-black dark:text-[white] ${bareun.className}`}
+          className={`w-full px-[10px] text-[30px] border-b-[2px] dark:border-[#888] pb-[5px] outline-0 bg-[transparent] text-black dark:text-[white] ${bareun.className}`}
         >
           친구와의 웃음 속에서
         </div>

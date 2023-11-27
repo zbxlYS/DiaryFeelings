@@ -88,6 +88,7 @@ const page = () => {
   const joinsubmit = async (e: any) => {
     e.preventDefault()
     if (!idChk) {
+      alert('아이디 중복 확인을 해주세요... 🥹')
       return
     }
     if (
@@ -129,11 +130,6 @@ const page = () => {
       formData.append('user_id', emailRef.current!.value)
       formData.append('password', pwRef.current!.value)
 
-      if (!idChk) {
-        alert('아이디 중복 확인을 해주세요... 🥹')
-        return
-      }
-
       const result = await axios.put('/api/user', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -165,7 +161,7 @@ const page = () => {
                 </div>
                 {img ? (
                   <div
-                    className="text-lg flex justify-center items-center w-[250px] cursor-pointer mb-3 p-2 pr-4 pl-4 shadow-md rounded-lg bg-[tomato] text-white dark:border-[#d3d1d1] dark:bg-[#353434] dark:text-[#fff]"
+                    className="text-lg flex justify-center items-center w-[250px] cursor-pointer mb-3 p-2 pr-4 pl-4 shadow-md rounded-lg bg-[tomato] dark:bg-[#CF6679] text-white"
                     onClick={imgReset}
                   >
                     프로필 사진 지우기

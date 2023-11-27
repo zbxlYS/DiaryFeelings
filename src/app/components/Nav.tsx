@@ -129,7 +129,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
             className={` relative h-[65px]
         `}
           >
-            <div className="w-[100%] h-[70px] left-0 top-0 absolute bg-[#ffffffee] dark:bg-black dark:bg-opacity-80 border-b border-slate-200 dark:border-b-0" />
+            <div className="w-[100%] h-[70px] left-0 top-0 absolute bg-[#ffffff] dark:bg-[#474747] dark:bg-opacity-80 border-b border-slate-200 dark:border-b-0" />
             {/* =====================
             로그인 회원가입 버튼
             =====================
@@ -190,7 +190,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                     {/* Modal */}
                     <div
                       className={`fixed w-[20rem] h-auto top-0 right-0 p-5 mt-2 bg-white border shadow-md z-50 rounded-l-xl animate-slidein 
-                  `}
+                      dark:bg-[#474747] `}
                     >
                       {/* Modal content */}
                       <div>
@@ -215,7 +215,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 <div className="lg:hidden absolute right-[15rem] top-[25px] ">
                   <Link href="/write">
                     <div
-                      className={`active:border-b hover:border-b  hover:text-purple active:text-purple ${
+                      className={`active:border-b hover:border-b dark:border-[#666] hover:text-purple active:text-purple ${
                         pathname === '/write' ? 'text-purple ' : ''
                       }`}
                     >
@@ -229,7 +229,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 <div className="absolute right-[29.2rem] top-[25px]">
                   <button
                     onClick={toggleCalendar}
-                    className={`active:border-b hover:border-b  hover:text-purple active:text-purple ${
+                    className={`active:border-b hover:border-b dark:border-[#666] hover:text-purple active:text-purple ${
                       isCalendarOpen ? ' text-purple' : ''
                     }`}
                   >
@@ -255,7 +255,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                   className="absolute right-[22rem] top-[25px] lg:hidden"
                 >
                   <div
-                    className={` active:border-b hover:border-b mb-4 hover:text-purple active:text-purple ${
+                    className={` active:border-b hover:border-b dark:border-[#666] mb-4 hover:text-purple active:text-purple ${
                       pathname === '/diary' ? 'text-purple ' : ''
                     }`}
                   >
@@ -304,7 +304,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                     <DropdownItem key="일기기록">
                       <Link href="/diary?page=1" className="">
                         <div
-                          className={` active:border-b hover:border-b hover:text-purple active:text-purple ${
+                          className={` active:border-b hover:text-purple active:text-purple ${
                             pathname === '/diary' ? 'text-purple ' : ''
                           }`}
                         >
@@ -315,7 +315,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                     <DropdownItem key="일기작성">
                       <Link href="/write">
                         <div
-                          className={`active:border-b hover:border-b  hover:text-purple active:text-purple ${
+                          className={`active:border-b hover:text-purple active:text-purple ${
                             pathname === '/write' ? 'text-purple ' : ''
                           }`}
                         >
@@ -366,7 +366,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
             </button>
 
             {/* 검색창 */}
-            <div className="flex justify-center items-center self-center w-[20%] max-w-2xl h-[37px] left-[11rem] bottom-[0.7rem] absolute shadow hover:shadow-md focus-within:shadow-md  rounded-md bg-white dark:bg-[#171717] dark:shadow-slate-600 border hover:border-1 focus-within:border-1">
+            <div className="flex justify-center items-center self-center w-[20%] max-w-2xl h-[37px] left-[11rem] bottom-[0.7rem] absolute focus-within:shadow-md rounded-md shadow-lg dark:shadow-none dark:bg-[#666] border border-[#eee] dark:border-[#666] hover:border-1 focus-within:border-1">
               <Image
                 src="/search.svg"
                 alt="Search Logo"
@@ -381,7 +381,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 placeholder="일기 검색 . . ."
                 value={inputValue}
                 onChange={getSearchData}
-                className="absolute w-[90%] max-w-[60%] h-full left-[3rem] border-none outline-none dark:bg-[#171717]"
+                className="absolute w-[90%] max-w-[60%] h-full left-[3rem] outline-none border-none outline-none dark:bg-[#666]"
               ></input>
             </div>
             <div className="left-[4rem] top-[19px] absolute text-black dark:text-white">

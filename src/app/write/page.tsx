@@ -207,7 +207,7 @@ const Write = () => {
       <input
         type="text"
         ref={titleRef}
-        className={`w-full h-[50px] px-[10px] py-[30px] text-[30px] mt-[30px] border-b-[2px] outline-0 bg-[transparent] ${fontList[curFont][1]}`}
+        className={`w-full h-[50px] px-[10px] py-[30px] text-[30px] mt-[30px] border-b-[2px] dark:border-[#666] outline-0 bg-[transparent] ${fontList[curFont][1]}`}
         placeholder="오늘은 무슨 일이 있었나요?"
       />
       <div className="w-full py-[10px] mt-[10px] flex items-center flex flex-col justify-center items-center">

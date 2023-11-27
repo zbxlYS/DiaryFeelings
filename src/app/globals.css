@@ -139,3 +139,9 @@ html.dark .main-dark {
   display: flex;
 }
 /* 로그인 안 했을 때 그림 흑백 전환 */
+
+/* SVG, PNG 흰 색으로 강제로 변경*/
+.closeWhite {
+  filter: invert(100%) sepia(100%) saturate(0%) hue-rotate(167deg) brightness(110%) contrast(101%);
+}
+/* SVG, PNG 흰 색으로 강제로 변경*/

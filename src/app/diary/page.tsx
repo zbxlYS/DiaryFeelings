@@ -68,15 +68,26 @@ const Diary = () => {
 
   const CalendarInput = forwardRef(({ value, onClick }: any, ref: any) => (
     // any 안 쓰고 싶은데 몰루겠다...
-    <div className="flex">
+    <>
+      <div className="flex main-light">
+        <span>{value}</span>
+        <img
+          src="./calendar-regular.svg"
+          className="w-[20px] h-[20px] ml-[20px] cursor-pointer"
+          onClick={onClick}
+          ref={ref}
+        />
+      </div>
+      <div className="flex main-dark">
       <span>{value}</span>
       <img
-        src="./calendar-regular.svg"
+        src="./calendar-regular-dark.svg"
         className="w-[20px] h-[20px] ml-[20px] cursor-pointer"
         onClick={onClick}
         ref={ref}
       />
     </div>
+  </>
   ))
   return (
     <>
@@ -91,7 +102,7 @@ const Diary = () => {
               ))}
             </div>
             <div className="border h-[50px] rounded-md flex justify-around items-center mb-[50px] dark:bg-[#474747]">
-              <div className="flex items-center px-[60px]">
+              <div className="flex items-center px-[60px] z-[10]">
                 <DatePicker
                   selected={startDate}
                   locale={ko}
@@ -104,7 +115,7 @@ const Diary = () => {
               <div>
                 <span> ~ </span>
               </div>
-              <div className="flex items-center px-[60px]">
+              <div className="flex items-center px-[60px] z-[10]">
                 <DatePicker
                   selected={endDate}
                   locale={ko}

@@ -123,7 +123,7 @@ const DiaryDetail = ({ params }: { params: Props }) => {
         </div>
         {/* diary title */}
         <div
-          className={`w-full h-[50px] px-[10px] text-[30px] mt-[30px] border-b-[2px] outline-0 bg-[transparent] ${fontList[font][1]}`}
+          className={`w-full h-[50px] px-[10px] text-[30px] mt-[30px] border-b-[2px] dark:border-[#666] outline-0 bg-[transparent] ${fontList[font][1]}`}
         >
           {view?.diary_title}
         </div>
