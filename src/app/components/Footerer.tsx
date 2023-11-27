@@ -4,12 +4,13 @@ import styled from 'styled-components'
 
 const FooterWrapper = styled.footer`
   position: fixed;
-  bottom: 0;
+  bottom: -3px;
   width: 100%;
   border-top: 1px solid #e4e4e4;
   background-color: #f8f9fa;
   padding: 0.3rem 0;
   margin: 0.1rem 0;
+  z-index: 20;
 `
 
 const InnerContainer = styled.div`

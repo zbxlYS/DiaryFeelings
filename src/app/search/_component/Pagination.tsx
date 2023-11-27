@@ -34,7 +34,7 @@ const Pagination = ({ total, limit, page, keyword }: Props) => {
             maps.push(
                 <span
                     key={i}
-                    className={`py-[2px] px-[10px] rounded-[50%] cursor-pointer ${page === i ? 'bg-[#b2a4d4] text-white' : 'text-gray-500 hover:text-[#b2a4d4]'}`}
+                    className={`py-[2px] px-[10px] rounded-[50%] cursor-pointer ${page === i ? 'bg-[#b2a4d4] text-white' : 'text-gray-500 hover:text-[#b2a4d4] dark:text-[#eee] dark:hover:text-[#b2a4d4]'}`}
                     onClick={() => router.push(`/search?keyword=${keyword}&page=${i}`)}
                 >
                     {i}
@@ -45,7 +45,7 @@ const Pagination = ({ total, limit, page, keyword }: Props) => {
     }
 
     return (
-        <div className="flex px-[100px] h-[50px] border rounded-md mb-[100px] items-center justify-center">
+        <div className="flex px-[100px] h-[50px] border rounded-md mb-[100px] items-center justify-center dark:bg-[#474747]">
             <div className="flex items-center h-full">
                 {
                     prev > 1 && (

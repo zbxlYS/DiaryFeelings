@@ -72,7 +72,7 @@ const config: Config = {
         },
         dark: {
           colors: {
-            background: '#171717', // or DEFAULT
+            background: '#27272a',
             foreground: '#ECEDEE', // or 50 to 900 DEFAULT
 
             primary: {

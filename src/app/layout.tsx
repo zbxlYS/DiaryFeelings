@@ -28,7 +28,7 @@ export default function RootLayout({
           <DarkMode>
             <NavBar />
             {children}
-            <Footerer/>
+            <Footerer />
           </DarkMode>
         </Providers>
       </body>

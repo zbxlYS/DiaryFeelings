@@ -30,6 +30,8 @@ const DiaryDetail = ({ params }: { params: Props }) => {
   const { data: session } = useSession<any>()
   const userObj = session?.user?.id as string
   const [view, setView] = useState<IDiary>()
+  const [img, setImg] = useState<string[]>([])
+  const [selImg, setSelImg] = useState('');
   const [font, setFont] = useState(0)
   const num = parseInt(params.id)
   const [loading, setLoading] = useState(true)
@@ -55,6 +57,11 @@ const DiaryDetail = ({ params }: { params: Props }) => {
     const data = result.data
     setView((prev) => data.result)
     setFont(() => data.result.diary_font)
+    console.log(data.result.image_src.split(','))
+    setImg(prev => {
+      return data.result.image_src.split(',')
+    })
+    setSelImg(prev => data.result.image_src.split(',')[0])
     setLoading(false)
     console.log('view', data)
 
@@ -97,21 +104,20 @@ const DiaryDetail = ({ params }: { params: Props }) => {
     window.location.href = `/diary/modify/${view?.diary_number}`
   }
 
-  return (
-    loading ? (
-      <LottieCat text={'읽어오고 있어요'}/>
-    ) : (
+  return loading ? (
+    <LottieCat text={'읽어오고 있어요'} />
+  ) : (
     <div className="w-full flex justify-center items-center p-[7px]">
-      <div className="relative w-[1280px] flex flex-col items-end p-[30px]  border rounded-md shadow-lg mt-[40px]">
-        <div className="border shadow-lg absolute p-[10px] rounded-md my-[20px] flex flex-col justify-center items-center top-[-20px] right-[-150px]">
+      <div className="relative w-[1280px] flex flex-col items-end p-[30px]  border rounded-md shadow-lg mt-[40px] dark:bg-[#474747]">
+        <div className="border shadow-lg absolute p-[10px] rounded-md my-[20px] flex flex-col justify-center items-center top-[-20px] right-[-150px] dark:bg-[#474747]">
           {/* weather */}
-          <div className="relative flex flex-col justify-center items-center">
-            <span>오늘의 날씨</span>
-            { view?.diary_weather === 'sunny' && <Sunny /> }
-            { view?.diary_weather === 'rainy' && <Rainy /> }
-            { view?.diary_weather === 'cloudy' && <Cloudy /> }
-            { view?.diary_weather === 'snowy' && <Snowy /> }
-            { view?.diary_weather === 'windy' && <Windy /> }
+          <div className="relative flex flex-col justify-center items-center w-24 h-24 mb-3">
+            <span className='mt-2'>오늘의 날씨</span>
+            {view?.diary_weather === 'sunny' && <Sunny />}
+            {view?.diary_weather === 'rainy' && <Rainy />}
+            {view?.diary_weather === 'cloudy' && <Cloudy />}
+            {view?.diary_weather === 'snowy' && <Snowy />}
+            {view?.diary_weather === 'windy' && <Windy />}
           </div>
           <div>{moment(view?.diary_userDate).format('YYYY-MM-DD')}</div>
         </div>
@@ -147,22 +153,32 @@ const DiaryDetail = ({ params }: { params: Props }) => {
         {/* user image */}
         <div className="w-full py-[10px] flex flex-col justify-center items-center">
           <div className="mt-[30px] w-full flex">
-            <div className="mr-[30px] h-[350px] shadow-lg dark:bg-[#171717] dark:shadow-slate-600 border hover:border-1 focus-within:border-1 ">
+            <div className="mr-[30px] h-[350px] shadow-lg dark:bg-[#666] border hover:border-1 focus-within:border-1 ">
               <div className="w-[300px] h-[300px] p-3 rounded-md object-contain flex justify-center items-center overflow-hidden">
                 {
                   <Image
-                    src={view?.image_src as string}
+                    src={selImg}
                     alt="preview"
                     width={300}
                     height={300}
                   />
                 }
               </div>
+              <div className='flex justify-center items-center gap-[30px]'>
+                {
+                  img.map((data, index) => (
+                    data && <span key={index}
+                      onClick={() => setSelImg(prev => img[index])}
+                      className='p-1 px-[10px] cursor-pointer hover:text-[#b2a4d4] dark:text-[white] dark:hover:text-[#b2a4d4]'
+                    >{index+1}</span>
+                  ))
+                }
+              </div>
             </div>
             <div className="w-full flex flex-col">
               {/* diary content */}
               <div
-                className={`border max-w-4xl h-[350px] overflow-y-scroll outline-none rounded-md p-[25px] text-lg bg-[transparent] ${fontList[font][1]} leading-9`}
+                className={`border max-w-4xl h-[350px] overflow-y-scroll outline-none rounded-md p-[25px] text-lg bg-[transparent] shadow-lg dark:bg-[#666] ${fontList[font][1]} leading-9 whitespace-pre-wrap`}
               >
                 {view?.diary_content}
               </div>
@@ -183,8 +199,6 @@ const DiaryDetail = ({ params }: { params: Props }) => {
         </div>
       </div>
     </div>
-
-    )
   )
 }
 

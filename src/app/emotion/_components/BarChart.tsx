@@ -17,9 +17,17 @@ type Data = {
 
 type Options = {
   scales: {
+    x: {
+      grid: {
+        display: boolean
+      }
+    }
     y: {
       beginAtZero: boolean
       max: number
+      grid: {
+        display: boolean
+      }
     }
   }
 }
@@ -141,11 +149,22 @@ const BarChart: React.FC<BarChartProps> = ({ view }) => {
           plugins: {
             example: { option1: 'value1', option2: 'value2' }, // 플러그인 옵션
             labels: {},
+            title: {
+              font: {
+                size: 30,
+              },
+            },
           },
+
           scales: {
             x: {
               grid: {
                 display: false, // Set display to false to hide grid lines
+              },
+              ticks: {
+                font: {
+                  size: 20,
+                },
               },
             },
             y: {
@@ -159,11 +178,23 @@ const BarChart: React.FC<BarChartProps> = ({ view }) => {
         } as Options, // options 타입 단언
       })
     }
-
+    const canvasElement = chartRef.current
+    if (canvasElement) {
+      // canvasElement.style.height = '200px'
+      // canvasElement.style.width = '400px'
+    }
     const destroyChart = () => {
       if (chartInstance) {
         chartInstance.destroy()
         chartInstance = null
+      }
+
+      // parentNode가 HTMLElement 또는 null일 수 있음을 TypeScript에게 알려줍니다.
+      const parentNode = chartRef.current?.parentNode as HTMLElement | null
+
+      // parentNode가 존재하고 style 속성이 있다면 높이를 변경합니다.
+      if (parentNode?.style) {
+        parentNode.style.height = '500px'
       }
     }
 
@@ -172,6 +203,7 @@ const BarChart: React.FC<BarChartProps> = ({ view }) => {
 
     return () => {
       destroyChart() // 컴포넌트가 unmount될 때 차트 파괴
+      // 원하는 높이로 변경
     }
   }, [view])
 

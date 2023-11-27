@@ -1,4 +1,5 @@
 export interface IDiary {
+  user_desc: string | (readonly string[] & string) | undefined
   user_image: any
   created_at: any
   diary_number: number

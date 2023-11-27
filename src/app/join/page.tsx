@@ -146,8 +146,8 @@ const page = () => {
   }
 
   return (
-    <div className="flex w-screen mt-[20px] flex-col justify-center items-center">
-      <div className="p-[20px] px-[100px] border shadow-lg rounded-md">
+    <div className="flex w-screen mt-[4rem] flex-col justify-center items-center overflow-visible">
+      <div className="p-[20px] px-[100px] border border-purple/40 rounded-2xl shadow-lg dark:border-[#777] dark:bg-[#474747]">
         <div>
           <form>
             <p className="text-xl font-bold text-center mb-4 ">회원가입</p>
@@ -160,7 +160,7 @@ const page = () => {
                     size="lg"
                     src={img}
                     name="프로필"
-                    className="w-[250px] h-[250px] mb-[20px]"
+                    className="w-[250px] h-[250px] mb-[20px] dark:bg-[#333]"
                   />
                 </div>
                 {img ? (
@@ -172,7 +172,7 @@ const page = () => {
                   </div>
                 ) : (
                   <div
-                    className="text-lg flex justify-center items-center w-[250px] cursor-pointer mb-3 p-2 pr-4 pl-4 bg-slate-200 shadow-md rounded-lg dark:border-[#d3d1d1] dark:bg-[#353434] dark:text-[#fff]"
+                    className="text-lg flex justify-center items-center w-[250px] cursor-pointer mb-3 p-2 pr-4 pl-4 bg-slate-200 shadow-md rounded-lg dark:border-[#d3d1d1] dark:bg-[#777] dark:text-[#fff]"
                     onClick={() => {
                       if (imgRef.current) imgRef.current.click()
                     }}
@@ -190,7 +190,7 @@ const page = () => {
                 />
               </div>
 
-              <div className="flex w-[20rem] flex-col  p-2   pt-0">
+              <div className="flex w-[20rem] flex-col p-2 pt-0">
                 <Input
                   isRequired
                   size="md"
@@ -203,7 +203,7 @@ const page = () => {
             </div>
 
             <div className="flex flex-col items-center">
-              <div className="flex  flex-col  p-2 pt-0 w-[20rem]">
+              <div className="flex flex-col p-2 pt-0 w-[20rem]">
                 <Input
                   isRequired
                   variant="underlined"
@@ -219,14 +219,14 @@ const page = () => {
                 <div className="flex flex-col items-center p-1 pt-5 w-[20rem]">
                   {msg ? (
                     idChk ? (
-                      <span className="border border-[#4caf50] px-[18px] py-[7px] rounded-md bg-[#4caf50] bg-opacity-20 text-black">
+                      <span className="border border-[#4caf50] px-[18px] py-[7px] rounded-md bg-[#4caf50] bg-opacity-20 text-black dark:text-[white]">
                         {msg}
                       </span>
                     ) : (
                       <Button
                         size="md"
                         radius="md"
-                        className="w-full bg-neutral-100 hover:bg-neutral-150 hover:shadow-lg shadow-md dark:text-[#171717]"
+                        className="w-full bg-neutral-100 hover:bg-neutral-150 hover:shadow-lg shadow-md dark:bg-[#777] dark:text-[#eee]"
                         onClick={confirmBtn}
                       >
                         {' '}
@@ -237,7 +237,7 @@ const page = () => {
                     <Button
                       size="md"
                       radius="md"
-                      className="w-full bg-neutral-100 hover:bg-neutral-150 hover:shadow-lg shadow-md dark:text-[#171717]"
+                      className="w-full bg-neutral-100 hover:bg-neutral-150 hover:shadow-lg shadow-md dark:bg-[#777] dark:text-[#eee]"
                       onClick={confirmBtn}
                     >
                       {' '}
@@ -319,11 +319,7 @@ const page = () => {
                 <Button
                   size="md"
                   radius="md"
-                  className={`w-full ${
-                    idChk && pwRef.current?.value && pwRef2.current?.value
-                      ? 'bg-black text-white'
-                      : 'bg-neutral-200 hover:shadow-lg'
-                  } shadow-md dark:text-[#171717]`}
+                  className={`h-10 w-[19rem] rounded-md bg-[#b2a4d4] bg-opacity-[.8] text-lg font-medium text-white transition-colors duration-300 ease-in-out hover:bg-opacity-[1]`}
                   onClick={joinsubmit}
                 >
                   {' '}

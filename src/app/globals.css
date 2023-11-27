@@ -76,6 +76,7 @@
 }
 
 html {
+  min-height: 145vh;
   height: 100%;
 }
 
@@ -99,6 +100,21 @@ html {
   /* Keeps the element in the final state after animation */
 }
 
+/* 로그인 안 했을 때 div 애니메이션 */
+@keyframes fade-div {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.fade-div {
+  animation-name: fade-div;
+  animation-duration: 1s;
+}
+/* 로그인 안 했을 때 div 애니메이션 */
+
 @keyframes slidein {
   from {
     transform: translateX(100%);
@@ -108,3 +124,18 @@ html {
     transform: translateX(0);
   }
 }
+
+/* 로그인 안 했을 때 그림 흑백 전환 */
+html.light .main-dark {
+  display: none;
+}
+html.light .main-light {
+  display: flex;
+}
+html.dark .main-light {
+  display: none;
+}
+html.dark .main-dark {
+  display: flex;
+}
+/* 로그인 안 했을 때 그림 흑백 전환 */
