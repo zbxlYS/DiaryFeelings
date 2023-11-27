@@ -133,7 +133,7 @@ const ModalCalendar = ({ isOpen, closeModal, setIsCalendarOpen }: any) => {
     return (
       <span
         onClick={changeMonth}
-        className='hover:text-[tomato]'
+        className='hover:text-[tomato] p-4'
       >{'<'}</span>
     )
   }
@@ -149,7 +149,7 @@ const ModalCalendar = ({ isOpen, closeModal, setIsCalendarOpen }: any) => {
     return (
       <span
         onClick={changeMonth}
-        className='hover:text-[tomato]'
+        className='hover:text-[tomato] p-4'
       >{'>'}
       </span>
     )
