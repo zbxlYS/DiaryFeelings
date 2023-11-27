@@ -316,7 +316,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                     selectedKeys={selectedKeys}
                     // Update the onSelectionChange handler to use Set<KeyType>
                     onSelectionChange={(keys) => setSelectedKeys(keys)}
-                    void={undefined}
+                    // void={undefined}
                   >
                     <DropdownItem key="기록선택">기록 선택</DropdownItem>
                     <DropdownItem key="달력">
