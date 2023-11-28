@@ -54,7 +54,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
   // 로그인후 사용자 아이콘 클릭시 모달생성
   const handleButtonClick = () => {
     setIsModalOpen(!isModalOpen)
-    setIsCalendarOpen(prev => false)
+    setIsCalendarOpen((prev) => false)
     // console.log('isModalOpen', isModalOpen)
   }
   // console.log(userImg)
@@ -115,9 +115,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
   }, [session])
   if (status === 'unauthenticated') {
     // 인증 안 됨(로그인 안 돼있을 때 보여줄 Nav)
-    return (
-      <NotLoginNav isLogin={isLogin}/>
-    )
+    return <NotLoginNav isLogin={isLogin} />
   }
 
   return (
@@ -220,7 +218,12 @@ const Nav: React.FC<SearchComponentProps> = () => {
                         pathname === '/write' ? 'text-purple ' : ''
                       }`}
                     >
-                      <span className=" text-base" onClick={() => setIsCalendarOpen(prev => false)}>일기 작성</span>
+                      <span
+                        className=" text-base"
+                        onClick={() => setIsCalendarOpen((prev) => false)}
+                      >
+                        일기 작성
+                      </span>
                     </div>
                   </Link>
                 </div>
@@ -260,7 +263,12 @@ const Nav: React.FC<SearchComponentProps> = () => {
                       pathname === '/diary' ? 'text-purple ' : ''
                     }`}
                   >
-                    <span className="text-base" onClick={() => setIsCalendarOpen(prev => false)}>일기 기록</span>
+                    <span
+                      className="text-base"
+                      onClick={() => setIsCalendarOpen((prev) => false)}
+                    >
+                      일기 기록
+                    </span>
                   </div>
                 </Link>
 
@@ -284,7 +292,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                     selectedKeys={selectedKeys}
                     // Update the onSelectionChange handler to use Set<KeyType>
                     onSelectionChange={(keys) => setSelectedKeys(keys)}
-                    // void={undefined}
+                    void={undefined}
                   >
                     <DropdownItem key="기록선택">기록 선택</DropdownItem>
                     <DropdownItem key="달력">
@@ -309,7 +317,12 @@ const Nav: React.FC<SearchComponentProps> = () => {
                             pathname === '/diary' ? 'text-purple ' : ''
                           }`}
                         >
-                          <span className="text-sm" onClick={() => setIsCalendarOpen(prev => false)}>일기 기록</span>
+                          <span
+                            className="text-sm"
+                            onClick={() => setIsCalendarOpen((prev) => false)}
+                          >
+                            일기 기록
+                          </span>
                         </div>
                       </Link>
                     </DropdownItem>
@@ -320,7 +333,12 @@ const Nav: React.FC<SearchComponentProps> = () => {
                             pathname === '/write' ? 'text-purple ' : ''
                           }`}
                         >
-                          <span className=" text-sm" onClick={() => setIsCalendarOpen(prev => false)}>일기 작성</span>
+                          <span
+                            className=" text-sm"
+                            onClick={() => setIsCalendarOpen((prev) => false)}
+                          >
+                            일기 작성
+                          </span>
                         </div>
                       </Link>
                     </DropdownItem>
