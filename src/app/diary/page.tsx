@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, forwardRef, useEffect, useLayoutEffect } from 'react'
-import './diaryCSS.css'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import { ko } from 'date-fns/esm/locale'
@@ -29,6 +28,7 @@ const Diary = () => {
   const [loading, setLoading] = useState(false)
   const [view, setView] = useState<IDiary[]>([])
   const curPage = params.get('page') as string
+  const { data: session } = useSession()
 
   useLayoutEffect(() => {
     if(!curPage || isNaN(parseInt(curPage)) === true) {
@@ -44,6 +44,11 @@ const Diary = () => {
     setLoading(true)
     const result = await axios.get(
       `/api/diary?page=${curPage}&userId=${user.id}&s=${startDate}&e=${endDate}`,
+    {
+      headers: {
+        'Authorization': `mlru ${session?.accessToken}`
+      }
+    }
     )
     const data = result.data
     setTotal((prev) => data.total)
@@ -96,7 +101,7 @@ const Diary = () => {
       ) : (
         total < 1 ? (<NoResult />) : (
           <div className="w-full mt-[100px] flex flex-col justify-center items-center">
-            <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
+            <div className="flex flex-wrap max-w-[1280px] justify-center mt-[30px]">
               {view.map((data: IDiary, index: number) => (
                 <DiaryLayout key={data.diary_number} data={data} userImg={userImg}/>
               ))}

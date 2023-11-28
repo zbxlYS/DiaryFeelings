@@ -18,21 +18,6 @@ const InnerContainer = styled.div`
   flex-direction: column;
   align-items: center;
 `
-
-// const FooterMessage = styled.div`
-//   font-weight: bold;
-//   font-size: 0.9rem;
-//   color: #545e6f;
-//   margin-bottom: 0.3rem;
-//   margin-left: 0.6rem;
-// `;
-
-// const FooterContact = styled.div`
-//   font-size: 0.9rem;
-//   color: #545e6f;
-//   margin: 0.6rem;
-// `;
-
 const FooterCopyright = styled.div`
   font-size: 0.9rem;
   color: #545e6f;
@@ -58,7 +43,7 @@ const Footer: React.FC = () => {
           >
             Relu Molu
           </a>{' '}
-          -인공지능사관학교 ReluMolu에 대해 알고 싶으면 {''}
+          - 인공지능사관학교 ReluMolu에 대해 알고 싶다면 {''}
           <a
             href="https://github.com/JS-A-CoreProject/DiaryFeelings"
             target="_blank"
@@ -66,7 +51,7 @@ const Footer: React.FC = () => {
           >
             여기
           </a>
-          를 클릭하세요.
+          를 클릭하세요 :)
         </FooterCopyright>
       </InnerContainer>
     </FooterWrapper>

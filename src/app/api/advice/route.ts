@@ -24,7 +24,6 @@ export const POST = async(req: Request) => {
         const result: resBody = res.data
         return NextResponse.json(result.result)
     } catch (err) {
-        console.log(err)
         return NextResponse.json(err)
     }
 

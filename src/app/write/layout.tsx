@@ -2,12 +2,10 @@
 
 import { useSession } from "next-auth/react"
 import Denined from "../components/Deniend";
-import Loading from "../components/Loading";
 import LottieCat from '../components/LottieCat';
-import './styles/test.css'
 
 const Layout = ({children} : {children: React.ReactNode}) => {
-    const { data: session, status } = useSession();
+    const { status } = useSession();
 
     if(status === 'loading') {
         return <LottieCat text={'읽어오고 있어요'}/>

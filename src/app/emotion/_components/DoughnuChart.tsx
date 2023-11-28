@@ -58,7 +58,7 @@ export const DoughnuChart: React.FC<BarChartProps> = ({ view }) => {
     return totalEmotionRatios // 계산된 값을 반환
   }
   const result = emotion() // 함수 호출 및 결과 저장
-  console.log(result) // 결과 출력
+
   const data: ChartData<'pie'> = {
     labels: ['행복', '기쁨', '화남', '슬픔', '불안', '생각없음'],
     datasets: [

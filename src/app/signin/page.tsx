@@ -6,7 +6,7 @@ import React from 'react'
 
 import { Input } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
-import styles from './_components/styles.module.css'
+import styles from './styles.module.css'
 
 const Login = () => {
   // useRef로 아이디랑, 비밀번호 값 가져오기.
@@ -32,7 +32,6 @@ const Login = () => {
       password: password,
       redirect: false,
     })
-    console.log(result)
     if (result?.error == 'wrong password') {
       // 비밀번호 일치하지 않았을 때 보여줄 것.
       setError('pw')
@@ -67,7 +66,6 @@ const Login = () => {
       })
 
       // 성공적으로 소셜 로그인을 수행하면 result에 로그인 정보가 담깁니다.
-      console.log('Kakao Login Result:', result)
     } catch (error) {
       // 소셜 로그인 실패 시 에러를 처리합니다.
       console.error('Kakao Login Error:', error)
@@ -80,7 +78,6 @@ const Login = () => {
         redirect: true,
         callbackUrl: '/diary?page=1',
       })
-      console.log('Google Login Result:', result)
     } catch (error) {
       console.error('Google Login Error:', error)
     }

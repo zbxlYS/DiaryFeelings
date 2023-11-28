@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ChangeEvent, useEffect, forwardRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { IDiary } from '../types/type'
 import { useSearchParams } from 'next/navigation'
@@ -32,6 +32,11 @@ const Search = () => {
       setLoading(true)
       const result = await axios.get(
         `/api/search?userId=${session.user?.id}&keyword=${keyword}&page=${curPage}`,
+        {
+          headers: {
+            'Authorization':`mlru ${session.accessToken}`
+          }
+        }
       )
       const data = result.data
       setTotal((prev) => data.total)
@@ -44,7 +49,7 @@ const Search = () => {
 // <div>검색 결과가 없어요😥 검색어를 다시 한 번 확인해 주세요</div>
   useEffect(() => {
     getDiary()
-  }, [keyword, session])
+  }, [keyword, session, page])
 
   return (
     loading ? (
@@ -53,14 +58,14 @@ const Search = () => {
       search ? (
         <div className="w-full mt-[100px] flex flex-col justify-center items-center">
         <div className=" h-[50px] rounded-md flex justify-around items-center self-start ml-[110px] mb-[50px]">
-          <div>
-            "{keyword}" 에 대한 검색 결과 ({total}개)
-          </div>
         </div>
-        <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
+        <div className="flex flex-wrap max-w-[1280px] justify-center mt-[30px]">
             {view.map((data: IDiary, index: number) => (
               <DiaryLayout key={data.diary_number} data={data} userImg={userImg} />
             ))}
+        </div>
+        <div className='dark:text-[#bbb] mb-[10px]'>
+            "{keyword}"에 대한 검색 결과 ({total}개)
         </div>
         <Pagination total={total} limit={6} page={page} keyword={keyword}/>
       </div>

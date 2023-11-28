@@ -68,6 +68,8 @@ const handler = NextAuth({
         if (account.provider === 'credentials') {
           token.name = user.user_name
         } else {
+          // 소셜 로그인 시 소셜 쪽에서 주는 것도 저장.
+          // 로그아웃 시 연결 끊기할 때 필요함.
           token.snsAccess = account.snsAccess
           token.snsRefresh = account.snsRefresh
         }
@@ -87,6 +89,7 @@ const handler = NextAuth({
     },
   },
   pages: {
+    // 로그인 페이지를 signin으로 함.
       signIn: '/signin'
   }
 })

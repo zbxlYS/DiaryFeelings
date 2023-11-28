@@ -63,12 +63,6 @@ const Write = () => {
     ['신동엽 손글씨', shin.className],
   ]
 
-  const [icons, setIcons] = useState<any[]>([])
-
-  // [{
-  //     icon: 'heart',
-  //     posFunc: {[pos, setPos] = useState({x: 0, y: 0})}
-  // }]
   const CalendarInput = forwardRef(({ value, onClick }: any, ref: any) => (
     // any 안 쓰고 싶은데 몰루겠다...
     <div className="flex">
@@ -107,8 +101,6 @@ const Write = () => {
       alert('내용을 입력해 주세요.')
       return
     }
-    const convertToEnter = contentRef.current.value.replaceAll('\\n', '<br/>')
-    console.log(convertToEnter)
     const formData = new FormData()
     formData.append('title', titleRef.current.value)
     formData.append('content', contentRef.current.value)
@@ -131,14 +123,10 @@ const Write = () => {
         Authorization: `mlru ${session?.accessToken}`,
       },
     })
-    console.log(result.data)
     imgReset()
     setUpLoading((prev) => false)
     router.push(`/diary/${result.data.result.insertId}`)
   }
-  useEffect(() => {
-    console.log('바뀌어라~', icons)
-  }, [icons])
   return (
     <div className="relative w-[1280px] flex flex-col items-end p-[30px] relative rounded-md shadow-xl mt-[40px] dark:bg-[#474747]">
       {upLoading && <UpLoading />}
@@ -289,9 +277,6 @@ const Write = () => {
                 className={`icontext resize-none w-full h-full outline-none rounded-md p-[10px] text-lg bg-[transparent] dark:bg-[#666] ${fontList[curFont][1]}`}
                 placeholder="당신의 하루를 들려주세요"
               />
-              {icons.map((data, index) => (
-                <>{data.comp}</>
-              ))}
             </div>
           </div>
         </div>

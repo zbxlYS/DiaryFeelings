@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef, useState, forwardRef } from 'react'
+import { useRef, useState, forwardRef } from 'react'
 import RadioGroup from '@/app/write/_components/RadioGroup'
 import Image from 'next/image'
 import DatePicker from 'react-datepicker'

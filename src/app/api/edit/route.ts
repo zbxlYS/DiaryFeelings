@@ -63,6 +63,9 @@ export const PUT = async (req: Request) => {
       .update(pw + salt)
       .digest('hex')
     await queryPromise(sql, [imgSrc, name, hashPassword, salt, id])
+    sql = 'UPDATE tb_diary SET user_name = ? WHERE user_id = ?'
+    const result = await queryPromise(sql, [name, id]) // 다이어리 닉네임도 변경.
+    // 처리 시간 오래 걸리는 듯.
     return new Response(JSON.stringify({ result: '완료' }))
   } catch (err: any) {
     return new Response(JSON.stringify('error'))
@@ -102,9 +105,8 @@ export const DELETE = async (req: Request) => {
     }
     const salt = chk[0].user_salt
     const db_pw = chk[0].user_password
-    // 여기서 sha512 해시 함수를 사용하고 있지만, 좀 더 강력한 해싱 알고리즘을 사용하는 것이 좋음
-    //.SHA - 512는 강력한 알고리즘이지만, 더 나은 보안을 위해서는 bcrypt나 Argon2와 같은 알고리즘을 고려하는 것이 좋음
-    // 이건 고려해봐야함
+    // 현재는 테스트 계정들이 sha512로 암호화 되어 있지만
+    // 나중에 bcrypt로 암호화 알고리즘 수정하기.
     const hashPassword = crypto
       .createHash('sha512')
       .update(body.password + salt)

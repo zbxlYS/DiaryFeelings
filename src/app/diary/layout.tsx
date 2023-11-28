@@ -3,12 +3,9 @@
 import { useSession } from "next-auth/react";
 import Denined from "../components/Deniend";
 
-interface Props {
-    id: string;
-}
 
-const Layout = ({children, params}: {children: React.ReactNode, params: Props}) => {
-    const { data: session, status } = useSession();
+const Layout = ({children}: {children: React.ReactNode}) => {
+    const { status } = useSession();
     if(status === 'loading') {
         return <></>
     }

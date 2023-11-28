@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from "next/server";
 import axios from "axios";
 import moment from "moment";
 import queryPromise from "@/app/lib/db";
+import { verifyJwt } from "@/app/lib/jwt";
 export const api = {
   bodyParse: false,
 };
@@ -12,20 +13,17 @@ export const api = {
 // PATCH 수정
 // DELETE 삭제
 export async function DELETE(req: NextRequest, res: NextResponse) {
+  // 작성한 일기 삭제.
   const data = await req.json();
   const userID = data.id;
   const diaryNum = data.diary_number;
 
   try {
-    // delete in tb_image
-    let sql = "delete from tb_image where diary_number = ?";
-    let values: any = diaryNum;
-    let result = await queryPromise(sql, [values]);
-
     // delete in tb_diary
-    sql = "DELETE FROM tb_diary WHERE user_id = ? AND diary_number = ?";
-    values = [userID, diaryNum];
-    result = await queryPromise(sql, values);
+    // 다이어리를 삭제하면 다이어리 이미지도 같이 삭제됨.
+    let sql = "DELETE FROM tb_diary WHERE user_id = ? AND diary_number = ?";
+    let values = [userID, diaryNum];
+    let result = await queryPromise(sql, values);
     return NextResponse.json({ msg: "success" });
   } catch (err) {
     console.log(err);
@@ -34,14 +32,27 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
 }
 
 export const GET = async (req: NextRequest, res: NextResponse) => {
-  // offset, limit
+  const accessToken = req.headers.get("Authorization")?.split("mlru ")[1] as string;
+  if(!accessToken || !verifyJwt(accessToken)) {
+    return new Response(JSON.stringify({"result":"No Authorization"}))
+  }
+  
+  // 현재 페이지 번호
   const curPage = req.nextUrl.searchParams.get("page") as string;
   const userId = req.nextUrl.searchParams.get("userId") as string;
+
+  // 시작 날짜
   const startDate = req.nextUrl.searchParams.get("s") as string;
+
+  // 종료 날짜
   const endDate = req.nextUrl.searchParams.get("e") as string;
+
+  // YYYY-MM-DD로 변경.
   const start = moment(new Date(startDate)).format("YYYY-MM-DD");
   const end = moment(new Date(endDate)).format("YYYY-MM-DD");
 
+  // 주소는 문자열이어서 숫자로 변환.
+  // 변환했는데 숫자가 아닐 경우 0으로.
   const offset = isNaN((parseInt(curPage) - 1) * 6)
     ? 0
     : (parseInt(curPage) - 1) * 6;
@@ -51,12 +62,16 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
   sql += `and DATE(created_at) BETWEEN '${start}' and '${end}' ORDER BY created_at DESC`;
   let result = await queryPromise(sql, [userId]);
   const total = result[0]["count(*)"];
-  console.log(total);
   sql = `SELECT A.*, B.image_src FROM tb_diary as A LEFT JOIN tb_image as B ON A.diary_number = B.diary_number WHERE A.user_id = ? and DATE(A.created_at) BETWEEN '${start}' and '${end}' ORDER BY A.created_at DESC LIMIT ${getNum} OFFSET ${offset} `;
   let values = [userId];
   result = await queryPromise(sql, values);
   sql = "SELECT user_image FROM tb_user WHERE user_id = ?";
   const image = await queryPromise(sql, [userId]);
+
+  // 페이징을 위한 총 게시글 수
+  // 다이어리와 관련된 이미지를 가져오기 위해 left join.
+  // 왼쪽은 다 나오고, 오른쪽은 조건에 맞는 것만 가져옴.
+  // 이미지가 없을 수도 있어서.
   return NextResponse.json({
     result: result,
     total: total,
@@ -66,9 +81,10 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const data = await req.formData();
-  const accessToken = req.headers
-    .get("Authorization")
-    ?.split("mlru ")[1] as string;
+  const accessToken = req.headers.get("Authorization")?.split("mlru ")[1] as string;
+  if(!accessToken || !verifyJwt(accessToken)) {
+    return new Response(JSON.stringify({"result":"No Authorization"}))
+  }
   const title = data.get("title") as string;
   const content = data.get("content") as string;
   console.log(content);
@@ -138,7 +154,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const query = `${weather} day, feel ${
     emotionQuery[maxEmotion[0]]
   } in the picture`;
-  console.log(query);
+  // ex) sunny day, feel happy in the picture.
+ 
   let imgSrc = "";
   const predictImg = await axios.post(
     `${process.env.BASE_URL}/api/img`,
@@ -186,7 +203,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     const result = await queryPromise(sql, values);
     sql = "INSERT INTO tb_image VALUES(?,?,?,?,?)";
     values = [null, result.insertId, imgSrc, "user", new Date()];
-    const done = await queryPromise(sql, values);
+    await queryPromise(sql, values);
     return NextResponse.json({ result: result });
   } catch (err) {
     console.log(err);

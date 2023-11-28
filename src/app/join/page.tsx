@@ -7,7 +7,6 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 
 const page = () => {
-  let submit: Boolean = true
   const [msg, setMsg] = useState('')
   const [idChk, setIdChk] = useState(false)
   const [pwdata, setpwData] = useState('')
@@ -54,15 +53,11 @@ const page = () => {
       user_id: emailRef.current!.value,
     })
     if (result.data.result === '이미 있는 아이디예요.') {
-      submit = false
       setMsg('이미 있는 아이디예요... 🥹')
       setIdChk(false)
     } else if (result.data.result === '가입할 수 있는 아이디예요.') {
-      submit = true
       setMsg('가입할 수 있는 아이디예요! 🥳')
       setIdChk(true)
-    } else {
-      submit = false
     }
     if (emailRef.current!.value === '') {
       setMsg('')
@@ -76,12 +71,6 @@ const page = () => {
   }
   const pwChange2 = (e: any) => {
     setpwData2(e.target.value)
-  }
-
-  if (pwdata !== '' && pwdata === pwdata2) {
-    submit = true
-  } else {
-    submit = false
   }
 
   // 서버로 정보 보내서 회원가입하기
@@ -242,14 +231,6 @@ const page = () => {
                   )}
                 </div>
               </div>
-
-              {/* {
-                msg && (
-                  idChk ? (<span className='border border-[#4caf50] px-[18px] py-[7px] rounded-md mt-[10px] bg-[#4caf50] bg-opacity-20 text-black'>{msg}</span>)
-                        : (<span className='border border-[#ef5350] px-[18px] py-[7px] rounded-md mt-[10px] bg-[#ef5350] bg-opacity-20 text-black'>{msg}</span>)
-
-                )
-              } */}
 
               <div className="flex flex-col  p-2 pt-0 w-[20rem]">
                 <Input

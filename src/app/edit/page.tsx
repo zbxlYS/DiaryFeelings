@@ -11,6 +11,7 @@ import { EyeSlashFilledIcon } from './_components/EyeSlashFilledIcon'
 import axios from 'axios'
 import { useSession } from 'next-auth/react'
 import Dropout from './_components/Dropout'
+import { useRouter } from 'next/navigation'
 
 const page = () => {
   const { data: session } = useSession()
@@ -29,6 +30,7 @@ const page = () => {
   const pwRef = useRef<HTMLInputElement>(null)
   const pwRef2 = useRef<HTMLInputElement>(null)
   const imgRef = useRef<HTMLInputElement>(null)
+  const router = useRouter()
 
   //비밀번호 확인
 
@@ -129,7 +131,7 @@ const page = () => {
 
   return (
     <div className="flex h-full w-screen flex-col items-center justify-center mt-[-10px]">
-      <div className="w-[500px] rounded-md bg-neutral-50 p-[15px] shadow-xl border border-[#eee] dark:text-[#171717]">
+      <div className="w-[500px] rounded-md bg-neutral-50 dark:bg-[#474747] p-[15px] shadow-xl border border-[#eee] dark:border-[#555] dark:text-[#eee]">
         <form>
           <p className="text-xl font-bold text-center mb-4 ">프로필 변경하기</p>
           <div className="flex flex-col items-center">
@@ -270,9 +272,9 @@ const page = () => {
                   pwRef.current?.value &&
                   pwRef2.current?.value &&
                   pwRef.current?.value === pwRef2.current?.value
-                    ? 'bg-black text-white'
-                    : 'bg-neutral-200 hover:shadow-lg'
-                } shadow-md dark:text-[#171717]`}
+                    ? 'bg-black text-white dark:text-[#eee]'
+                    : 'bg-neutral-200 hover:shadow-lg text-[black]'
+                } shadow-md`}
                 onClick={editSubmit}
               >
                 {' '}
@@ -284,11 +286,11 @@ const page = () => {
               <Button
                 size="md"
                 radius="md"
-                className="w-full mt-q bg-black text-white  hover:shadow-lg shadow-md dark:text-[#e7e1e1]"
+                className="w-full mt-q bg-[#d20000] text-white  hover:shadow-lg shadow-md dark:text-[#e7e1e1]"
                 onClick={dropoutBtn}
               >
                 {' '}
-                탈퇴 하기
+                탈퇴하기
               </Button>
               <Dropout isOpen={isOpen} closeModal={closeModal} user={user} />
             </div>

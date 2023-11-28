@@ -3,7 +3,8 @@ import { atom } from 'recoil'
 interface User {
   id: string,
   name: string;
-  provider: string
+  provider: string;
+  desc?: string;
 }
 
 export const textState = atom({
@@ -21,6 +22,7 @@ export const userInfo = atom<User>({
   default: {
     id: '',
     name: '',
-    provider: ''
+    provider: '',
+    desc: ''
   }
 })

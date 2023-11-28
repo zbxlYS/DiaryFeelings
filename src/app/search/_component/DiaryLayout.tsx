@@ -19,7 +19,7 @@ const DiaryLayout = ({ data, userImg }: Props) => {
   const userProfile = userImg ? userImg.user_image : '/joy.png';
   return (
     <div
-      className="border border-[#A2A2A2] dark:bg-[#474747] dark:border-[#555] relative w-[350px] h-[500px] rounded-[20px] flex flex-col justify-between overflow-hidden pb-[10px] shadow-lg mx-[35px] mb-[140px] hover:shadow-xl hover:scale-[1.02] ease-in duration-200 cursor-pointer"
+      className="border border-[#ddd] dark:bg-[#474747] dark:border-[#555] relative w-[350px] h-[500px] rounded-[20px] flex flex-col justify-between overflow-hidden pb-[10px] shadow-lg mx-[35px] mb-[140px] hover:shadow-xl hover:scale-[1.02] ease-in duration-200 cursor-pointer"
       onClick={() => router.push(`/diary/${data.diary_number}`)}
     >
       <div className="relative w-full h-[250px] bg-gray-200 object-cover">

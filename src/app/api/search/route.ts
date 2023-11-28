@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import queryPromise from '@/app/lib/db'
+import { verifyJwt } from '@/app/lib/jwt'
 export const api = {
   bodyParse: false,
 }
 
 // GET search keyword from DB
 export const GET = async (req: NextRequest, res: NextResponse) => {
+  const accessToken = req.headers.get('Authorization')?.split('mlru ')[1] as string
+  if(!accessToken || !verifyJwt(accessToken)) {
+    return new Response(JSON.stringify({"result":"No Authorization"}))
+  }
   try {
     const curPage = req.nextUrl.searchParams.get('page') as string
     const userId = req.nextUrl.searchParams.get('userId') as string

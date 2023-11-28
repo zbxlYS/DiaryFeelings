@@ -86,10 +86,10 @@ export const PUT = async (req: Request) => {
 
 // PATCH는 정보 수정. ㅇㅅㅇ;;
 export const PATCH = async (req: Request) => {
-  // 이미지를 수정할 수도 있으니
-  // multipart/data
-  // formData로 받아와야 될 듯.
-  return NextResponse.json({ result: 'modify' })
+  const body = await req.json()
+  let sql = 'SELECT user_id, user_name, user_provider, user_desc FROM tb_user WHERE user_id = ?'
+  let result = await queryPromise(sql, [body.id])
+  return NextResponse.json({ result })
 }
 
 // DELETE는 회원 탈퇴. ㅂㅂ

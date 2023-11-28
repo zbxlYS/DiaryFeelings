@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import axios from 'axios'
 import moment from 'moment'
 import queryPromise from '@/app/lib/db'
+import { verifyJwt } from '@/app/lib/jwt'
 
 interface Props {
   id: string
@@ -9,8 +10,13 @@ interface Props {
 
 // GET 가져오기
 export const GET = async (req: Request, { params }: { params: Props }) => {
+  const accessToken = req.headers.get("Authorization")?.split("mlru ")[1] as string;
+  if(!accessToken || !verifyJwt(accessToken)) {
+    return new Response(JSON.stringify({"result":"No Authorization"}))
+  }
+  
   const id = parseInt(params.id)
-  console.log(params.id)
+  
   try {
     let sql =
       'SELECT A.*, B.image_src FROM tb_diary as A LEFT JOIN tb_image as B ON A.diary_number = B.diary_number WHERE A.diary_number = ?'
@@ -25,9 +31,10 @@ export const GET = async (req: Request, { params }: { params: Props }) => {
 // PATCH 수정하기
 export const PATCH = async (req: Request) => {
   const data = await req.formData()
-  const accessToken = req.headers
-    .get('Authorization')
-    ?.split('mlru ')[1] as string
+  const accessToken = req.headers.get('Authorization')?.split('mlru ')[1] as string
+  if(!accessToken || !verifyJwt(accessToken)) {
+    return new Response(JSON.stringify({"result":"No Authorization"}))
+  }
   const title = data.get('title') as string
   const content = data.get('content') as string
   const emotion = data.get('emotion') as string
@@ -94,6 +101,7 @@ export const PATCH = async (req: Request) => {
     console.log(err)
     return NextResponse.json({ result: 'err' })
   }
+  // 내용은 바뀔 수가 있어서
+  // 다시 감정 분석
+  // 이미지 생성은... 일단 수정 시에는 하지 않기로.
 }
-
-// DELETE 삭제하기

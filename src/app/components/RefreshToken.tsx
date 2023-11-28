@@ -5,7 +5,6 @@ import { useSession, signOut } from 'next-auth/react'
 import React, { useEffect } from 'react'
 const RefreshToken = () => {
   const { data: session } = useSession()
-  // if(!session) return (<></>);
   const refreshAccess = async () => {
     if (!session) return
     console.log('check token...')

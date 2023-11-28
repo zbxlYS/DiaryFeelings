@@ -1,13 +1,12 @@
 'use client'
 
 import { useSession } from 'next-auth/react'
-import Image from 'next/image'
 import React from 'react'
 import NotLoginMain from './components/NotLoginMain'
 import { useRouter } from 'next/navigation'
 
 const UsersPage = () => {
-  const { data: session, status } = useSession()
+  const { status } = useSession()
   const router = useRouter()
   if (status === 'loading') {
     return <></>

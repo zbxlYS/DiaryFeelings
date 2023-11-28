@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation'
 import './cal.css'
 import { useRecoilValue } from 'recoil'
 import { userInfo } from '@/app/lib/atoms/atom'
+import { useSession } from 'next-auth/react'
 
 type ValuePiece = Date | null
 type Value = ValuePiece | [ValuePiece, ValuePiece]
@@ -18,10 +19,17 @@ const ModalCalendar = ({ isOpen, closeModal, setIsCalendarOpen }: any) => {
   const dateRef = useRef<HTMLInputElement>(null)
   const user = useRecoilValue(userInfo)
   const router = useRouter()
+  const { data: session } = useSession()
 
   const fetchDataFromDatabase = async () => {
     try {
-      const result = await axios.get(`/api/cal?year=${date.getFullYear()}&month=${date.getMonth()+1}&userId=${user.id}`);
+      const result = await axios.get(`/api/cal?year=${date.getFullYear()}&month=${date.getMonth()+1}&userId=${user.id}`,
+        {
+          headers: {
+            'Authorization':`mlru ${session?.accessToken}`
+          }
+        }
+      );
       const data = result.data.result
       setDateArr(prev => data)
     } catch (err) {
@@ -117,9 +125,6 @@ const ModalCalendar = ({ isOpen, closeModal, setIsCalendarOpen }: any) => {
     }
   }, [value])
 
-  const closeCalendar = () => {
-    onChange(null) // 달력 상태를 null로 설정하여 달력을 닫습니다.
-  }
   const PrevButton = () => {
     const changeMonth = (e: React.MouseEvent) => {
       e.stopPropagation();

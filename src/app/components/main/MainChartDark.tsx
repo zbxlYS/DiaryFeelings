@@ -1,34 +1,12 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Chart, registerables } from 'chart.js'
 import {
     Image,
     Tooltip,
 } from '@nextui-org/react'
 import { useTheme } from 'next-themes'
-
-type Dataset = {
-    label: string
-    data: any[]
-    backgroundColor: string[]
-    borderColor: string[]
-    borderWidth: number
-}
-
-type Data = {
-    labels: string[]
-    datasets: Dataset[]
-}
-
-type Options = {
-    scales: {
-        y: {
-            beginAtZero: boolean
-            max: number
-        }
-    }
-}
 
 type EmotionImg = {
     [key: string]: {
@@ -90,24 +68,18 @@ const MainChartDark = () => {
                             backgroundColor: [
                                 'rgba(240, 207, 211, 0.4)',
                                 'rgba(255, 206, 86, 0.4)',
-
-                                // 'rgba(239, 203, 207, 0.2)', // 사랑
                                 'rgba(255, 99, 132, 0.4)',
                                 'rgba(75, 192, 192, 0.4)',
-
-                                // 'rgba(174, 221, 251, 0.2)', // 우울
                                 'rgba(181, 224, 251, 0.4)',
-                                'rgba(171, 171, 171, 0.4)', // 생각없음
+                                'rgba(171, 171, 171, 0.4)',
                             ],
                             borderColor: [
                                 'rgba(240, 207, 211, 1)',
                                 'rgba(255, 206, 86, 1)',
-                                // 'rgba(239, 203, 207, 1)',
                                 'rgba(255, 99, 132, 1)',
                                 'rgba(75, 192, 192, 1)',
-                                // 'rgba(174, 221, 251, 1)', //우울
                                 'rgba(181, 224, 251, 1)',
-                                'rgba(171, 171, 171, 1)', // 생각없음
+                                'rgba(171, 171, 171, 1)',
                             ],
                             borderWidth: 1,
                         }
@@ -117,14 +89,14 @@ const MainChartDark = () => {
                     scales: {
                         x: {
                             grid: {
-                                display: false, // Set display to false to hide grid lines
+                                display: false,
                             },
                         },
                         y: {
                             beginAtZero: true,
                             max: 100,
                             grid: {
-                                display: false, // Set display to false to hide grid lines
+                                display: false,
                             },
                         }
                     },

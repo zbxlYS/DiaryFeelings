@@ -12,7 +12,6 @@ import {
   Link,
   Tooltip,
   Switch,
-  button,
 } from '@nextui-org/react'
 import { useRecoilState } from 'recoil'
 import { userInfo } from '@/app/lib/atoms/atom'
@@ -28,6 +27,7 @@ import Snowy from '@/app/components/weathers/Snowy'
 import Windy from '@/app/components/weathers/Windy'
 import Rainy from '@/app/components/weathers/Rainy'
 import Cloudy from '@/app/components/weathers/Cloudy'
+import { useRouter } from 'next/navigation'
 
 interface IImg {
   diary_weather: any
@@ -98,10 +98,10 @@ const page = () => {
     undefined,
   )
   const [loading, setLoading] = useState(true) // 데이터 읽어오는 로딩으로 이용
+  const router = useRouter()
   // console.log('123', textareaValue)
   // console.log(currentTheme)
   // console.log(emotionImg.놀람)
-  console.log('view', view)
   // console.log(user)
 
   // API 주소를 env 파일에서 가져오기
@@ -127,7 +127,6 @@ const page = () => {
         // Handle successful response
 
         // console.log('Data:', data.result)
-        console.log('imgrows', data.imgrows)
         setDatePart(
           new Date(data.result[0].created_at).toISOString().split('T')[0],
         )
@@ -159,7 +158,11 @@ const page = () => {
         'Content-Type': 'application/json',
       },
     })
-    console.log(result)
+    setUser(prev => ({
+      ...prev,
+      desc: userDesc.current?.value
+    }))
+    alert('다짐을 바꿨어요!💪')
   }
 
   // 이미지 개수
@@ -256,7 +259,7 @@ const page = () => {
                       </span>
                       <Link href="/write">
                         <button className="p-3 pl-10 pr-10 mt-5 mb-5 border rounded-md bg-purple text-white">
-                          일기작성하기
+                          일기 작성하기
                         </button>
                       </Link>
                     </div>
@@ -350,8 +353,8 @@ const page = () => {
               <div className="flex justify-center items-center flex-col mt-16 mb-10">
                 <h1 className="text-xxl ">{user.name} 님 감정 기록 </h1>
                 <span className="max-w-[30rem] mt-7 opacity-70">
-                  아래는 최근 한 달 동안의 감정을 기록하는 내용입니다: 한 달 동안의
-                  다양한 경험과 감정을 기록해보세요. :)
+                  아래는 최근 한 달 동안의 감정을 기록하는 내용입니다<br />
+                  한 달 동안의 다양한 경험과 감정을 기록해보세요. :)
                 </span>
               </div>
               {/* 사용자 컨테이너*/}
@@ -411,10 +414,9 @@ const page = () => {
                           color="default"
                           variant="faded"
                           className="flex justify-end items-center "
+                          onClick={()=>router.push('/edit')}
                         >
-                          <Link href="/edit" color="foreground" showAnchorIcon>
-                            정보 수정하기
-                          </Link>
+                            정보 수정하기 <Link showAnchorIcon className='text-black dark:text-[#eee]'></Link>
                         </Button>
                       </div>
                     </div>

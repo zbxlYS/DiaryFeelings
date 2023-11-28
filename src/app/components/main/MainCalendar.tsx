@@ -4,7 +4,10 @@ import { Image } from '@nextui-org/react'
 
 const ModalCalendar = () => {
 
-  const dayArr = new Array(30).fill(0);
+  // 발표할 때는 12월이니까 31개가 담긴 배열 만들기.
+  const dayArr = new Array(31).fill(0);
+
+  // 감정을 표시할 날짜들
   const dateArr = [20,21,22,24,25,26]
 
   const showAlert = () => {
@@ -19,7 +22,7 @@ const ModalCalendar = () => {
           </div>
           <div>
             <span className="text-[20px] text-[white]">
-              2023년 11월
+              2023년 12월
             </span>
           </div>
           <div>

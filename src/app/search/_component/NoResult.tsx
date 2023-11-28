@@ -2,7 +2,6 @@
 
 import Lottie from "react-lottie-player"
 import lottieShiba2 from './ddCat.json'
-import Link from "next/link"
 
 const NoResult = () => {
     return (

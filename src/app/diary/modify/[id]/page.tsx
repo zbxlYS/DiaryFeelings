@@ -45,9 +45,10 @@ const Modify = ({ params }: { params: Props }) => {
   const [selWeather, setSelWeather] = useState(false)
   const [selFont, setSelFont] = useState(false)
   const [curFont, setCurFont] = useState(0)
-  const [imgUrl, setImgUrl] = useState('')
+  const [imgUrl, setImgUrl] = useState([])
   const [loading, setLoading] = useState(true)
   const [upLoading, setUpLoading] = useState(false)
+  const [selImg, setSelImg] = useState('')
 
   const titleRef = useRef<HTMLInputElement>(null)
   const contentRef = useRef<HTMLTextAreaElement>(null)
@@ -84,13 +85,6 @@ const Modify = ({ params }: { params: Props }) => {
       </span>
     </div>
   ))
-  const handleImgView = (e: React.ChangeEvent<{ files: FileList | null }>) => {
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0]
-      URL.revokeObjectURL(imgUrl)
-      setImgUrl((prev) => URL.createObjectURL(file))
-    }
-  }
   const send = async () => {
     console.log('hi')
     if (!session) return
@@ -118,36 +112,33 @@ const Modify = ({ params }: { params: Props }) => {
     const result = await axios.patch(`/api/diary/${params.id}`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
-        Authorization: `mlru ${session?.accessToken}`,
+        'Authorization': `mlru ${session?.accessToken}`,
       },
     })
-    console.log(result.data)
     setUpLoading((prev) => false)
     router.push(`/diary/${params.id}`)
   }
   const getData = async (id: string) => {
     setLoading(true)
-    const result = await fetch(`/api/diary/${id}`)
+    const result = await fetch(`/api/diary/${id}`,{
+      headers: {
+        'Authorization': `mlru ${session?.accessToken}`,
+      }
+    })
     const rst = await result.json()
     data = rst
-    console.log(data)
     setTitleValue((prev) => data.result.diary_title)
     setContentValue((prev) => data.result.diary_content)
-    setImgUrl((prev) => {
-      return data.result.image_src.split(',')[1]
-        ? data.result.image_src.split(',')[1]
-        : data.result.image_src.split(',')[0]
-    })
+    setImgUrl((prev) => data.result.image_src.split(','))
+    setSelImg(prev => data.result.image_src.split(',')[0])
     setWeather((prev) => data.result.diary_weather)
     setValue((prev) => data.result.diary_userEmo)
     setCurFont((prev) => data.result.diary_font)
-    // setDate(prev => new Date(data.result.updated_at))
     setLoading(false)
   }
   useEffect(() => {
     getData(params.id)
   }, [session])
-  // const data = await getData(params.id)
   return (
     <>
       {loading ? (
@@ -242,13 +233,23 @@ const Modify = ({ params }: { params: Props }) => {
                 <div className="w-[300px] h-[300px] rounded-md bg-gray-200 object-contain flex justify-center items-center overflow-hidden">
                   {imgUrl && (
                     <Image
-                      src={imgUrl}
+                      src={selImg}
                       alt="preview"
                       width={300}
                       height={300}
                     />
                   )}
                 </div>
+                <div className='flex justify-center items-center gap-[30px]'>
+                {
+                  imgUrl.map((data, index) => (
+                    data && <span key={index}
+                      onClick={() => setSelImg(prev => imgUrl[index])}
+                      className='p-1 px-[10px] cursor-pointer hover:text-[#b2a4d4] dark:text-[white] dark:hover:text-[#b2a4d4]'
+                    >{index+1}</span>
+                  ))
+                }
+              </div>
               </div>
               <div className="w-full flex flex-col">
                 <div className="relative mb-[5px] pb-[5px] rounded-md flex items-center">

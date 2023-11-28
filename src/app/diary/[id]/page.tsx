@@ -23,7 +23,7 @@ import Windy from '@/app/components/weathers/Windy'
 import Rainy from '@/app/components/weathers/Rainy'
 import Cloudy from '@/app/components/weathers/Cloudy'
 interface Props {
-  id: any
+  id: string
 }
 
 const DiaryDetail = ({ params }: { params: Props }) => {
@@ -53,7 +53,11 @@ const DiaryDetail = ({ params }: { params: Props }) => {
 
   const getDiary = async () => {
     setLoading(true)
-    const result = await axios.get(`/api/diary/${num}`)
+    const result = await axios.get(`/api/diary/${num}`,{
+      headers: {
+        'Authorization': `mlru ${session?.accessToken}`
+      }
+    })
     const data = result.data
     setView((prev) => data.result)
     setFont(() => data.result.diary_font)
@@ -63,11 +67,7 @@ const DiaryDetail = ({ params }: { params: Props }) => {
     })
     setSelImg(prev => data.result.image_src.split(',')[0])
     setLoading(false)
-    console.log('view', data)
 
-    if (result.data.msg === 'success') {
-      console.log('Get Diary Success')
-    }
   }
   useEffect(() => {
     getDiary()
@@ -75,10 +75,11 @@ const DiaryDetail = ({ params }: { params: Props }) => {
 
   /* delete function */
   const handleDelete = async (e: any) => {
-    e.preventDefault()
+    if(prompt("정말 지울 거라면 '지울게요.'를 정확히 입력해 주세요.") !== '지울게요.') {
+      alert('정확히 입력해 주세요🥹')
+      return;
+    }
     /* get user id from session */
-
-    console.log(userObj)
     try {
       const response = await axios.delete(`http://localhost:3000/api/diary`, {
         data: {
@@ -86,22 +87,21 @@ const DiaryDetail = ({ params }: { params: Props }) => {
           diary_number: view?.diary_number,
         },
       })
-
       if (response.data.msg === 'success') {
-        alert('삭제 완료~')
+        alert('일기를 지웠어요🥺')
         router.push('/diary?page=1')
       } else {
-        alert('삭제 실패~')
+        alert('지우는 데 실패했어요👀')
       }
     } catch (error) {
-      console.error(error)
-      alert('삭제 실패~')
+      console.error('삭제 시 에러가 발생했습니다.')
+      alert('지우는 데 실패했어요👀')
     }
   }
 
   /* modify function */
   const handleModify = () => {
-    window.location.href = `/diary/modify/${view?.diary_number}`
+    router.push(`/diary/modify/${view?.diary_number}`)
   }
 
   return loading ? (

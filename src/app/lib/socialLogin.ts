@@ -1,6 +1,5 @@
 import { signJwtAccessToken, signJwtRefreshToken } from './jwt'
 import queryPromise from '@/app/lib/db'
-import bcrypt from 'bcrypt'
 const crypto = require('crypto')
 
 export const socialLogin = async (user: any, provider: string) => {

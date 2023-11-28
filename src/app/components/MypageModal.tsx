@@ -5,6 +5,8 @@ import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { userInfo } from '../lib/atoms/atom'
 import Snow from '../emotion/_components/Snow'
 interface MypageModalProps {
   closeModal: () => void
@@ -25,6 +27,7 @@ const MypageModal: React.FC<MypageModalProps> = ({
   const pwRef = useRef<HTMLInputElement>(null)
   const { data: session } = useSession()
   const pathname = usePathname()
+  const userData = useRecoilValue(userInfo)
 
   const handleSubmit = async () => {
     if (!idRef.current && !pwRef.current) return null
@@ -81,6 +84,8 @@ const MypageModal: React.FC<MypageModalProps> = ({
         // 에러.
         console.log(rst.result)
       }
+    } else {
+      signOut()
     }
   }
 
@@ -127,7 +132,7 @@ const MypageModal: React.FC<MypageModalProps> = ({
       </div>
       <div className="ml-3 mb-5">
         {/* 조언텍스트가 들어갈 곳? */}
-        <p className="text-slate-500 dark:text-[#ccc]">조언 텍스트 오늘 하루도 많이 먹었어:)</p>
+        <p className="text-slate-500 dark:text-[#ccc]">{userData.desc}</p>
       </div>
       <div className='border-t-[1px] border-[#aaa] dark:border-[#666]'></div>
       <div className="hover:bg-purple/20 rounded-md mt-5 mb-5 p-1 dark:hover:bg-[#666]">
@@ -170,7 +175,7 @@ const MypageModal: React.FC<MypageModalProps> = ({
       </div>
       <div className="hover:bg-purple/20 rounded-md p-1 dark:hover:bg-[#666]">
         <Link href="/" className="ml-4" onClick={closeModal}>
-          <button onClick={async () => signOut()}>
+          <button onClick={async () => handleSingOut()}>
             <span className="text-slate-800 hover:text-slate-900 dark:text-[#eee] dark:hover:text-[#b2a4d4]">
               로그아웃
             </span>

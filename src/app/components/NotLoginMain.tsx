@@ -10,6 +10,7 @@ import MainChartDark from "./main/MainChartDark";
 import MainDesc from "./main/MainDesc";
 import Link from "next/link";
 import { useTheme } from 'next-themes'
+import { useRouter } from "next/navigation";
 
 const NotLoginMain = () => {
     
@@ -17,6 +18,7 @@ const NotLoginMain = () => {
     const [hover, setHover] = useState('first');
     const { systemTheme, theme, setTheme } = useTheme() // 다크모드테마 설정
     const currentTheme = theme === 'system' ? systemTheme : theme
+    const router = useRouter()
 
     // 값에 따라 컴포넌트 리턴.
     const showPages = () => {
@@ -35,7 +37,6 @@ const NotLoginMain = () => {
     }
     return (
         <div className="w-full flex flex-col justify-center items-center py-[200px]">
-
             <div className="flex flex-col justify-center items-center">
                 <span className="text-[60px] font-bold">
                     감정을 기록하는 일기
@@ -43,13 +44,11 @@ const NotLoginMain = () => {
                 <span className="text-lg">
                     당신의 감정을 기록하고, 되돌아 보세요.
                 </span>
-                <Link href='/signin'
-                    className="mt-[50px]"
-                >
-                    <span className="shadow-xl text-[30px] px-[24px] py-[12px] rounded-md text-white bg-[#b2a4d4] cursor-pointer">
+                    <span className="shadow-xl mt-[15px] text-[30px] px-[24px] py-[12px] rounded-md text-white bg-[#b2a4d4] cursor-pointer"
+                        onClick={() => router.push('/signin')}
+                    >
                         내 감정을 기록하기
                     </span>
-                </Link>
             </div>
             <div className="relative flex flex-col w-full justify-center items-center mt-[100px]">
                 <div className="w-full h-[450px] flex justify-center overflow-hidden main-light">
@@ -104,13 +103,11 @@ const NotLoginMain = () => {
                     }
                 </div>
                 <div className="w-full flex justify-center items-center mt-[200px]">
-                    <Link href='/signin'
-                        className="mt-[50px]"
-                    >
-                        <span className="text-[30px] px-[24px] py-[12px] border rounded-md text-white bg-[#b2a4d4] cursor-pointer">
+                        <span className="mt-[30px] text-[30px] px-[24px] py-[12px] border rounded-md text-white bg-[#b2a4d4] cursor-pointer"
+                            onClick={() => router.push('/signin')}
+                        >
                             감정을 기록하러 가볼까요?
                         </span>
-                    </Link>
                 </div>
             </div>
         </div>

@@ -1,33 +1,12 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Chart, registerables } from 'chart.js'
 import {
     Image,
     Tooltip,
 } from '@nextui-org/react'
 import { useTheme } from 'next-themes'
-type Dataset = {
-    label: string
-    data: any[]
-    backgroundColor: string[]
-    borderColor: string[]
-    borderWidth: number
-}
-
-type Data = {
-    labels: string[]
-    datasets: Dataset[]
-}
-
-type Options = {
-    scales: {
-        y: {
-            beginAtZero: boolean
-            max: number
-        }
-    }
-}
 
 type EmotionImg = {
     [key: string]: {
@@ -46,7 +25,7 @@ const emotionImg: EmotionImg = {
         mean: '',
     },
     suprise: { src: '/normal.png', text: '엄마야!', emo: '놀람', mean: '' },
-    angry: { src: '/angry.png', text: '너무 화가난다아', emo: '분노', mean: '' },
+    angry: { src: '/angry.png', text: '너무 화가 난다아', emo: '분노', mean: '' },
     sad: { src: '/sad.png', text: '너무 슬퍼 :(', emo: '슬픔', mean: '' },
     depress: {
         src: '/depress.png',
@@ -56,7 +35,7 @@ const emotionImg: EmotionImg = {
     },
     normal: {
         src: '/nothinking.png',
-        text: '나는 아무생각이없어',
+        text: '나는 아무 생각이 없어',
         emo: '중립',
         mean: '',
     },
@@ -78,6 +57,7 @@ const MainChart = () => {
 
             Chart.register(...registerables)
             Chart.defaults.color = 'black'
+            // 그래프 내 기본 글자 색상을 검은색으로.
             chartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: {
@@ -89,24 +69,18 @@ const MainChart = () => {
                             backgroundColor: [
                                 'rgba(240, 207, 211, 0.4)',
                                 'rgba(255, 206, 86, 0.4)',
-
-                                // 'rgba(239, 203, 207, 0.2)', // 사랑
                                 'rgba(255, 99, 132, 0.4)',
                                 'rgba(75, 192, 192, 0.4)',
-
-                                // 'rgba(174, 221, 251, 0.2)', // 우울
                                 'rgba(181, 224, 251, 0.4)',
-                                'rgba(171, 171, 171, 0.4)', // 생각없음
+                                'rgba(171, 171, 171, 0.4)',
                             ],
                             borderColor: [
                                 'rgba(240, 207, 211, 1)',
                                 'rgba(255, 206, 86, 1)',
-                                // 'rgba(239, 203, 207, 1)',
                                 'rgba(255, 99, 132, 1)',
                                 'rgba(75, 192, 192, 1)',
-                                // 'rgba(174, 221, 251, 1)', //우울
                                 'rgba(181, 224, 251, 1)',
-                                'rgba(171, 171, 171, 1)', // 생각없음
+                                'rgba(171, 171, 171, 1)',
                             ],
                             borderWidth: 1,
                         }
@@ -116,14 +90,14 @@ const MainChart = () => {
                     scales: {
                         x: {
                             grid: {
-                                display: false, // Set display to false to hide grid lines
+                                display: false,
                             },
                         },
                         y: {
                             beginAtZero: true,
                             max: 100,
                             grid: {
-                                display: false, // Set display to false to hide grid lines
+                                display: false,
                             },
                         }
                     }
@@ -138,6 +112,7 @@ const MainChart = () => {
         }
     }
     useEffect(() => {
+        // 차트를 한 번 삭제한 뒤 생성해야 되는 듯.
         destroyChart()
         createChart()
         return () => destroyChart()

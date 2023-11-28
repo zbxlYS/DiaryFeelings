@@ -1,6 +1,6 @@
 "use client";
 
-import { useSearchParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 interface Props {
     total: number;

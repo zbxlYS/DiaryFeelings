@@ -5,9 +5,6 @@ import {
   bareun,
 } from '@/app/components/fonts/fonts'
 import Sunny from '@/app/components/weathers/Sunny'
-interface Props {
-  id: any
-}
 
 const DiaryDetail = () => {
 

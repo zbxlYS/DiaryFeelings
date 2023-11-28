@@ -9,6 +9,7 @@ import DiaryLayout from '../_components/DiaryLayout'
 import { userInfo } from '@/app/lib/atoms/atom'
 import { useRecoilValue } from 'recoil'
 import Pagination from './_components/Pagination'
+import { useSession } from 'next-auth/react'
 const CalView = () => {
     const params = useSearchParams()
     const date = params.get('date') as string
@@ -18,13 +19,22 @@ const CalView = () => {
     const [loading, setLoading] = useState(false)
     const total = 1;
     const [userImg, setUserImg] = useState('')
+    const { data: session } = useSession()
 
     const getData = async() => {
         const result = await axios.post(`http://localhost:3000/api/cal`, {
             date: date,
             userId: user.id,
             page: page
-        })
+        },
+        {
+          headers: {
+            'Content-Type':'application/json',
+            'Authorization':`mlru ${session?.accessToken}`
+          }
+        }
+        
+        )
         const data = result.data
         console.log(data)
         setView(prev => data.result)

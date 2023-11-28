@@ -1,22 +1,26 @@
 //cal/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import queryPromise from '@/app/lib/db'
-
-interface DiaryRow {
-  date: string
-  diary_emotion: string
-}
+import { verifyJwt } from '@/app/lib/jwt'
 
 interface reqBody {
   date: string,
   userId: string,
   page: string
 }
+
+// 
 export async function GET(req: NextRequest, res: NextResponse) {
   try {
     const year = req.nextUrl.searchParams.get('year') as string
     const month = req.nextUrl.searchParams.get('month') as string
     const user = req.nextUrl.searchParams.get('userId') as string
+    const accessToken = req.headers.get('Authorization')?.split('mlru ')[1] as string;
+
+    // 헤더에 토큰이 없거나, 토큰 복호화 실패하면 리턴.
+    if(!accessToken || !verifyJwt(accessToken)) {
+        return new Response(JSON.stringify({"result":"No Authorization"}))
+    }
 
     let sql = `SELECT diary_number, diary_userEmo, created_at FROM tb_diary WHERE MONTH(created_at) = ? AND YEAR(created_at) = ? AND user_id = ? `
     let result = await queryPromise(sql, [month, year, user]);
@@ -30,6 +34,10 @@ export async function GET(req: NextRequest, res: NextResponse) {
 
 export const POST = async(req: Request, res: NextResponse) => {
   const body: reqBody = await req.json()
+  const accessToken = req.headers.get('Authorization')?.split('mlru ')[1] as string;
+  if(!accessToken || !verifyJwt(accessToken)) {
+    return new Response(JSON.stringify({"result":"No Authorization"}))
+  }
   const date = body.date
   const user = body.userId
   const curPage = body.page

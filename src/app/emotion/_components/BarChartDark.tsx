@@ -85,7 +85,6 @@ const BarChartDark: React.FC<BarChartProps> = ({ view }) => {
     return totalEmotionRatios // 계산된 값을 반환
   }
   const result = emotion() // 함수 호출 및 결과 저장
-  console.log(result) // 결과 출력
 
   // emotion()
   useEffect(() => {

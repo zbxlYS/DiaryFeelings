@@ -64,9 +64,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
   }
 
   /* Search Function */
-  const onClickSearch = async (e: any) => {
-    e.preventDefault()
-    console.log('user', user.id, 'inputvalue', inputValue)
+  const onClickSearch = async() => {
     router.push(`/search?keyword=${inputValue}&page=1`)
     setInputValue('')
   }
@@ -78,7 +76,12 @@ const Nav: React.FC<SearchComponentProps> = () => {
   async function fetchData() {
     if (!user.id) return
     const response = await axios.get(`/api/emotion?userId=${user.id}`)
+    const userResult = await axios.patch(`/api/user`, {
+      id: user.id
+    })
     const data = response.data
+    const userData = userResult.data.result[0]
+
     console.log(data)
     if (response.status === 200) {
       // console.log(data.userImg)
@@ -86,6 +89,15 @@ const Nav: React.FC<SearchComponentProps> = () => {
         ? data.userimg[0].user_image
         : undefined
       setUserImg(img)
+      setUser(prev => {
+        const user = {
+          id: userData.user_id,
+          name: userData.user_name,
+          provider: userData.user_provier,
+          desc: userData.user_desc
+        }
+        return user;
+      })
     }
   }
 
@@ -118,6 +130,12 @@ const Nav: React.FC<SearchComponentProps> = () => {
     return (
       <NotLoginNav isLogin={isLogin}/>
     )
+  }
+  const doSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    const code = e.key;
+    if(code === 'Enter') {
+      onClickSearch()
+    }
   }
 
   return (
@@ -367,7 +385,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
             </button>
 
             {/* 검색창 */}
-            <div className="flex justify-center items-center self-center w-[20%] max-w-2xl h-[37px] left-[11rem] bottom-[0.7rem] absolute focus-within:shadow-md rounded-md shadow-lg dark:shadow-none dark:bg-[#666] border border-[#eee] dark:border-[#666] hover:border-1 focus-within:border-1">
+            <div className="flex justify-center items-center self-center w-[20%] max-w-2xl h-[37px] left-[11rem] bottom-[0.7rem] absolute focus-within:shadow-md rounded-md shadow-md dark:shadow-none dark:bg-[#666] border border-[#eee] dark:border-[#666] hover:border-1 focus-within:border-1">
               <Image
                 src="/search.svg"
                 alt="Search Logo"
@@ -382,6 +400,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 placeholder="일기 검색 . . ."
                 value={inputValue}
                 onChange={getSearchData}
+                onKeyDown={doSearch}
                 className="absolute w-[90%] max-w-[60%] h-full left-[3rem] outline-none border-none outline-none dark:bg-[#666]"
               ></input>
             </div>
