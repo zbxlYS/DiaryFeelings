@@ -106,7 +106,7 @@ const Diary = () => {
                 <DiaryLayout key={data.diary_number} data={data} userImg={userImg}/>
               ))}
             </div>
-            <div className="border h-[50px] rounded-md flex justify-around items-center mb-[50px] dark:bg-[#474747]">
+            <div className="border h-[50px] rounded-md flex justify-around items-center mb-[50px] dark:bg-[#474747] shadow-lg">
               <div className="flex items-center px-[60px] z-[10]">
                 <DatePicker
                   selected={startDate}

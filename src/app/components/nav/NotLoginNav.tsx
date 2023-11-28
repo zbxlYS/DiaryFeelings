@@ -27,14 +27,12 @@ const NotLoginNav = ({ isLogin }: any) => {
                     >
                         감정 기록 시작하기
                     </span>
-                <div className='relative flex justify-center items-center'>
                     <button
                         type="button"
-                        className={
-                            !isLogin
-                                ? `w-10 h-10`
-                                : `w-10 h-10`
-                        }
+                        className={`${!isLogin
+                            ? 'w-10 h-10'
+                            : 'w-10 h-10'}
+                p-[5px] flex justify-center items-center rounded-md bg-[#eee] hover:bg-[#ddd] dark:bg-[#555] dark:hover:bg-[#666]`}
                         onClick={() => {
                             setTheme(currentTheme === 'dark' ? 'light' : 'dark')
                         }}
@@ -44,7 +42,7 @@ const NotLoginNav = ({ isLogin }: any) => {
                                 <Image
                                     src="/sun.svg"
                                     alt="Sun Logo"
-                                    className="w-[35px] hover:opacity-60 transition duration-300 hover:bg-purple-500 rounded-full"
+                                    className="w-[35px]"
                                     width={40}
                                     height={40}
                                     priority
@@ -54,14 +52,13 @@ const NotLoginNav = ({ isLogin }: any) => {
                             <Image
                                 src="/dark.svg"
                                 alt="Dark Logo"
-                                className="w-[35px] pl-[3px] pt-1 pb-1  opacity-70 hover:opacity-50 transition duration-300 hover:bg-purple/50 rounded-full"
+                                className="w-[35px] p-1"
                                 width={50}
                                 height={50}
                                 priority
                             />
                         )}
                     </button>
-                </div>
             </div>
         </div>
     )

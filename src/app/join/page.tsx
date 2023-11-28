@@ -126,6 +126,7 @@ const page = () => {
       })
       // 가입 성공.
       // 로그인 페이지로 넘김.
+      alert('가입했어요!🥳')
       router.push('/signin')
     }
   }

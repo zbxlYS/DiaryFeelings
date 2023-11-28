@@ -33,7 +33,7 @@ const ModalCalendar = ({ isOpen, closeModal, setIsCalendarOpen }: any) => {
       const data = result.data.result
       setDateArr(prev => data)
     } catch (err) {
-      console.log(err)
+      console.error('Calendar Error')
     }
   }
 
@@ -95,35 +95,10 @@ const ModalCalendar = ({ isOpen, closeModal, setIsCalendarOpen }: any) => {
   // useRef를 사용하여 달력 외부를 클릭했는지 확인할 ref 생성
   const calendarRef = useRef<HTMLDivElement | null>(null)
 
-  // 달력 외부 클릭 시 달력을 닫도록 처리하는 함수
-  const handleOutsideClick = (event: MouseEvent) => {
-    if (
-      calendarRef.current &&
-      !calendarRef.current.contains(event.target as Node) &&
-      value
-    ) {
-      console.log('달력 외부 클릭됨')
-    }
-  }
-
   useEffect(() => {
     fetchDataFromDatabase()
   }, [])
 
-  useEffect(() => {
-    if (value) {
-      document.addEventListener(
-        'mousedown',
-        handleOutsideClick as EventListener,
-      )
-      return () => {
-        document.removeEventListener(
-          'mousedown',
-          handleOutsideClick as EventListener,
-        )
-      }
-    }
-  }, [value])
 
   const PrevButton = () => {
     const changeMonth = (e: React.MouseEvent) => {
@@ -197,7 +172,6 @@ const ModalCalendar = ({ isOpen, closeModal, setIsCalendarOpen }: any) => {
           </button>
         </div>
         <Calendar
-          onChange={(v,e) => {console.log(e)}}
           value={value}
           locale="ko"
           calendarType="gregory"

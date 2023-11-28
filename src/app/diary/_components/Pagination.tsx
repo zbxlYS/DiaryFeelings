@@ -44,7 +44,7 @@ const Pagination = ({ total, limit, page }: Props) => {
     }
 
     return (
-        <div className="flex px-[100px] h-[50px] border rounded-md mb-[100px] items-center justify-center dark:bg-[#474747]">
+        <div className="flex px-[100px] h-[50px] border rounded-md mb-[100px] items-center justify-center dark:bg-[#474747] shadow-lg">
             <div className="flex items-center h-full">
                 {
                     prev > 1 && (

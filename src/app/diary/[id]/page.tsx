@@ -2,7 +2,6 @@
 
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import UpLoading from '@/app/write/_components/UpLoading'
 import { notFound } from 'next/navigation'
 import { IDiary } from '@/app/types/type'
 import Image from 'next/image'
@@ -23,7 +22,7 @@ import Snowy from '@/app/components/weathers/Snowy'
 import Windy from '@/app/components/weathers/Windy'
 import Rainy from '@/app/components/weathers/Rainy'
 import Cloudy from '@/app/components/weathers/Cloudy'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 interface Props {
   id: string
 }
@@ -64,7 +63,6 @@ const DiaryDetail = ({ params }: { params: Props }) => {
     const data = result.data
     setView((prev) => data.result)
     setFont(() => data.result.diary_font)
-    console.log(data.result.image_src.split(','))
     setImg((prev) => {
       return data.result.image_src.split(',')
     })
@@ -89,14 +87,12 @@ const DiaryDetail = ({ params }: { params: Props }) => {
         })
 
         if (response.data.msg === 'success') {
-          alert('삭제 되었습니다🤗')
-          window.location.href = '/diary?page=1'
+          alert('삭제되었습니다🤗')
+          router.push('/diary?page=1')
         }
       } catch (error) {
         alert('삭제에 실패했어요🥲\n 다시 시도해 주세요')
       }
-    } else {
-      alert('삭제에 실패했어요🥲\n 다시 시도해 주세요')
     }
   }
 

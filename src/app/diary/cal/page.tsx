@@ -36,7 +36,6 @@ const CalView = () => {
         
         )
         const data = result.data
-        console.log(data)
         setView(prev => data.result)
         setUserImg(prev => data.user_image)
     }

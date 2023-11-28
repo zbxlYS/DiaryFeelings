@@ -91,7 +91,6 @@ const Nav: React.FC<SearchComponentProps> = () => {
     const data = response.data
     const userData = userResult.data.result[0]
 
-    console.log(data)
     if (response.status === 200) {
       // console.log(data.userImg)
       const img = data.userimg[0]?.user_image
@@ -373,11 +372,10 @@ const Nav: React.FC<SearchComponentProps> = () => {
             {/* 다크모드 변경모드  */}
             <button
               type="button"
-              className={
-                !isLogin
-                  ? `w-10 h-10 right-[11.5rem] top-[15px] absolute `
-                  : `w-10 h-10 right-[8.3rem] top-[18px] absolute `
-              }
+              className={`${!isLogin
+                ? 'w-10 h-10 right-[11.5rem] top-[15px] absolute'
+                : 'w-10 h-10 right-[8.3rem] top-[18px] absolute'}
+                p-[5px] flex justify-center items-center rounded-md bg-[#eee] hover:bg-[#ddd] dark:bg-[#555] dark:hover:bg-[#666]`}
               onClick={() => {
                 setTheme(currentTheme === 'dark' ? 'light' : 'dark')
               }}
@@ -387,7 +385,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                   <Image
                     src="/sun.svg"
                     alt="Sun Logo"
-                    className="w-[35px] hover:opacity-60 transition duration-300 hover:bg-purple-500 rounded-full"
+                    className="w-[35px]"
                     width={40}
                     height={40}
                     priority
@@ -397,7 +395,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 <Image
                   src="/dark.svg"
                   alt="Dark Logo"
-                  className="w-[35px] pl-[3px] pt-1 pb-1  opacity-70 hover:opacity-50 transition duration-300 hover:bg-purple/50 rounded-full"
+                  className="w-[35px] p-1"
                   width={50}
                   height={50}
                   priority

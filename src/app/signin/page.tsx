@@ -7,6 +7,7 @@ import React from 'react'
 import { Input } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
 import styles from './styles.module.css'
+import LottieCat from '@/app/components/LottieCat'
 
 const Login = () => {
   // useRef로 아이디랑, 비밀번호 값 가져오기.
@@ -16,6 +17,7 @@ const Login = () => {
   const [id, setId] = useState('')
   const [password, setPassword] = useState('')
   const router = useRouter()
+  const [login, setLogin] = useState(false)
 
   const handleLogin = async () => {
     if (!id) {
@@ -26,7 +28,7 @@ const Login = () => {
       alert('패스워드를 입력해주세요.')
       return
     }
-
+    setLogin(true)
     const result = await signIn('credentials', {
       username: id,
       password: password,
@@ -42,6 +44,7 @@ const Login = () => {
       idRef.current?.focus()
     } else {
       router.push('/diary?page=1')
+      setLogin(false)
     }
   }
   const handleJoin = () => {
@@ -93,7 +96,10 @@ const Login = () => {
     }
   }
   return (
-    <div className="flex flex-col">
+    login ? (
+      <LottieCat text="로그인 중이에요"/>
+    ) : (
+<div className="flex flex-col">
       <div className="flex justify-center items-center h-full mt-[15px]">
         <div className="relative h-full flex justify-center items-center p-[60px] px-[130px] border border-purple/40 rounded-2xl shadow-lg dark:bg-[#474747] dark:border-[#666]">
           <div className=" mx-auto flex flex-col items-center justify-center ">
@@ -213,6 +219,7 @@ const Login = () => {
       </div>
       <div className="h-20 w-20"></div>
     </div>
+    )
   )
 }
 

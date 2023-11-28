@@ -57,7 +57,7 @@ type EmotionImg = {
 const emotionImg: EmotionImg = {
   happy: { src: '/3_love.png', text: '늘 행복해 :)', emo: '행복', mean: '' },
   suprise: { src: '/normal.png', text: '엄마야!', emo: '놀람', mean: '' },
-  angry: { src: '/angry.png', text: '너무 화가난다아', emo: '분노', mean: '' },
+  angry: { src: '/angry.png', text: '너무 화가 난다아', emo: '분노', mean: '' },
   sad: { src: '/sad.png', text: '너무 슬퍼 :(', emo: '슬픔', mean: '' },
   depress: {
     src: '/depress.png',
@@ -67,7 +67,7 @@ const emotionImg: EmotionImg = {
   },
   normal: {
     src: '/nothinking.png',
-    text: '나는 아무생각이없어',
+    text: '나는 아무 생각이 없어',
     emo: '중립',
     mean: '',
   },
@@ -77,7 +77,7 @@ const emotionImg: EmotionImg = {
 const weather: EmotionImg = {
   sunny: { src: <Sunny />, emo: '맑음' },
   cloudy: { src: <Cloudy />, emo: '흐림' },
-  snowwy: { src: <Snowy />, emo: '눈' },
+  snowy: { src: <Snowy />, emo: '눈' },
   rainy: { src: <Rainy />, emo: '비' },
   windy: { src: <Windy />, emo: '바람' },
 }
@@ -219,7 +219,7 @@ const page = () => {
                   ✏️ 최근 일기 목록
                 </h1>
                 <span className="opacity-70">
-                  최근 10일 동안 작성한 일기를 볼 수 있어요 !!
+                  최근 10일 동안 작성한 일기를 볼 수 있어요✨
                 </span>
                 {/* 최근 일기목록  */}
                 <div className={'h-[23rem] flex flex-row justify-center mt-5 '}>
@@ -273,7 +273,7 @@ const page = () => {
                           key={src.diary_number}
                           className="relative w-[20rem] h-[21rem] bg-white dark:bg-[#474747] mb-10 rounded-2xl ml-4 mr-5 mt-5 shadow-lg border border-neutral-200 dark:border-[#666] hover:scale-105 transition-transform duration-400 cursor-grab dark:text-[#eee]"
                         >
-                          <div className="absolute right-3 top-[8.3rem] flex items-center justify-center  w-14 h-14 border border-neutral-100 rounded-full z-20 bg-white overflow-hidden">
+                          <div className="absolute right-3 top-[8.3rem] flex items-center justify-center  w-14 h-14 border border-neutral-100 rounded-full z-20 shadow-lg bg-white dark:border-[#666] dark:bg-[#555] overflow-hidden">
                             <Image
                               // 추가할곳
                               src={
