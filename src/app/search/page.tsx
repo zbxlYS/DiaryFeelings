@@ -49,12 +49,10 @@ const Search = () => {
     <LottieCat text={'읽어오고 있어요'} />
   ) : search ? (
     <div className="w-full mt-[100px] flex flex-col justify-center items-center">
-      <div className=" h-[50px] rounded-md flex justify-around items-center self-start ml-[110px] mb-[50px]">
-        <div>
-          "{keyword}" 에 대한 검색 결과 ({total}개)
-        </div>
+      <div className="w-[1280px] items-start mt-5 mb-8 ml-[7rem] text-base">
+        " {keyword} " 에 대한 검색 결과 ({total}개)
       </div>
-      <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
+      <div className="flex flex-wrap mt-[30px] w-[1280px] justify-start">
         {view.map((data: IDiary, index: number) => (
           <DiaryLayout key={data.diary_number} data={data} userImg={userImg} />
         ))}

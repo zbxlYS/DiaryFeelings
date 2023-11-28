@@ -300,7 +300,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                     selectedKeys={selectedKeys}
                     // Update the onSelectionChange handler to use Set<KeyType>
                     onSelectionChange={(keys) => setSelectedKeys(keys)}
-                    void={undefined}
+                    // void={undefined}
                   >
                     <DropdownItem key="기록선택">기록 선택</DropdownItem>
                     <DropdownItem key="달력">
@@ -409,7 +409,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 value={inputValue}
                 onChange={getSearchData}
                 onKeyDown={onEnterPress}
-                className="absolute w-[90%] max-w-[60%] h-full left-[3rem] border-none outline-none dark:bg-[#171717]"
+                className="absolute w-[90%] max-w-[60%] h-full left-[3rem] border-none outline-none dark:bg-[#666] border border-[#eee] dark:border-[#666] hover:border-1"
               ></input>
             </div>
             <div className="left-[4rem] top-[19px] absolute text-black dark:text-white">

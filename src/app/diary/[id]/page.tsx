@@ -23,6 +23,7 @@ import Snowy from '@/app/components/weathers/Snowy'
 import Windy from '@/app/components/weathers/Windy'
 import Rainy from '@/app/components/weathers/Rainy'
 import Cloudy from '@/app/components/weathers/Cloudy'
+import { useRouter } from 'next/router'
 interface Props {
   id: any
 }
@@ -36,7 +37,7 @@ const DiaryDetail = ({ params }: { params: Props }) => {
   const [font, setFont] = useState(0)
   const num = parseInt(params.id)
   const [loading, setLoading] = useState(true)
-  const router = useRouter()
+  // const router = useRouter()
   const fontList = [
     ['프리텐다드', pretendard.className],
     ['바른히피', bareun.className],
