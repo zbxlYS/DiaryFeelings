@@ -1,7 +1,7 @@
 'use client'
 
 import { useTheme } from 'next-themes'
-import React, { ChangeEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useSession } from 'next-auth/react'
@@ -54,12 +54,13 @@ const Nav: React.FC<SearchComponentProps> = () => {
   // 로그인후 사용자 아이콘 클릭시 모달생성
   const handleButtonClick = () => {
     setIsModalOpen(!isModalOpen)
-    setIsCalendarOpen(prev => false)
+    setIsCalendarOpen((prev) => false)
     // console.log('isModalOpen', isModalOpen)
   }
   // console.log(userImg)
+
   /* Get Search Data from input tag */
-  const getSearchData = (e: ChangeEvent<HTMLInputElement>) => {
+  const getSearchData = (e: any) => {
     setInputValue(e.target.value.toLowerCase())
   }
 
@@ -68,6 +69,14 @@ const Nav: React.FC<SearchComponentProps> = () => {
     router.push(`/search?keyword=${inputValue}&page=1`)
     setInputValue('')
   }
+
+  /* Search Function */
+  const onEnterPress = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      onClickSearch()
+    }
+  }
+
   // 현진 : 사용자 이미지 150번줄
   // image 로직있고 userImg = useState 쓰는중
   useEffect(() => {
@@ -127,15 +136,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
   }, [session])
   if (status === 'unauthenticated') {
     // 인증 안 됨(로그인 안 돼있을 때 보여줄 Nav)
-    return (
-      <NotLoginNav isLogin={isLogin}/>
-    )
-  }
-  const doSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    const code = e.key;
-    if(code === 'Enter') {
-      onClickSearch()
-    }
+    return <NotLoginNav isLogin={isLogin} />
   }
 
   return (
@@ -238,7 +239,12 @@ const Nav: React.FC<SearchComponentProps> = () => {
                         pathname === '/write' ? 'text-purple ' : ''
                       }`}
                     >
-                      <span className=" text-base" onClick={() => setIsCalendarOpen(prev => false)}>일기 작성</span>
+                      <span
+                        className=" text-base"
+                        onClick={() => setIsCalendarOpen((prev) => false)}
+                      >
+                        일기 작성
+                      </span>
                     </div>
                   </Link>
                 </div>
@@ -278,7 +284,12 @@ const Nav: React.FC<SearchComponentProps> = () => {
                       pathname === '/diary' ? 'text-purple ' : ''
                     }`}
                   >
-                    <span className="text-base" onClick={() => setIsCalendarOpen(prev => false)}>일기 기록</span>
+                    <span
+                      className="text-base"
+                      onClick={() => setIsCalendarOpen((prev) => false)}
+                    >
+                      일기 기록
+                    </span>
                   </div>
                 </Link>
 
@@ -327,7 +338,12 @@ const Nav: React.FC<SearchComponentProps> = () => {
                             pathname === '/diary' ? 'text-purple ' : ''
                           }`}
                         >
-                          <span className="text-sm" onClick={() => setIsCalendarOpen(prev => false)}>일기 기록</span>
+                          <span
+                            className="text-sm"
+                            onClick={() => setIsCalendarOpen((prev) => false)}
+                          >
+                            일기 기록
+                          </span>
                         </div>
                       </Link>
                     </DropdownItem>
@@ -338,7 +354,12 @@ const Nav: React.FC<SearchComponentProps> = () => {
                             pathname === '/write' ? 'text-purple ' : ''
                           }`}
                         >
-                          <span className=" text-sm" onClick={() => setIsCalendarOpen(prev => false)}>일기 작성</span>
+                          <span
+                            className=" text-sm"
+                            onClick={() => setIsCalendarOpen((prev) => false)}
+                          >
+                            일기 작성
+                          </span>
                         </div>
                       </Link>
                     </DropdownItem>
@@ -400,7 +421,7 @@ const Nav: React.FC<SearchComponentProps> = () => {
                 placeholder="일기 검색 . . ."
                 value={inputValue}
                 onChange={getSearchData}
-                onKeyDown={doSearch}
+                onKeyDown={onEnterPress}
                 className="absolute w-[90%] max-w-[60%] h-full left-[3rem] outline-none border-none outline-none dark:bg-[#666]"
               ></input>
             </div>

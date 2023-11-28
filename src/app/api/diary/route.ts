@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server'
 
 import axios from "axios";
 import moment from "moment";
@@ -6,7 +6,7 @@ import queryPromise from "@/app/lib/db";
 import { verifyJwt } from "@/app/lib/jwt";
 export const api = {
   bodyParse: false,
-};
+}
 
 // GET 가져오기
 // POST 작성
@@ -19,6 +19,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
   const diaryNum = data.diary_number;
 
   try {
+    // delete in tb_imag
     // delete in tb_diary
     // 다이어리를 삭제하면 다이어리 이미지도 같이 삭제됨.
     let sql = "DELETE FROM tb_diary WHERE user_id = ? AND diary_number = ?";
@@ -26,8 +27,7 @@ export async function DELETE(req: NextRequest, res: NextResponse) {
     let result = await queryPromise(sql, values);
     return NextResponse.json({ msg: "success" });
   } catch (err) {
-    console.log(err);
-    return NextResponse.json({ result: "error" });
+    return NextResponse.json({ result: 'error' })
   }
 }
 
@@ -55,8 +55,8 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
   // 변환했는데 숫자가 아닐 경우 0으로.
   const offset = isNaN((parseInt(curPage) - 1) * 6)
     ? 0
-    : (parseInt(curPage) - 1) * 6;
-  const getNum = 6;
+    : (parseInt(curPage) - 1) * 6
+  const getNum = 6
 
   let sql = "SELECT count(*) FROM tb_diary WHERE user_id = ? ";
   sql += `and DATE(created_at) BETWEEN '${start}' and '${end}' ORDER BY created_at DESC`;
@@ -76,8 +76,8 @@ export const GET = async (req: NextRequest, res: NextResponse) => {
     result: result,
     total: total,
     userImage: image[0],
-  });
-};
+  })
+}
 
 export async function POST(req: NextRequest, res: NextResponse) {
   const data = await req.formData();
@@ -103,15 +103,15 @@ export async function POST(req: NextRequest, res: NextResponse) {
         Authorization: `mlru ${accessToken}`,
       },
     },
-  );
-  console.log(predictEmo.data); // 감정 숫자.
+  )
+  console.log(predictEmo.data) // 감정 숫자.
 
   const maxEmotion = Object.entries(predictEmo.data).reduce(
     (max: any, [key, value]: any) => {
-      return value > max[1] ? [key, value] : max;
+      return value > max[1] ? [key, value] : max
     },
-    ["", -Infinity],
-  );
+    ['', -Infinity],
+  )
 
   const predictSumm = await axios.post(
     `${process.env.BASE_URL}/api/summary`,
@@ -121,9 +121,9 @@ export async function POST(req: NextRequest, res: NextResponse) {
         Authorization: `mlru ${accessToken}`,
       },
     },
-  );
+  )
 
-  console.log(predictSumm.data); // 내용 요약.
+  console.log(predictSumm.data) // 내용 요약.
 
   const predictAdvice = await axios.post(
     `${process.env.BASE_URL}/api/advice`,
@@ -133,24 +133,24 @@ export async function POST(req: NextRequest, res: NextResponse) {
         Authorization: `mlru ${accessToken}`,
       },
     },
-  );
-  console.log(predictAdvice.data); // 조언
+  )
+  console.log(predictAdvice.data) // 조언
 
   const weatherQuery: { [key: string]: string } = {
-    맑음: "sunny",
-    흐림: "cloudy",
-    비: "rainy",
-    바람: "windy",
-    눈: "snowy",
-  };
+    맑음: 'sunny',
+    흐림: 'cloudy',
+    비: 'rainy',
+    바람: 'windy',
+    눈: 'snowy',
+  }
   const emotionQuery: { [key: string]: string } = {
-    중립: "normal",
-    슬픔: "sadness",
-    분노: "angry",
-    놀람: "amazing",
-    행복: "happiness",
-    불안: "unhappiness",
-  };
+    중립: 'normal',
+    슬픔: 'sadness',
+    분노: 'angry',
+    놀람: 'amazing',
+    행복: 'happiness',
+    불안: 'unhappiness',
+  }
   const query = `${weather} day, feel ${
     emotionQuery[maxEmotion[0]]
   } in the picture`;
@@ -165,25 +165,25 @@ export async function POST(req: NextRequest, res: NextResponse) {
         Authorization: `mlru ${accessToken}`,
       },
     },
-  );
-  console.log(predictImg.data);
-  imgSrc += `${predictImg.data.result},`;
-  console.log(imgSrc);
-  const img = data.get("img") as File;
+  )
+  console.log(predictImg.data)
+  imgSrc += `${predictImg.data.result},`
+  console.log(imgSrc)
+  const img = data.get('img') as File
   if (img) {
-    const fb = new FormData();
-    fb.append("image", img);
-    const result = await axios.post("https://api.imgur.com/3/upload", fb, {
+    const fb = new FormData()
+    fb.append('image', img)
+    const result = await axios.post('https://api.imgur.com/3/upload', fb, {
       headers: {
         Authorization: `Client-ID ${process.env.IMGUR_KEY}`,
-        Accept: "application/json",
+        Accept: 'application/json',
       },
-    });
-    imgSrc += `${result.data.data.link}`;
+    })
+    imgSrc += `${result.data.data.link}`
   }
 
   try {
-    let sql = "INSERT INTO tb_diary VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    let sql = 'INSERT INTO tb_diary VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)'
     let values = [
       null,
       id,
@@ -206,45 +206,45 @@ export async function POST(req: NextRequest, res: NextResponse) {
     await queryPromise(sql, values);
     return NextResponse.json({ result: result });
   } catch (err) {
-    console.log(err);
-    return NextResponse.json({ result: "error" });
+    console.log(err)
+    return NextResponse.json({ result: 'error' })
   }
 }
 
 export const PUT = async (req: Request) => {
-  const data = await req.formData();
-  const images: any[] = [];
+  const data = await req.formData()
+  const images: any[] = []
   data.forEach((v, k) => {
-    images.push(v);
-  });
-  const imgs: any[] = [];
+    images.push(v)
+  })
+  const imgs: any[] = []
 
   const uploadImages = async () => {
     for (const v of images) {
-      const fb = new FormData();
-      fb.append("image", v);
+      const fb = new FormData()
+      fb.append('image', v)
 
       try {
-        const result = await axios.post("https://api.imgur.com/3/upload", fb, {
+        const result = await axios.post('https://api.imgur.com/3/upload', fb, {
           headers: {
             Authorization: `Client-ID ${process.env.IMGUR_KEY}`,
-            Accept: "application/json",
+            Accept: 'application/json',
           },
-        });
-        imgs.push(result.data.data.link);
+        })
+        imgs.push(result.data.data.link)
       } catch (error) {
-        console.log(error);
-        return 0;
+        console.log(error)
+        return 0
       }
     }
-    return imgs;
-  };
-
-  const result = await uploadImages();
-  if (result === 0) {
-    return NextResponse.json({ result: "error" });
+    return imgs
   }
-  console.log(result);
 
-  return NextResponse.json({ result: imgs });
-};
+  const result = await uploadImages()
+  if (result === 0) {
+    return NextResponse.json({ result: 'error' })
+  }
+  console.log(result)
+
+  return NextResponse.json({ result: imgs })
+}
