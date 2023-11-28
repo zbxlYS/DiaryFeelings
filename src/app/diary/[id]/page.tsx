@@ -2,7 +2,8 @@
 
 import axios from 'axios'
 import { useEffect, useState } from 'react'
-import { notFound, useRouter } from 'next/navigation'
+import UpLoading from '@/app/write/_components/UpLoading'
+import { notFound } from 'next/navigation'
 import { IDiary } from '@/app/types/type'
 import Image from 'next/image'
 import moment from 'moment'
@@ -31,7 +32,7 @@ const DiaryDetail = ({ params }: { params: Props }) => {
   const userObj = session?.user?.id as string
   const [view, setView] = useState<IDiary>()
   const [img, setImg] = useState<string[]>([])
-  const [selImg, setSelImg] = useState('');
+  const [selImg, setSelImg] = useState('')
   const [font, setFont] = useState(0)
   const num = parseInt(params.id)
   const [loading, setLoading] = useState(true)
@@ -58,10 +59,10 @@ const DiaryDetail = ({ params }: { params: Props }) => {
     setView((prev) => data.result)
     setFont(() => data.result.diary_font)
     console.log(data.result.image_src.split(','))
-    setImg(prev => {
+    setImg((prev) => {
       return data.result.image_src.split(',')
     })
-    setSelImg(prev => data.result.image_src.split(',')[0])
+    setSelImg((prev) => data.result.image_src.split(',')[0])
     setLoading(false)
     console.log('view', data)
 
@@ -77,25 +78,24 @@ const DiaryDetail = ({ params }: { params: Props }) => {
   const handleDelete = async (e: any) => {
     e.preventDefault()
     /* get user id from session */
+    if (confirm('정말 삭제하시겠어요?')) {
+      try {
+        const response = await axios.delete(`http://localhost:3000/api/diary`, {
+          data: {
+            id: userObj,
+            diary_number: view?.diary_number,
+          },
+        })
 
-    console.log(userObj)
-    try {
-      const response = await axios.delete(`http://localhost:3000/api/diary`, {
-        data: {
-          id: userObj,
-          diary_number: view?.diary_number,
-        },
-      })
-
-      if (response.data.msg === 'success') {
-        alert('삭제 완료~')
-        router.push('/diary?page=1')
-      } else {
-        alert('삭제 실패~')
+        if (response.data.msg === 'success') {
+          alert('삭제 되었습니다🤗')
+          window.location.href = '/diary?page=1'
+        }
+      } catch (error) {
+        alert('삭제에 실패했어요🥲\n 다시 시도해 주세요')
       }
-    } catch (error) {
-      console.error(error)
-      alert('삭제 실패~')
+    } else {
+      alert('삭제에 실패했어요🥲\n 다시 시도해 주세요')
     }
   }
 
@@ -112,7 +112,7 @@ const DiaryDetail = ({ params }: { params: Props }) => {
         <div className="border shadow-lg absolute p-[10px] rounded-md my-[20px] flex flex-col justify-center items-center top-[-20px] right-[-150px] dark:bg-[#474747]">
           {/* weather */}
           <div className="relative flex flex-col justify-center items-center w-24 h-24 mb-3">
-            <span className='mt-2'>오늘의 날씨</span>
+            <span className="mt-2">오늘의 날씨</span>
             {view?.diary_weather === 'sunny' && <Sunny />}
             {view?.diary_weather === 'rainy' && <Rainy />}
             {view?.diary_weather === 'cloudy' && <Cloudy />}
@@ -155,24 +155,21 @@ const DiaryDetail = ({ params }: { params: Props }) => {
           <div className="mt-[30px] w-full flex">
             <div className="mr-[30px] h-[350px] shadow-lg dark:bg-[#666] border hover:border-1 focus-within:border-1 ">
               <div className="w-[300px] h-[300px] p-3 rounded-md object-contain flex justify-center items-center overflow-hidden">
-                {
-                  <Image
-                    src={selImg}
-                    alt="preview"
-                    width={300}
-                    height={300}
-                  />
-                }
+                {<Image src={selImg} alt="preview" width={300} height={300} />}
               </div>
-              <div className='flex justify-center items-center gap-[30px]'>
-                {
-                  img.map((data, index) => (
-                    data && <span key={index}
-                      onClick={() => setSelImg(prev => img[index])}
-                      className='p-1 px-[10px] cursor-pointer hover:text-[#b2a4d4] dark:text-[white] dark:hover:text-[#b2a4d4]'
-                    >{index+1}</span>
-                  ))
-                }
+              <div className="flex justify-center items-center gap-[30px]">
+                {img.map(
+                  (data, index) =>
+                    data && (
+                      <span
+                        key={index}
+                        onClick={() => setSelImg((prev) => img[index])}
+                        className="p-1 px-[10px] cursor-pointer hover:text-[#b2a4d4] dark:text-[white] dark:hover:text-[#b2a4d4]"
+                      >
+                        {index + 1}
+                      </span>
+                    ),
+                )}
               </div>
             </div>
             <div className="w-full flex flex-col">

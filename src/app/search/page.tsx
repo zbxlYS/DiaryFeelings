@@ -11,7 +11,7 @@ import NoResult from './_component/NoResult'
 import LottieCat from '@/app/components/LottieCat'
 
 const Search = () => {
-  const { data: session, status } = useSession();
+  const { data: session, status } = useSession()
   const params = useSearchParams()
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(6)
@@ -28,7 +28,7 @@ const Search = () => {
   }, [curPage])
 
   const getDiary = async () => {
-    if(status === 'authenticated') {
+    if (status === 'authenticated') {
       setLoading(true)
       const result = await axios.get(
         `/api/search?userId=${session.user?.id}&keyword=${keyword}&page=${curPage}`,
@@ -41,33 +41,28 @@ const Search = () => {
       setLoading(false)
     }
   }
-// <div>검색 결과가 없어요😥 검색어를 다시 한 번 확인해 주세요</div>
   useEffect(() => {
     getDiary()
   }, [keyword, session])
 
-  return (
-    loading ? (
-      <LottieCat text={"읽어오고 있어요"}/>
-    ) : (
-      search ? (
-        <div className="w-full mt-[100px] flex flex-col justify-center items-center">
-        <div className=" h-[50px] rounded-md flex justify-around items-center self-start ml-[110px] mb-[50px]">
-          <div>
-            "{keyword}" 에 대한 검색 결과 ({total}개)
-          </div>
+  return loading ? (
+    <LottieCat text={'읽어오고 있어요'} />
+  ) : search ? (
+    <div className="w-full mt-[100px] flex flex-col justify-center items-center">
+      <div className=" h-[50px] rounded-md flex justify-around items-center self-start ml-[110px] mb-[50px]">
+        <div>
+          "{keyword}" 에 대한 검색 결과 ({total}개)
         </div>
-        <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
-            {view.map((data: IDiary, index: number) => (
-              <DiaryLayout key={data.diary_number} data={data} userImg={userImg} />
-            ))}
-        </div>
-        <Pagination total={total} limit={6} page={page} keyword={keyword}/>
       </div>
-      ) : (
-        <NoResult />
-      )
-    )
+      <div className="flex flex-wrap w-[1280px] justify-start mt-[30px]">
+        {view.map((data: IDiary, index: number) => (
+          <DiaryLayout key={data.diary_number} data={data} userImg={userImg} />
+        ))}
+      </div>
+      <Pagination total={total} limit={6} page={page} keyword={keyword} />
+    </div>
+  ) : (
+    <NoResult />
   )
 }
 export default Search
