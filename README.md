@@ -240,9 +240,9 @@
 
 ## 4.1 감정분석 데이터셋 
 
-### 4.1.1 기능명: 텍스트 기반 감정 분석
+#### 텍스트 기반 감정 분석
 
-####  4.1.1.1 데이터 준비
+####  4.1.1 데이터 준비
 
 | 데이터 정의   | 감정이 분류된 텍스트                                         |
 |--------------|---------------------------------------------------------|
@@ -258,11 +258,11 @@
 - 불안
 - 중립 등의 감정이 분류된 데이터.
 
-#### 4.1.1.2 감성 대화 말뭉치 
+#### 4.1.2 감성 대화 말뭉치 
 
 <img width="482" alt="image" src="https://github.com/JS-A-CoreProject/DiaryFeelings/assets/116487398/87bc7147-7e55-4edc-aac6-bba2bce66fbc">
 
-#### 4.1.1.3 웰니스 상담 스크립트 
+#### 4.1.3 웰니스 상담 스크립트 
 
 <img width="382" alt="image" src="https://github.com/JS-A-CoreProject/DiaryFeelings/assets/116487398/9e1d8c7c-02f1-404e-957e-8073a59f2e8e">
 
@@ -346,7 +346,53 @@
 <hr/>
 
 
-## 4.3 폴더구조
+
+## 4.3 테이블 명세서 
+
+## 회원 테이블 (tb_user)
+
+| 컬럼명            | 컬럼 ID         | 타입           | 길이      | NN | PK | FK | UK | CK | 비고           |
+|-------------------|-----------------|----------------|----------|----|----|----|----|----|----------------|
+| 회원번호           | user_number     | INT UNSIGNED  |          | Y  |    |    |    |    |                |
+| 회원ID            | user_id         | VARCHAR(30)   |          | Y  | Y  |    |    |    |                |
+| 비밀번호          | user_password   | VARCHAR(130)  |          | Y  |    |    |    |    |                |
+| 비밀번호 salt     | user_salt       | VARCHAR(130)  |          | Y  |    |    |    |    |                |
+| 회원 이름         | user_name       | VARCHAR(30)   |          | Y  |    |    |    |    |                |
+| 로그인 형태       | user_provider   | VARCHAR(20)   |          |    |    |    |    |    |                |
+| 가입 날짜         | created_time    | DATETIME      |          |    |    |    |    |    |                |
+| 수정 날짜         | updated_time    | DATETIME      |          |    |    |    |    |    |                |
+| 프로필 사진       | user_image      | VARCHAR(500)  |          |    |    |    |    |    |                |
+
+## 일기 정보 테이블 (tb_diary)
+
+| 컬럼명            | 컬럼 ID         | 타입           | 길이      | NN | PK | FK | UK | CK | 비고           |
+|-------------------|-----------------|----------------|----------|----|----|----|----|----|----------------|
+| 일기 번호         | diary_number    | INT UNSIGNED  |          | Y  |    |    |    |    |                |
+| 회원 ID           | user_id         | VARCHAR(30)   |          | Y  |    | Y  |    |    |                |
+| 회원 이름         | user_name       | VARCHAR(30)   |          |    |    | Y  |    |    |                |
+| 일기 제목         | diary_title     | VARCHAR(500)  |          |    |    |    |    |    |                |
+| 일기 내용         | diary_content   | TEXT          |          |    |    |    |    |    |                |
+| 감정              | diary_emotion   | VARCHAR(100)  |          |    |    |    |    |    |                |
+| 날씨              | diary_weather   | VARCHAR(50)   |          |    |    |    |    |    |                |
+| 폰트              | diary_font      | VARCHAR(1000) |          |    |    |    |    |    |                |
+| 조언              | diary_advice    | VARCHAR(64)   |          |    |    |    |    |    |                |
+| 생성 날짜         | created_time    | DATETIME      |          |    |    |    |    |    |                |
+| 수정 날짜         | updated         | DATETIME      |          |    |    |    |    |    |                |
+| 사용자 선택 감정  | diary_userEmo   | VARCHAR(50)   |          |    |    |    |    |    |                |
+| 사용자 선택 날짜  | user_date       | DATETIME      |          |    |    |    |    |    |                |
+
+## 토큰 테이블 (tb_refresh_token)
+
+| 컬럼명            | 컬럼 ID         | 타입           | 길이      | NN | PK | FK | UK | CK | 비고           |
+|-------------------|-----------------|----------------|----------|----|----|----|----|----|----------------|
+| 회원 ID           | user_id         | VARCHAR(30)   |          | Y  |    |    |    |    |                |
+| refresh 토큰      | user_token      | VARCHAR(255)  |          |    |    |    |    |    |                |
+
+
+
+<hr/>
+
+## 5.3 폴더구조
 
 ##### 11.13일 전체적으로 Merge 완료 (update)
 
@@ -366,8 +412,6 @@
           └── README.md
 
 <hr/>
-
-## 5.3 데이터 베이스
 
 
 # 5. 협업툴
