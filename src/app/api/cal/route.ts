@@ -22,7 +22,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
         return new Response(JSON.stringify({"result":"No Authorization"}))
     }
 
-    let sql = `SELECT diary_number, diary_userEmo, created_at FROM tb_diary WHERE MONTH(created_at) = ? AND YEAR(created_at) = ? AND user_id = ? `
+    let sql = `SELECT diary_number, diary_userEmo, created_at, diary_userDate FROM tb_diary WHERE MONTH(created_at) = ? AND YEAR(created_at) = ? AND user_id = ? `
     let result = await queryPromise(sql, [month, year, user]);
     
     return NextResponse.json({ result })
@@ -48,10 +48,10 @@ export const POST = async(req: Request, res: NextResponse) => {
   const getNum = 6
 
   let sql = 'SELECT count(*) FROM tb_diary WHERE user_id = ? '
-  sql += 'and DATE(created_at) = ?'
+  sql += 'and DATE(diary_userDate) = ?'
   let result = await queryPromise(sql, [user, date])
   const total = result[0]['count(*)']
-  sql = `SELECT A.*, B.image_src FROM tb_diary as A LEFT JOIN tb_image as B ON A.diary_number = B.diary_number WHERE A.user_id = ? and DATE(A.created_at) = ? LIMIT ${getNum} OFFSET ${offset}`
+  sql = `SELECT A.*, B.image_src FROM tb_diary as A LEFT JOIN tb_image as B ON A.diary_number = B.diary_number WHERE A.user_id = ? and DATE(A.diary_userDate) = ? LIMIT ${getNum} OFFSET ${offset}`
   result = await queryPromise(sql, [user, date])
   sql = 'SELECT user_image FROM tb_user WHERE user_id = ?';
   const image = await queryPromise(sql, [user])

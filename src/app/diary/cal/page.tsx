@@ -22,9 +22,9 @@ const CalView = () => {
     const { data: session } = useSession()
 
     const getData = async() => {
-        const result = await axios.post(`http://localhost:3000/api/cal`, {
+        const result = await axios.post(`http://121.66.158.211:3000/api/cal`, {
             date: date,
-            userId: user.id,
+            userId: session?.user?.id,
             page: page
         },
         {

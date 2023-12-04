@@ -54,7 +54,7 @@ const ModalCalendar = ({ isOpen, closeModal, setIsCalendarOpen }: any) => {
     e.stopPropagation()
 
     const formattedDate = moment(value).format('YYYY-MM-DD')
-    const matchingEmotion: any = dateArr.find((x: any) => moment(x.created_at).format('YYYY-MM-DD') === formattedDate)
+    const matchingEmotion: any = dateArr.find((x: any) => moment(x.diary_userDate).format('YYYY-MM-DD') === formattedDate)
     if(matchingEmotion) {
       router.push(`/diary/cal?date=${formattedDate}&page=1`)
       setIsCalendarOpen(false)
@@ -80,7 +80,7 @@ const ModalCalendar = ({ isOpen, closeModal, setIsCalendarOpen }: any) => {
     }
 
     const formattedDate = moment(date).format('YYYY-MM-DD')
-    const matchingEmotion: any = dateArr.find((x: any) => moment(x.created_at).format('YYYY-MM-DD') === formattedDate)
+    const matchingEmotion: any = dateArr.find((x: any) => moment(x.diary_userDate).format('YYYY-MM-DD') === formattedDate)
     if (matchingEmotion) {
       return (
         <div className="dot" key={formattedDate}>

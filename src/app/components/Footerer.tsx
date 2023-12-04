@@ -41,9 +41,9 @@ const Footer: React.FC = () => {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Relu Molu
+            ReluMolu
           </a>{' '}
-          - 인공지능사관학교 ReluMolu에 대해 알고 싶다면 {''}
+          / 인공지능사관학교의 ReluMolu에 대해 알고 싶다면 {''}
           <a
             href="https://github.com/JS-A-CoreProject/DiaryFeelings"
             target="_blank"

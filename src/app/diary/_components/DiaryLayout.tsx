@@ -66,7 +66,7 @@ const Diary = ({ data, userImg }: Props) => {
         <div className="flex flex-col ml-[15px] justify-center">
           <span className="text-white-600 text-[14px] dark:text-[white]">{data.user_name}</span>
           <span className="text-white-400 text-[12px] dark:text-[#eee]">
-            {moment(data.created_at).format('YYYY-MM-DD-HH:MM')}
+            {moment(data.diary_userDate).format('YYYY-MM-DD-HH:MM')}
           </span>
         </div>
       </div>

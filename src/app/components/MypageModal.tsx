@@ -1,13 +1,12 @@
 'use client'
-import React, { useRef, useState } from 'react'
+import React from 'react'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import axios from 'axios'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { usePathname, useRouter } from 'next/navigation'
+import { useRecoilValue } from 'recoil'
 import { userInfo } from '../lib/atoms/atom'
-import Snow from '../emotion/_components/Snow'
 interface MypageModalProps {
   closeModal: () => void
   user: any
@@ -23,24 +22,11 @@ const MypageModal: React.FC<MypageModalProps> = ({
   themeOnClick,
   snowTheme,
 }) => {
-  const idRef = useRef<HTMLInputElement>(null)
-  const pwRef = useRef<HTMLInputElement>(null)
   const { data: session } = useSession()
   const pathname = usePathname()
   const userData = useRecoilValue(userInfo)
+  const router = useRouter()
 
-  const handleSubmit = async () => {
-    if (!idRef.current && !pwRef.current) return null
-    const user_id = idRef.current?.value
-    const password = pwRef.current?.value
-
-    const result = await signIn('credentials', {
-      username: user_id,
-      password: password,
-      redirect: false,
-      callbackUrl: '/',
-    })
-  }
   const handleSingOut = async () => {
     if (session?.user?.provider === 'kakao') {
       const result = await axios.post(
@@ -85,7 +71,7 @@ const MypageModal: React.FC<MypageModalProps> = ({
         console.log(rst.result)
       }
     } else {
-      signOut()
+      await signOut({callbackUrl: '/'})
     }
   }
 
