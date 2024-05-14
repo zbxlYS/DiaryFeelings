@@ -131,33 +131,33 @@ const MypageModal: React.FC<MypageModalProps> = ({
       </div>
       <div
         className={`hover:bg-purple/20 rounded-md p-1 dark:hover:bg-[#666] ${
-          pathname === `/emotion?userId=${user.id}` ? 'bg-purple' : ''
+          pathname.startsWith(`/diary`) ? 'bg-purple' : ''
         }`}
       >
         <Link
-          href={`/emotion?userId=${user.id}`}
+          href={`/diary`}
           className="ml-4"
           onClick={closeModal}
         >
           <span className="text-slate-800 hover:text-slate-900 dark:text-[#eee] dark:hover:text-[#b2a4d4]">
-            내 감정 보기
+            내 일기 보기
           </span>
         </Link>
       </div>
       <div
-        className="hover:bg-purple/20 rounded-md mt-5 mb-5 p-1 cursor-grab dark:hover:bg-[#666]"
-        onClick={themeOnClick}
+        className={`hover:bg-purple/20 rounded-md p-1 dark:hover:bg-[#666] ${
+          pathname.startsWith('/books') ? 'bg-purple' : ''
+        }`}
       >
-        <div className="ml-4">
+        <Link
+          href={`/books`}
+          className="ml-4"
+          onClick={closeModal}
+        >
           <span className="text-slate-800 hover:text-slate-900 dark:text-[#eee] dark:hover:text-[#b2a4d4]">
-            {snowTheme ? '테마 끄기' : '테마 켜기'}
+            내 책 보기
           </span>
-          <span
-            className={`ml-4 text-sm border rounded-md pl-2 pr-2 pt-1 pb-1 bg-purple text-white`}
-          >
-            {snowTheme ? 'on' : 'off'}
-          </span>
-        </div>
+        </Link>
       </div>
       <div className="hover:bg-purple/20 rounded-md p-1 dark:hover:bg-[#666]">
         <Link href="/" className="ml-4" onClick={closeModal}>
