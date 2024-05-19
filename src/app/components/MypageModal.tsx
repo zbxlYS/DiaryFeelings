@@ -117,6 +117,24 @@ const MypageModal: React.FC<MypageModalProps> = ({
           </span>
         </Link>
       </div>
+
+
+      <div
+        className={`hover:bg-purple/20 rounded-md p-1 dark:hover:bg-[#666] ${
+          pathname.startsWith(`/community`) ? 'bg-purple' : ''
+        }`}
+      >
+        <Link
+          href={`/community`}
+          className="ml-4"
+          onClick={closeModal}
+        >
+          <span className="text-slate-800 hover:text-slate-900 dark:text-[#eee] dark:hover:text-[#b2a4d4]">
+            커뮤니티
+          </span>
+        </Link>
+      </div>
+
       <div className="hover:bg-purple/20 rounded-md p-1 dark:hover:bg-[#666]">
         <Link href="/" className="ml-4" onClick={closeModal}>
           <button onClick={async () => handleSingOut()}>
